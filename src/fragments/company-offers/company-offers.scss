@@ -1,0 +1,142 @@
+@import 'src/base';
+.job-offers-list {
+    /* First component block */
+    width: 100%;
+    justify-self: center;
+    .offers-collapse-container {
+        width: 100%;
+        min-height: 50vh;
+        display: grid;
+    }
+    .custom_job_header_desc {
+        p {
+            color: $GREY;
+            font-weight: 600;
+        }
+    }
+    .relevance_index_8 {
+        background: $SUCCESS_GREEN;
+        user-select: none;
+        color: $WHITE;
+        font-weight: 600;
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 0.8em;
+        text-align: center;
+    }
+    .relevance_index_6 {
+        background: $GOLD;
+        user-select: none;
+        color: $WHITE;
+        font-weight: 600;
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 0.8em;
+        text-align: center;
+    }
+    .relevance_index_3 {
+        background: $TOMATO;
+        user-select: none;
+        color: $WHITE;
+        font-weight: 600;
+        padding: 4px;
+        border-radius: 5px;
+        font-size: 0.8em;
+        text-align: center;
+    }
+    .job-description {
+        h3 {
+            color: $DARK_CYAN_BLUE;
+            font-weight: 600;
+        }
+        span {
+            padding: 5px;
+            border-radius: 6px;
+            border: 1px solid $LIGHT_GREY;
+            cursor: pointer;
+        }
+        .job-action-buttons {
+            padding: 3vh 0 0 0;
+            display: grid;
+            grid-template-columns: 1fr 50px;
+            .action-buttons {
+                display: grid;
+                justify-content: left;
+                width: 60%;
+                button {
+                    outline: none;
+                    border: 1px solid $CYAN_BLUE;
+                    width: 8vw;
+                    padding: 5px;
+                    border-radius: 30px;
+                    font-weight: 600;
+                    color: $CYAN_BLUE;
+                    cursor: pointer;
+                }
+                .btn-reffer {
+                    background: $CYAN_BLUE;
+                    color: $WHITE;
+                }
+            }
+        }
+    }
+    .custom_job_header_open {
+        display: grid;
+        align-items: center;
+        transition: 0.3s;
+        grid-template-columns: 60px 1fr 35px;
+        padding: 10px;
+        background: $LIGHT_WHITE;
+        img {
+            width: 50px;
+            height: 50px;
+            user-select: none;
+            align-self: center;
+            object-fit: cover;
+            border-radius: 9999px;
+        }
+
+        h2 {
+            margin: 0;
+            color: $DARK_CYAN_BLUE;
+            font-size: 1.3em;
+        }
+        p {
+            margin: 0;
+        }
+    }
+    .custom_job_header {
+        display: grid;
+        align-items: center;
+        transition: 0.3s;
+        grid-template-columns: 60px 1fr 35px;
+        padding: 10px;
+        img {
+            width: 50px;
+            height: 50px;
+            align-self: center;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 1.3em;
+            color: $DARK_CYAN_BLUE;
+        }
+        p {
+            margin: 0;
+        }
+    }
+    p {
+        color: $DARK_CYAN_BLUE;
+    }
+}
+.error-message {
+    height: 100%;
+    display: grid;
+}
+.modal-referred-success {
+    p {
+        color: $WILD_BLUE;
+        font-weight: 500;
+    }
+}

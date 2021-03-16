@@ -1,0 +1,41 @@
+import React from 'react';
+import 'fragments/relevance-card/relevance-card.scss';
+import { RelevanceCardFragmentProps } from 'fragments/relevance-card/interfaces';
+import { useRelevanceCardController } from 'fragments/relevance-card/relevance-card.controller';
+import { Card } from 'antd';
+import { useTranslation } from 'react-i18next/';
+
+export const RelevanceCardFragment: React.FC<RelevanceCardFragmentProps> = (props) => {
+    const { useController = useRelevanceCardController } = props;
+    const controller = useController();
+    const { t } = useTranslation();
+
+    // Render
+    return (
+        <div className={'relevance-user-data'}>
+            <Card style={{ width: '100%', borderRadius: '10px', textAlign: 'center', border: '1px solid #d4d4d4' }}>
+                <h2>{t(['general.relevanceIndex'])}</h2>
+                <React.Fragment>
+                    <img className="image-profile" src={''} />
+                    <h3>{controller.userName}</h3>
+                    <p>{controller.currentCompanyName}</p>
+                    <p>{controller.fieldOfStudy}</p>
+                    <p>{controller.skillsLabel}</p>
+                    {controller.isProfileComplete ? <p>Perfil Incompleto</p> : null}
+                    {controller.isConnected ? (
+                        <>
+                            <button onClick={() => window.open('https://www.linkedin.com/in/', '_blank')}>
+                                {t(['general.linkedInModifyButton'])}
+                            </button>
+                            <button onClick={controller.disconnect} className={'button-desvinculate'}>
+                                {t(['general.linkedinDesvinculate'])}
+                            </button>
+                        </>
+                    ) : (
+                        <button onClick={controller.connect}>{t(['general.connectWithLinkedin'])}</button>
+                    )}
+                </React.Fragment>
+            </Card>
+        </div>
+    );
+};

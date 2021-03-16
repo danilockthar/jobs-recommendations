@@ -1,0 +1,14 @@
+@import 'src/base';
+
+.switch-row {
+  .label-col {
+    display: flex;
+    align-items: center;
+  }
+
+  .switch-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

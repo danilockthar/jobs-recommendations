@@ -1,0 +1,54 @@
+{
+  "general": {
+    "logout": "Cerrar Sesión",
+    "start": "Comenzar",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "try-again": "Volver a intentar",
+    "add": "Agregar",
+    "edit": "Editar",
+    "remove": "Eliminar",
+    "sure-to-delete": "Está seguro que desea eliminar?",
+    "upload": "Subir",
+    "save": "Guardar",
+    "referrButton":"Referir",
+    "relevanceIndex" :"Tu índice de relevancia",
+    "linkedInModifyButton": "Modificar en LinkedIn",
+    "linkedinDesvinculate": "Desvincular LinkedIn",
+    "connectWithLinkedin": "Conectarse con LinkedIn",
+    "referredEmail": "Email referido:",
+    "referPerson":"Referir persona"
+  },
+  "auth": {
+    "login-button-label": "Ingresar",
+    "go-to-register-button-label": "Registrarme",
+    "forgot-password-button-label": "Olvidé mi contraseña",
+    "first-name-input-label": "Nombre",
+    "last-name-input-label": "Nombre",
+    "email-input-label": "Email",
+    "password-input-label": "Contraseña",
+    "repeat-password-input-label": "Repetir Contraseña",
+    "role-input-label": "Rol",
+    "reset-password-button-babel": "Resetear Contraseña",
+    "register-button-label": "Registrarme",
+    "go-to-login-button-label": "Iniciar Sesion",
+    "recover-password-title": "Recuperá tu contreaseña",
+    "reset-pass-success": "Su contraseña se ah reseteado correctamente",
+    "reset-pass-error": "Ocurrió un problema al resetear su contraseña",
+    "reset-pass-error-not-match": "Las contraseñas deben coincidir",
+    "login-error": "Ocurrió un problema al intentar ingresar",
+    "register-error": "Ocurrió un problema al intentar registrarte",
+    "register-error-existing-user": "El email ya se encuentra registrado",
+    "login-error-invalid-credentials": "Las credenciales no son validas",
+    "forgot-pass-success": "Enviamos un email a tu casilla, para poder resetear la contraseña",
+    "forgot-pass-error": "Ocurrió un problema al intentar enviar el email de restauración"
+  },
+  "common-errors": {
+    "not-found-message": "Lo sentimos, no encontramos esta dirección",
+    "web-error-message": "Lo sentimos, algo salió mal",
+    "reload-label": "Recargar"
+  },
+  "footer": {
+    "copyright-message": "AdminProp ©2021 Created by made2"
+  }
+}

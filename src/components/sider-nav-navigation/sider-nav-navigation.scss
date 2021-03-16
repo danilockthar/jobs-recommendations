@@ -1,0 +1,20 @@
+@import 'src/base';
+
+.sider-nav-navigation {
+  .ant-layout-sider-children{
+
+  }
+  .ant-layout{
+    background-color: #cacaca;
+  }
+
+  .ant-layout-content, .site-layout-background{
+    background: #cacaca;
+    background-clip: padding-box;
+  }
+  .ant-btn-primary{
+    border-color: #9A5DCF ;
+    border-radius: 8px;
+  }
+  
+}

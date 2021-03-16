@@ -1,0 +1,24 @@
+$primary-color: #413f99;
+$secondary-color: #3c141d;
+$danger-color: red;
+$black: rgb(38, 38, 38);
+$white: #fff;
+$WHITE: #ffffff;
+$LIGHT_WHITE: #e6e7e9;
+$WHITE_BONE: #f3f2ee;
+$LIGHT_GREY: #777777;
+$GREY: #949494;
+$SUCCESS_GREEN: #00f179;
+$GOLD: #f3d43c;
+$TOMATO: #ff8182;
+$DARK_CYAN_BLUE: #0f202a;
+$CYAN_BLUE: #3ca2e0;
+$WILD_BLUE: #525b7b;
+
+.ant-layout-header {
+    background-color: $DARK_CYAN_BLUE;
+
+    .ant-menu-item a {
+        color: $white;
+    }
+}

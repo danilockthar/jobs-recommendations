@@ -1,0 +1,12 @@
+@import 'src/base';
+
+.flex-loader {
+  flex: 1;
+  display: flex;
+
+  .ant-layout {
+    flex: 1;
+    justify-content: center;
+    background-color: transparent;
+  }
+}

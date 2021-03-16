@@ -1,0 +1,36 @@
+@import 'src/base';
+
+.left-sider {
+  
+  .ant-layout-sider {
+    margin-top: 50px;
+    background-color: transparent;
+    flex: 0 0 250px !important; 
+    max-width: 250px !important; 
+    min-width: 250px !important;
+    width: 250px !important;
+  }
+
+  .ant-menu {
+    border-right: 0;
+    float: left;
+  }
+
+  .ant-menu-item {
+    border-radius: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+
+    .anticon{
+        font-size: 23px;
+    }
+
+  }
+
+  .ant-layout-content {
+    padding: 20px;
+    margin-right: 0;
+    margin-left: 0;
+  }
+}

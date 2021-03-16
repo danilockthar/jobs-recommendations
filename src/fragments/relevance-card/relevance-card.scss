@@ -1,0 +1,54 @@
+@import 'src/base';
+.relevance-user-data {
+    /* Second component block */
+    justify-self: left;
+    width: 100%;
+    @media (max-width: 600px) {
+        grid-row: 1;
+    }
+    p {
+        color: $DARK_CYAN_BLUE;
+        margin: 0;
+        font-style: italic;
+        font-weight: 500;
+    }
+    .button-desvinculate {
+        background: none;
+        border: none;
+        color: $GREY;
+    }
+    .image-profile {
+        width: 6vw;
+        object-fit: cover;
+        border-radius: 9999px;
+    }
+    button {
+        border: 1px solid $CYAN_BLUE;
+        padding: 5px 25px;
+        border-radius: 30px;
+        font-weight: 600;
+        outline: none;
+        color: white;
+        background: $CYAN_BLUE;
+        margin: 3vh 0 0 0;
+        cursor: pointer;
+    }
+    h2 {
+        color: $DARK_CYAN_BLUE;
+        font-weight: 700;
+    }
+    h3 {
+        color: $DARK_CYAN_BLUE;
+    }
+    a {
+        border: 1px solid $CYAN_BLUE;
+        padding: 5px 25px;
+        border-radius: 30px;
+        font-weight: 600;
+        color: white;
+        background: $CYAN_BLUE;
+        margin: 3vh 0 0 0;
+        cursor: pointer;
+        text-align: center;
+    }
+}

@@ -1,0 +1,22 @@
+@import 'src/base';
+
+.space-card {
+
+  .cover {
+    position: relative;
+  }
+
+  .ant-image-img {
+    object-fit: cover;
+  }
+
+  .ant-tag {
+    position: absolute;
+    left: 0;
+    margin: 4px;
+  }
+
+  .ant-typography {
+    text-align: center;
+  }
+}
