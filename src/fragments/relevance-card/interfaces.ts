@@ -1,3 +1,5 @@
+import { FormInstance } from 'antd';
+
 export interface RelevanceCardController {
     /* State */
     userName?: string;
@@ -6,9 +8,13 @@ export interface RelevanceCardController {
     skillsLabel?: string;
     isProfileComplete: boolean;
     isConnected: boolean;
+    connectForm: FormInstance;
+    isConnectFormVisible: boolean;
+    isConnectFormLoading: boolean;
     /* Events */
-    connect: () => void;
     disconnect: () => void;
+    onConnectButtonPressed: () => void;
+    onConnectFormSubmit: (inputs: unknown) => void;
 }
 
 export interface RelevanceCardFragmentProps {
