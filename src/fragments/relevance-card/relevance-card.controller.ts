@@ -27,7 +27,13 @@ export const useRelevanceCardController = (
     const fetchData = () => {
         linkedInService
             .findLinkedInPerson()
-            .then(updateViewModel)
+            .then((output) => {
+                if (output) {
+                    updateViewModel(output);
+                } else {
+                    clearViewModel();
+                }
+            })
             .catch(() => {
                 clearViewModel();
             });
