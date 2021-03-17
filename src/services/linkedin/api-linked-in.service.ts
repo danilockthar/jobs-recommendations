@@ -37,7 +37,7 @@ export class ApiLinkedInService implements LinkedInService {
         const response = await axios.post(process.env.REACT_APP_API_BASE_URL + `/linked-in/import-jobs`, input, {
             headers: { Authorization: 'Bearer ' + this.session.getToken() },
         });
-        return response.data.maps((data: unknown) => {
+        return response.data.map((data: unknown) => {
             return plainToClass(LinkedInJobDto, data);
         });
     }
