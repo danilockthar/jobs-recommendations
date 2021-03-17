@@ -9,4 +9,5 @@ export class LinkedInJobDto {
     applyLink?: string;
     industries?: string;
     description?: string;
+    descriptionHTML?: string;
 }

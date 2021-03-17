@@ -85,7 +85,7 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                                                 : 'custom_job_header'
                                         }
                                     >
-                                        <img src={item.logo} />
+                                        <img src={'logo-placeholder.png'} />
                                         <div className="custom_job_header_desc">
                                             <h2> {`${item.jobTitle} en ${item.company}`} </h2>
                                             <p>
@@ -101,7 +101,8 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                             >
                                 <div className="job-description">
                                     <h3>{t(['general.description'])}</h3>
-                                    <p>{item.description}</p>
+                                    {/*<p>{item.description}</p>*/}
+                                    <div dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}></div>
                                     <div className="job-action-buttons">
                                         <div className="action-buttons">
                                             {/* <button className="btn-apply"> {t(['general.applyButton'])}</button> */}

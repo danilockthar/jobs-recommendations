@@ -56,6 +56,7 @@ export const useCompanyOffersController = (
             company: dto.company ?? '',
             createdAt: dto.date ?? '',
             description: dto.description ?? '',
+            descriptionHTML: dto.descriptionHTML ?? '',
             id: dto.jobId ?? '',
             jobTitle: dto.title ?? '',
             logo: '',

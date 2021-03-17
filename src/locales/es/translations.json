@@ -17,7 +17,10 @@
     "linkedinDesvinculate": "Desvincular LinkedIn",
     "connectWithLinkedin": "Conectarse con LinkedIn",
     "referredEmail": "Email referido:",
-    "referPerson":"Referir persona"
+    "referPerson":"Referir persona",
+    "person-jobs-title": "Trabajos",
+    "company-jobs-title": "Ofertas",
+    "description": "Descripción"
   },
   "auth": {
     "login-button-label": "Ingresar",

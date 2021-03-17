@@ -94,6 +94,10 @@ export const useRelevanceCardController = (
         setIsConnected(false);
     };
 
+    const onConnectFormCancel = () => {
+        setIsConnectFormVisible(false);
+    };
+
     return {
         userName,
         currentCompanyName,
@@ -107,5 +111,6 @@ export const useRelevanceCardController = (
         disconnect,
         onConnectButtonPressed,
         onConnectFormSubmit,
+        onConnectFormCancel,
     };
 };

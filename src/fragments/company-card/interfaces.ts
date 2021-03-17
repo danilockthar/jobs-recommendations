@@ -10,6 +10,7 @@ export interface CompanyCardController {
     /* Events */
     onImportJobsPressed: () => void;
     onImportJobsSubmitted: (inputs: unknown) => void;
+    onImportFormCancel: () => void;
 }
 
 export interface CompanyCardFragmentProps {

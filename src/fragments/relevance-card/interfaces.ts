@@ -15,6 +15,7 @@ export interface RelevanceCardController {
     disconnect: () => void;
     onConnectButtonPressed: () => void;
     onConnectFormSubmit: (inputs: unknown) => void;
+    onConnectFormCancel: () => void;
 }
 
 export interface RelevanceCardFragmentProps {

@@ -63,6 +63,10 @@ export const useCompanyCardController = (
             });
     };
 
+    const onImportFormCancel = () => {
+        setIsImportFormVisible(false);
+    };
+
     return {
         companyName,
         isLoaderVisible,
@@ -71,5 +75,6 @@ export const useCompanyCardController = (
         isImportFormLoading,
         onImportJobsPressed,
         onImportJobsSubmitted,
+        onImportFormCancel,
     };
 };

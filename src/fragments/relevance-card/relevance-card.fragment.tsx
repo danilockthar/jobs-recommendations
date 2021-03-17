@@ -22,6 +22,7 @@ export const RelevanceCardFragment: React.FC<RelevanceCardFragmentProps> = (prop
                 isVisible={controller.isConnectFormVisible}
                 isLoading={controller.isConnectFormLoading}
                 onFinish={controller.onConnectFormSubmit}
+                onCancel={controller.onConnectFormCancel}
             >
                 <Form.Item label={translate({ key: 'Usuario' })} name="vanityName" rules={[{ required: true }]}>
                     <Input />

@@ -9,6 +9,7 @@ export interface JobOfferViewModel {
     status: boolean;
     type: string;
     description: string;
+    descriptionHTML: string;
 }
 
 export interface CompanyOffersController {

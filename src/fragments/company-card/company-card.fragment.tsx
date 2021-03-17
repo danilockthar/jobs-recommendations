@@ -16,13 +16,14 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
     return (
         <div className={'relevance-user-data'}>
             <ModalForm
-                title={translate({ key: 'Ingresá el id de tu empresa en LinkedIn' })}
+                title={translate({ key: 'Ingresá la url de trabajo (LinkedIn)' })}
                 form={controller.importJobsForm}
                 isVisible={controller.isImportFormVisible}
                 isLoading={controller.isImportFormLoading}
+                onCancel={controller.onImportFormCancel}
                 onFinish={controller.onImportJobsSubmitted}
             >
-                <Form.Item label={translate({ key: 'Id Empresa' })} name="jobsUrl" rules={[{ required: true }]}>
+                <Form.Item label={translate({ key: 'URL' })} name="jobsUrl" rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
             </ModalForm>
