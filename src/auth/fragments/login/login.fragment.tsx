@@ -12,6 +12,8 @@ export const LoginFragment: React.FC<LoginFragmentProps> = (props) => {
     const controller = useController();
     const { translate } = useTranslator();
 
+    console.log(process.env.PUBLIC_URL);
+
     // Render
     return (
         <div className={'login'}>
@@ -31,35 +33,51 @@ export const LoginFragment: React.FC<LoginFragmentProps> = (props) => {
                     <Input />
                 </Form.Item>
             </ModalForm>
-            <Form name="basic" initialValues={{ remember: true }} onFinish={controller.onLoginSubmit}>
-                <Form.Item
-                    label={translate({ key: 'auth.email-input-label' })}
-                    name="username"
-                    rules={[{ required: true }]}
-                >
-                    <Input />
-                </Form.Item>
+            <div className="left-login-screen">
+                <div className="text-left">
+                    <p> InVision Enterprise Edition</p>
+                    <h2> The design collaboration cloud for larger teams</h2>
+                    <h3>Unlimited team members. Unlimited projects. Unlimited creativity.</h3>
+                    <p>TRUSTED BY THE WORLD’S SMARTEST COMPANIES</p>
+                    <img src="https://daniarroyo.now.sh/companies.png" />
+                </div>
+            </div>
+            <div className="right-login-screen">
+                <div className="register-wrapper">
+                    <p> ¿No tienes una cuenta?</p>
+                    <Link to={'/register'}>
+                        <Button> {translate({ key: 'auth.go-to-register-button-label' })}</Button>
+                    </Link>
+                </div>
 
-                <Form.Item
-                    label={translate({ key: 'auth.password-input-label' })}
-                    name="password"
-                    rules={[{ required: true }]}
-                >
-                    <Input.Password />
-                </Form.Item>
+                <Form name="basic" initialValues={{ remember: true }} onFinish={controller.onLoginSubmit}>
+                    <Form.Item
+                        label={translate({ key: 'auth.email-input-label' })}
+                        name="username"
+                        rules={[{ required: true }]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                <Form.Item>
-                    <Button type="primary" block={true} htmlType="submit" loading={controller.isLoading}>
-                        {translate({ key: 'auth.login-button-label' })}
+                    <Form.Item
+                        label={translate({ key: 'auth.password-input-label' })}
+                        name="password"
+                        rules={[{ required: true }]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" block={true} htmlType="submit" loading={controller.isLoading}>
+                            {translate({ key: 'auth.login-button-label' })}
+                        </Button>
+                    </Form.Item>
+
+                    <Button type={'link'} onClick={controller.onForgotPassPressed}>
+                        {translate({ key: 'auth.forgot-password-button-label' })}
                     </Button>
-                </Form.Item>
-            </Form>
-            <Link to={'/register'}>
-                <Button> {translate({ key: 'auth.go-to-register-button-label' })}</Button>
-            </Link>
-            <Button type={'link'} onClick={controller.onForgotPassPressed}>
-                {translate({ key: 'auth.forgot-password-button-label' })}
-            </Button>
+                </Form>
+            </div>
         </div>
     );
 };
