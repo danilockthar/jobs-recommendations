@@ -15,7 +15,7 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
     const { t } = useTranslation();
 
     function onItemCollapseChange(keyId: any) {
-        controller.setNewCollapseKey(parseInt(keyId, 10));
+        controller.setNewCollapseKey(keyId);
     }
 
     // Render

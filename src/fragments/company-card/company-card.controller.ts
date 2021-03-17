@@ -48,6 +48,7 @@ export const useCompanyCardController = (
     const onImportJobsSubmitted = (inputs: unknown) => {
         setIsImportFormLoading(true);
         const input = plainToClass(ImportLinkedInJobsInput, inputs);
+        console.log(input);
         linkedInService
             .importLinkedInJobs(input)
             .then((output) => {

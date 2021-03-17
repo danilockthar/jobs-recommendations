@@ -8,7 +8,7 @@ export class ConnectLinkedInPersonInput {
 }
 
 export class ImportLinkedInJobsInput {
-    companyName?: string;
+    jobsUrl?: string;
 }
 
 export interface LinkedInService {
@@ -16,7 +16,7 @@ export interface LinkedInService {
     connectLinkedInPerson(input: ConnectLinkedInPersonInput): Promise<LinkedInPersonDataDto>;
     disconnectLinkedInPerson(): Promise<LinkedInPersonDataDto>;
     importLinkedInJobs(input: ImportLinkedInJobsInput): Promise<LinkedInJobDto[]>;
-    getLinkedInJobs(): Promise<LinkedInJobDto[]>;
+    findLinkedInJobs(): Promise<LinkedInJobDto[]>;
 }
 
 export const useAPILinkedInService = (): LinkedInService => {

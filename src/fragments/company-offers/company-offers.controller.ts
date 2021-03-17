@@ -11,7 +11,7 @@ export const useCompanyOffersController = (
     linkedInService = useAPILinkedInService(),
 ): CompanyOffersController => {
     const [jobsViewModels, setJobsViewModels] = useState<JobOfferViewModel[]>([]);
-    const [activeKey, setActiveKey] = useState(1);
+    const [activeKey, setActiveKey] = useState('');
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
     const { jobs } = useContext(LinkedInJobsContext);
 
@@ -24,22 +24,23 @@ export const useCompanyOffersController = (
         setJobsViewModels(viewModels);
     }, [jobs]);
 
-    const setNewCollapseKey = (key: number) => {
+    const setNewCollapseKey = (key: string) => {
         setActiveKey(key);
     };
 
     const fetchData = () => {
         setIsLoaderVisible(true);
         linkedInService
-            .getLinkedInJobs()
+            .findLinkedInJobs()
             .then((output) => {
                 if (output.length > 0) {
-                    setActiveKey(output[0].id);
+                    // setActiveKey(output[0].jobId);
                 }
                 const viewModels = output.map(mapDtoToViewModel);
                 setJobsViewModels(viewModels);
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log(e);
                 messenger.showErrorMessage({ key: 'Ocurió un problema al buscar los trabajos.' });
             })
             .finally(() => {
@@ -49,13 +50,14 @@ export const useCompanyOffersController = (
 
     /* Private Methods */
     const mapDtoToViewModel = (dto: LinkedInJobDto): JobOfferViewModel => {
+        console.log(dto);
         return {
-            author: '',
-            company: '',
-            createdAt: '',
-            description: '',
-            id: dto.id,
-            jobTitle: dto.title,
+            author: dto.company ?? '',
+            company: dto.company ?? '',
+            createdAt: dto.date ?? '',
+            description: dto.description ?? '',
+            id: dto.jobId ?? '',
+            jobTitle: dto.title ?? '',
             logo: '',
             relevanceIndex: 0,
             status: false,

@@ -33,15 +33,21 @@ export class ApiLinkedInService implements LinkedInService {
         return plainToClass(LinkedInPersonDataDto, response.data);
     }
 
-    importLinkedInJobs(input: ImportLinkedInJobsInput): Promise<LinkedInJobDto[]> {
-        const jobs = [
-            { id: 1, title: 'Ejemplo' },
-            { id: 2, title: 'Ejemplo 2' },
-        ];
-        return Promise.resolve(jobs);
+    async importLinkedInJobs(input: ImportLinkedInJobsInput): Promise<LinkedInJobDto[]> {
+        const response = await axios.post(process.env.REACT_APP_API_BASE_URL + `/linked-in/import-jobs`, input, {
+            headers: { Authorization: 'Bearer ' + this.session.getToken() },
+        });
+        return response.data.maps((data: unknown) => {
+            return plainToClass(LinkedInJobDto, data);
+        });
     }
 
-    getLinkedInJobs(): Promise<LinkedInJobDto[]> {
-        return Promise.resolve([{ id: 1, title: 'Ejemplo' }]);
+    async findLinkedInJobs(): Promise<LinkedInJobDto[]> {
+        const response = await axios.get(process.env.REACT_APP_API_BASE_URL + `/linked-in/jobs`, {
+            headers: { Authorization: 'Bearer ' + this.session.getToken() },
+        });
+        return response.data.map((data: unknown) => {
+            return plainToClass(LinkedInJobDto, data);
+        });
     }
 }

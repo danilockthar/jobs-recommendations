@@ -1,5 +1,5 @@
 export interface JobOfferViewModel {
-    id: number;
+    id: string;
     jobTitle: string;
     company: string;
     createdAt: string;
@@ -15,8 +15,8 @@ export interface CompanyOffersController {
     /* State */
     jobsViewModels: JobOfferViewModel[];
     /* Events */
-    activeKey: number;
-    setNewCollapseKey: (key: number) => void;
+    activeKey: string;
+    setNewCollapseKey: (key: string) => void;
     isLoaderVisible: boolean;
 }
 
