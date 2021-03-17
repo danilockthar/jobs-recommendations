@@ -2,8 +2,8 @@ import { useLocalSession } from 'auth/helpers/session.hooks';
 import { ApiAuthService } from 'auth/services/auth/api-auth.service';
 
 export enum Role {
-    User = 'user',
-    Admin = 'admin',
+    Person = 'person',
+    Company = 'company',
 }
 export class UserDto {
     constructor(
@@ -14,6 +14,12 @@ export class UserDto {
         public password: string,
         public roles: Role[],
     ) {}
+    getFirstRole(): Role | undefined {
+        if (this.roles.length == 0) {
+            return;
+        }
+        return this.roles[0];
+    }
 }
 export class RegisterInput {
     constructor(

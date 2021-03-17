@@ -32,7 +32,7 @@ export const useRelevanceCardController = (
 
     const fetchData = () => {
         linkedInService
-            .findLinkedInPerson()
+            .getLinkedInPerson()
             .then((output) => {
                 if (output) {
                     updateViewModel(output);

@@ -1,28 +1,15 @@
-interface UserProfile {
-    id?: string;
-    name?: string;
-    company?: string;
-    profilePicture?: string;
-    industry?: string;
-    experience?: string;
-    email?: string;
-    succeed?: boolean;
-}
-interface CompanyProfile {
-    id?: number;
-    logoUrl?: string;
-    membershipType?: string;
-    name?: string;
-    websiteUrl?: string;
-}
+import { FormInstance } from 'antd';
 
 export interface CompanyCardController {
-    desvinculateLinkedin: () => void;
-    connectToLinkedinAsCompany: () => void;
-    /* Events */
+    /* State */
+    companyName: string;
     isLoaderVisible: boolean;
-    company: CompanyProfile;
-    error: string;
+    importJobsForm: FormInstance;
+    isImportFormVisible: boolean;
+    isImportFormLoading: boolean;
+    /* Events */
+    onImportJobsPressed: () => void;
+    onImportJobsSubmitted: (inputs: unknown) => void;
 }
 
 export interface CompanyCardFragmentProps {

@@ -28,7 +28,6 @@ export class Session {
     }
 
     isAuthenticated(): boolean {
-        console.log('isAuthenticated', this.token);
         return !!this.token;
     }
 }

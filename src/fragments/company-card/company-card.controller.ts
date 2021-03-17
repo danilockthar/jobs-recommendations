@@ -1,73 +1,71 @@
 import { useEffect, useState } from 'react';
 import { CompanyCardController } from 'fragments/company-card/interfaces';
-import { useApiRelevanceCardService } from 'services/relevance-card/relevance-card.service';
-import { useApiDisconnectLinkedin } from 'services/linkedin/disconnect/disconect.service';
-import { useLocalSession } from 'auth/helpers/session.hooks';
-
-interface UserProfile {
-    name?: string;
-    company?: string;
-    profilePicture?: string;
-    industry?: string;
-    experience?: string;
-    email?: string;
-    succeed?: boolean;
-}
-interface CompanyProfile {
-    id?: number;
-    logoUrl?: string;
-    membershipType?: string;
-    name?: string;
-    websiteUrl?: string;
-}
+import { ImportLinkedInJobsInput, useAPILinkedInService } from 'services/linkedin/linked-in.service';
+import { useAPICompanyService } from 'services/company/company.service';
+import { useMessenger } from 'tools/view-hooks/messenger-hook';
+import { Form } from 'antd';
+import { plainToClass } from 'class-transformer';
 
 export const useCompanyCardController = (
-    relevanceService = useApiRelevanceCardService(),
-    disconnectService = useApiDisconnectLinkedin(),
-): /* <--Dependency Injections  like services hooks */
-CompanyCardController => {
-    const [error, setError] = useState('');
+    companyService = useAPICompanyService(),
+    linkedInService = useAPILinkedInService(),
+    messenger = useMessenger(),
+    useImportForm = Form.useForm,
+): CompanyCardController => {
+    const [importJobsForm] = useImportForm();
+
+    const [companyName, setCompanyName] = useState('');
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
-    const [company, setCompany] = useState<CompanyProfile>({});
-    const [getSession] = useLocalSession();
-    const session = getSession();
+    const [isImportFormVisible, setIsImportFormVisible] = useState(false);
+    const [isImportFormLoading, setIsImportFormLoading] = useState(false);
 
     useEffect(() => {
-        fetchData().finally();
+        fetchCompanyData();
     }, []);
 
-    const connectToLinkedinAsCompany = async () => {
-        try {
-            await relevanceService.getCompanyData();
-        } catch (error) {
-            setError('Algo salió mal.');
-        }
-    };
-
-    const desvinculateLinkedin = async () => {
-        try {
-            await disconnectService.linkedinDisconnect('as23', 'company');
-        } catch (error) {
-            setError('Something went wrong');
-        }
-    };
-
-    const fetchData = async () => {
+    const fetchCompanyData = () => {
         setIsLoaderVisible(true);
-
-        const profileCompany = await relevanceService.getCompanyData();
-        if (profileCompany.id) {
-            setCompany({
-                id: profileCompany.id,
-                name: profileCompany.name,
-                logoUrl: profileCompany.logoUrl,
-                websiteUrl: profileCompany.websiteUrl,
-                membershipType: profileCompany.membershipType,
+        companyService
+            .getCompany()
+            .then((output) => {
+                setCompanyName(output.name);
+            })
+            .catch(() => {
+                messenger.showErrorMessage({ key: 'Error al obtener datos de la empresa' });
+            })
+            .finally(() => {
+                setIsLoaderVisible(false);
             });
-        }
-
-        setIsLoaderVisible(false);
     };
 
-    return { isLoaderVisible, error, desvinculateLinkedin, connectToLinkedinAsCompany, company };
+    const onImportJobsPressed = () => {
+        setIsLoaderVisible(true);
+    };
+
+    const onImportJobsSubmitted = (inputs: unknown) => {
+        setIsImportFormLoading(true);
+        const input = plainToClass(ImportLinkedInJobsInput, inputs);
+        linkedInService
+            .importLinkedInJobs(input)
+            .then((output) => {
+                setIsImportFormVisible(false);
+                // show jobs
+            })
+            .catch(() => {
+                messenger.showErrorMessage({ key: 'Ocurrió un problema al importar trabajos' });
+            })
+            .finally(() => {
+                setIsImportFormLoading(false);
+            });
+    };
+
+    return {
+        companyName,
+        isLoaderVisible,
+        importJobsForm,
+        isImportFormVisible,
+        isImportFormLoading,
+        onImportJobsPressed,
+        onImportJobsSubmitted,
+    };
 };
