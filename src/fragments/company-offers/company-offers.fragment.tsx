@@ -25,6 +25,10 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                 <div className="offers-collapse-container">
                     <FlexLoader />
                 </div>
+            ) : controller.errorExist ? (
+                <div className="error-message">
+                    <h2> {controller.errorMessage}</h2>
+                </div>
             ) : (
                 <Collapse
                     accordion
@@ -39,7 +43,6 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                                 showArrow={false}
                                 header={
                                     <div
-                                        onClick={(event) => controller.activeKey === item.id && event.stopPropagation()}
                                         className={
                                             controller.activeKey === item.id
                                                 ? 'custom_job_header_open'

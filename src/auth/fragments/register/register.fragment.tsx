@@ -15,10 +15,14 @@ export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
     return (
         <div className={'register'}>
             <div className="left-login-screen">
+                <img className="image-logo" src={'funkeyup_logo.png'} />
                 <div className="text-left">
-                    <p> InVision Enterprise Edition</p>
-                    <h2> The design collaboration cloud for larger teams</h2>
-                    <h3>Unlimited team members. Unlimited projects. Unlimited creativity.</h3>
+                    <p>Social HeadHunting</p>
+                    <h2>Where we all are Headhunters</h2>
+                    <h3>
+                        We are the first platform that allows you to refer a friend or colleague to a job search related
+                        to your profile and professional expertise.
+                    </h3>
                     <p>TRUSTED BY THE WORLD’S SMARTEST COMPANIES</p>
                     <img src="https://daniarroyo.now.sh/companies.png" />
                 </div>
@@ -70,8 +74,8 @@ export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
                         rules={[{ required: true }]}
                     >
                         <Radio.Group>
-                            <Radio.Button value="company">Company</Radio.Button>
-                            <Radio.Button value="person">Persona</Radio.Button>
+                            <Radio.Button value="company">Organización</Radio.Button>
+                            <Radio.Button value="person">Individuo</Radio.Button>
                         </Radio.Group>
                     </Form.Item>
 

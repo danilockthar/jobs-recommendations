@@ -15,6 +15,8 @@ export interface JobOfferViewModel {
 export interface CompanyOffersController {
     /* State */
     jobsViewModels: JobOfferViewModel[];
+    errorExist: boolean;
+    errorMessage: string;
     /* Events */
     activeKey: string;
     setNewCollapseKey: (key: string) => void;

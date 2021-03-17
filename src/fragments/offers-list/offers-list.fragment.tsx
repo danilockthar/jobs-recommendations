@@ -78,7 +78,6 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                                 showArrow={false}
                                 header={
                                     <div
-                                        onClick={(event) => controller.activeKey === item.id && event.stopPropagation()}
                                         className={
                                             controller.activeKey === item.id
                                                 ? 'custom_job_header_open'

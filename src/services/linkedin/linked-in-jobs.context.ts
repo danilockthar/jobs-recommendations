@@ -8,6 +8,6 @@ export interface LinkedInJobsContextInterface {
 export const LinkedInJobsContext = React.createContext<LinkedInJobsContextInterface>({
     jobs: [],
     setJobs: (jobs: LinkedInJobDto[]) => {
-        console.log(jobs);
+        // Nothing to do
     },
 });

@@ -4,6 +4,11 @@
     min-height: 100vh;
     display: grid;
     grid-template-columns: 35% 1fr;
+    .image-logo {
+        width: 150px;
+        margin: 0 auto;
+        margin-top: 60px;
+    }
     .left-login-screen {
         background-image: url('https://daniarroyo.now.sh/background.jpg');
         padding: 20px;

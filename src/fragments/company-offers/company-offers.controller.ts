@@ -13,6 +13,9 @@ export const useCompanyOffersController = (
     const [jobsViewModels, setJobsViewModels] = useState<JobOfferViewModel[]>([]);
     const [activeKey, setActiveKey] = useState('');
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [errorExist, setErrorExist] = useState(true);
+
     const { jobs } = useContext(LinkedInJobsContext);
 
     useEffect(() => {
@@ -33,14 +36,20 @@ export const useCompanyOffersController = (
         linkedInService
             .findLinkedInJobs()
             .then((output) => {
-                if (output.length > 0) {
+                if (output.length == 0) {
+                    setErrorExist(true);
+                    setErrorMessage('Aún no hay trabajos.');
                     // setActiveKey(output[0].jobId);
+                } else {
+                    setErrorExist(false);
+                    setErrorMessage('');
+                    const viewModels = output.map(mapDtoToViewModel);
+                    setJobsViewModels(viewModels);
                 }
-                const viewModels = output.map(mapDtoToViewModel);
-                setJobsViewModels(viewModels);
             })
             .catch((e) => {
-                console.log(e);
+                setErrorExist(true);
+                setErrorMessage('Ocurió un problema al buscar los trabajos.');
                 messenger.showErrorMessage({ key: 'Ocurió un problema al buscar los trabajos.' });
             })
             .finally(() => {
@@ -70,6 +79,8 @@ export const useCompanyOffersController = (
         jobsViewModels,
         isLoaderVisible,
         activeKey,
+        errorMessage,
+        errorExist,
         setNewCollapseKey,
     };
 };
