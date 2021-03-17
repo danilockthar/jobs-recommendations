@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CompanyCardController } from 'fragments/company-card/interfaces';
 import { ImportLinkedInJobsInput, useAPILinkedInService } from 'services/linkedin/linked-in.service';
 import { useAPICompanyService } from 'services/company/company.service';
 import { useMessenger } from 'tools/view-hooks/messenger-hook';
 import { Form } from 'antd';
 import { plainToClass } from 'class-transformer';
+import { LinkedInJobsContext } from 'services/linkedin/linked-in-jobs.context';
 
 export const useCompanyCardController = (
     companyService = useAPICompanyService(),
@@ -18,6 +19,7 @@ export const useCompanyCardController = (
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
     const [isImportFormVisible, setIsImportFormVisible] = useState(false);
     const [isImportFormLoading, setIsImportFormLoading] = useState(false);
+    const { setJobs } = useContext(LinkedInJobsContext);
 
     useEffect(() => {
         fetchCompanyData();
@@ -39,7 +41,7 @@ export const useCompanyCardController = (
     };
 
     const onImportJobsPressed = () => {
-        setIsLoaderVisible(true);
+        setIsImportFormVisible(true);
     };
 
     const onImportJobsSubmitted = (inputs: unknown) => {
@@ -49,7 +51,7 @@ export const useCompanyCardController = (
             .importLinkedInJobs(input)
             .then((output) => {
                 setIsImportFormVisible(false);
-                // show jobs
+                setJobs(output);
             })
             .catch(() => {
                 messenger.showErrorMessage({ key: 'Ocurrió un problema al importar trabajos' });

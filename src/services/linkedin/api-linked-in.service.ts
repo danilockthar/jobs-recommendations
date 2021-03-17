@@ -34,10 +34,14 @@ export class ApiLinkedInService implements LinkedInService {
     }
 
     importLinkedInJobs(input: ImportLinkedInJobsInput): Promise<LinkedInJobDto[]> {
-        return Promise.resolve([]);
+        const jobs = [
+            { id: 1, title: 'Ejemplo' },
+            { id: 2, title: 'Ejemplo 2' },
+        ];
+        return Promise.resolve(jobs);
     }
 
     getLinkedInJobs(): Promise<LinkedInJobDto[]> {
-        return Promise.resolve([]);
+        return Promise.resolve([{ id: 1, title: 'Ejemplo' }]);
     }
 }

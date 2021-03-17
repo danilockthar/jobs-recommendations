@@ -18,6 +18,7 @@ export interface LinkedInService {
     importLinkedInJobs(input: ImportLinkedInJobsInput): Promise<LinkedInJobDto[]>;
     getLinkedInJobs(): Promise<LinkedInJobDto[]>;
 }
+
 export const useAPILinkedInService = (): LinkedInService => {
     const [getSession] = useLocalSession();
     const session = getSession();

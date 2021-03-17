@@ -20,7 +20,7 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
                 form={controller.importJobsForm}
                 isVisible={controller.isImportFormVisible}
                 isLoading={controller.isImportFormLoading}
-                onFinish={controller.onImportJobsPressed}
+                onFinish={controller.onImportJobsSubmitted}
             >
                 <Form.Item label={translate({ key: 'Id Empresa' })} name="vanityName" rules={[{ required: true }]}>
                     <Input />

@@ -1,99 +1,72 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { CompanyOffersController } from 'fragments/company-offers/interfaces';
-import { useApiOffersListService } from 'services/offers-list/offers-list.service';
 import { JobOfferViewModel } from 'fragments/company-offers/interfaces';
-import { Form } from 'antd';
+import { useMessenger } from 'tools/view-hooks/messenger-hook';
+import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
+import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
+import { LinkedInJobsContext } from 'services/linkedin/linked-in-jobs.context';
 
 export const useCompanyOffersController = (
-    offerService = useApiOffersListService(),
-): /* <--Dependency Injections  like services hooks */
-CompanyOffersController => {
-    const [jobs, setJobs] = useState<JobOfferViewModel[]>([]);
-    const [error, setError] = useState({ exist: false, message: '' });
+    messenger = useMessenger(),
+    linkedInService = useAPILinkedInService(),
+): CompanyOffersController => {
+    const [jobsViewModels, setJobsViewModels] = useState<JobOfferViewModel[]>([]);
     const [activeKey, setActiveKey] = useState(1);
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
-    const [modalView, setModalView] = useState('refer');
-    const [isLoading, setIsLoading] = useState(false); /* isLoading for Form Antd */
-    const [isVisible, setIsVisible] = useState(false);
-    const [uniqueJob, setUniqueJob] = useState({});
-    const [referred, setReferred] = useState('');
-
-    const [formRef] = Form.useForm();
-
-    const setNewCollapseKey = (key: number) => {
-        setActiveKey(key);
-    };
-
-    const fetchData = async () => {
-        setIsLoaderVisible(true);
-
-        try {
-            const jobOffers = await offerService.getOffersByRelevance();
-            // const jobOffers: any = [];
-            if (jobOffers.length > 0) {
-                setJobs(jobOffers);
-                setActiveKey(jobOffers[0].id);
-            } else {
-                setError({ exist: true, message: 'Aún no hay ofertas de trabajo disponibles.' });
-            }
-            setTimeout(() => {
-                setIsLoaderVisible(false);
-            }, 500);
-        } catch {
-            setError({ exist: true, message: 'Something went wrong' });
-            setIsLoaderVisible(false);
-        }
-    };
+    const { jobs } = useContext(LinkedInJobsContext);
 
     useEffect(() => {
         fetchData();
     }, []);
 
-    /* PRIVATE METHODS */
-    const onFinish = () => {
-        switch (modalView) {
-            case 'refer':
-                setIsLoading(true);
-                setTimeout(() => {
-                    const personReferred = formRef.getFieldValue(['referred']);
-                    setReferred(personReferred);
-                    setIsLoading(false);
-                    setModalView('refer-success');
-                    formRef.resetFields();
-                }, 1500);
+    useEffect(() => {
+        const viewModels = jobs.map(mapDtoToViewModel);
+        setJobsViewModels(viewModels);
+    }, [jobs]);
 
-                break;
-
-            default:
-                onCancel();
-                setReferred('');
-                setModalView('refer');
-                break;
-        }
-    };
-    const onCancel = () => {
-        setIsVisible(false);
+    const setNewCollapseKey = (key: number) => {
+        setActiveKey(key);
     };
 
-    const openModal = (job: any) => {
-        setUniqueJob(job);
-        setIsVisible(true);
+    const fetchData = () => {
+        setIsLoaderVisible(true);
+        linkedInService
+            .getLinkedInJobs()
+            .then((output) => {
+                if (output.length > 0) {
+                    setActiveKey(output[0].id);
+                }
+                const viewModels = output.map(mapDtoToViewModel);
+                setJobsViewModels(viewModels);
+            })
+            .catch(() => {
+                messenger.showErrorMessage({ key: 'Ocurió un problema al buscar los trabajos.' });
+            })
+            .finally(() => {
+                setIsLoaderVisible(false);
+            });
+    };
+
+    /* Private Methods */
+    const mapDtoToViewModel = (dto: LinkedInJobDto): JobOfferViewModel => {
+        return {
+            author: '',
+            company: '',
+            createdAt: '',
+            description: '',
+            id: dto.id,
+            jobTitle: dto.title,
+            logo: '',
+            relevanceIndex: 0,
+            status: false,
+            type: '',
+        };
     };
 
     return {
-        jobs,
-        error,
+        jobsViewModels,
         isLoaderVisible,
-        isLoading,
         activeKey,
         setNewCollapseKey,
-        isVisible,
-        openModal,
-        onCancel,
-        onFinish,
-        uniqueJob,
-        formRef,
-        modalView,
-        referred,
     };
 };

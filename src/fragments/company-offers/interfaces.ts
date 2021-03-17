@@ -1,8 +1,8 @@
 export interface JobOfferViewModel {
     id: number;
-    job_title: string;
+    jobTitle: string;
     company: string;
-    created_at: string;
+    createdAt: string;
     author: string;
     logo: string;
     relevanceIndex: number;
@@ -11,28 +11,13 @@ export interface JobOfferViewModel {
     description: string;
 }
 
-interface Error {
-    exist: boolean;
-    message: string;
-}
-
 export interface CompanyOffersController {
     /* State */
-    jobs: any[];
+    jobsViewModels: JobOfferViewModel[];
     /* Events */
     activeKey: number;
     setNewCollapseKey: (key: number) => void;
-    openModal: (key: any) => void;
-    onCancel: () => void;
-    onFinish: () => void;
-    error: Error;
-    formRef: any;
-    uniqueJob: any;
     isLoaderVisible: boolean;
-    isVisible: boolean;
-    isLoading: boolean;
-    modalView: string;
-    referred: string;
 }
 
 export interface CompanyOffersFragmentProps {
