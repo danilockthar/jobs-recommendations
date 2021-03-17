@@ -17,7 +17,7 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
     const { t } = useTranslation();
 
     function onItemCollapseChange(keyId: any) {
-        controller.setNewCollapseKey(parseInt(keyId, 10));
+        controller.setNewCollapseKey(keyId);
     }
 
     const ModalReferContent =

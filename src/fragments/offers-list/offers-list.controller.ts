@@ -3,14 +3,17 @@ import { OffersListController, JobOfferViewModel } from 'fragments/offers-list/i
 import { useApiOffersListService } from 'services/offers-list/offers-list.service';
 import { useApiReferralService } from 'services/referrals/referrals.service';
 import { Form } from 'antd';
+import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
+import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 
 export const useOffersListController = (
     offerService = useApiOffersListService(),
     referralsService = useApiReferralService(),
+    linkedInService = useAPILinkedInService(),
 ): /* <--Dependency Injections  like services hooks */ OffersListController => {
     const [jobs, setJobs] = useState<JobOfferViewModel[]>([]);
     const [error, setError] = useState({ exist: false, message: '' });
-    const [activeKey, setActiveKey] = useState(1);
+    const [activeKey, setActiveKey] = useState('');
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
     const [modalView, setModalView] = useState('refer');
     const [isLoading, setIsLoading] = useState(false); /* isLoading for Form Antd */
@@ -20,34 +23,50 @@ export const useOffersListController = (
 
     const [formRef] = Form.useForm();
 
-    const setNewCollapseKey = (key: number) => {
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const setNewCollapseKey = (key: string) => {
         setActiveKey(key);
     };
 
     const fetchData = async () => {
         setIsLoaderVisible(true);
 
-        try {
-            const jobOffers = await offerService.getOffersByRelevance();
-            // const jobOffers: any = [];
-            if (jobOffers.length > 0) {
-                setJobs(jobOffers);
-                setActiveKey(jobOffers[0].id);
-            } else {
-                setError({ exist: true, message: 'Aún no hay ofertas de trabajo disponibles.' });
-            }
-            setTimeout(() => {
+        linkedInService
+            .findLinkedInJobs()
+            .then((output) => {
+                if (output.length > 0) {
+                    // setActiveKey(output[0].jobId);
+                    setJobs(output.map(mapDtoToViewModel));
+                } else {
+                    setError({ exist: true, message: 'Aún no hay ofertas de trabajo disponibles.' });
+                }
+            })
+            .catch(() => {
+                setError({ exist: true, message: 'Something went wrong' });
+            })
+            .finally(() => {
                 setIsLoaderVisible(false);
-            }, 500);
-        } catch {
-            setError({ exist: true, message: 'Something went wrong' });
-            setIsLoaderVisible(false);
-        }
+            });
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    const mapDtoToViewModel = (dto: LinkedInJobDto): JobOfferViewModel => {
+        console.log(dto);
+        return {
+            author: dto.company ?? '',
+            company: dto.company ?? '',
+            createdAt: dto.date ?? '',
+            description: dto.description ?? '',
+            id: dto.jobId ?? '',
+            jobTitle: dto.title ?? '',
+            logo: '',
+            relevanceIndex: 0,
+            status: false,
+            type: '',
+        };
+    };
 
     /* PRIVATE METHODS */
     const onFinish = () => {

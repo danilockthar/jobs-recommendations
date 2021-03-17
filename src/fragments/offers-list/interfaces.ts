@@ -1,8 +1,8 @@
 export interface JobOfferViewModel {
-    id: number;
-    job_title: string;
+    id: string;
+    jobTitle: string;
     company: string;
-    created_at: string;
+    createdAt: string;
     author: string;
     logo: string;
     relevanceIndex: number;
@@ -20,8 +20,8 @@ export interface OffersListController {
     /* State */
     jobs: any[];
     /* Events */
-    activeKey: number;
-    setNewCollapseKey: (key: number) => void;
+    activeKey: string;
+    setNewCollapseKey: (key: string) => void;
     openModal: (key: any) => void;
     onCancel: () => void;
     onFinish: () => void;
