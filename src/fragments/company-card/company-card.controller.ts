@@ -30,7 +30,8 @@ export const useCompanyCardController = (
         companyService
             .getCompany()
             .then((output) => {
-                setCompanyName(output.name);
+                const name = output.name ?? '';
+                setCompanyName(name);
             })
             .catch(() => {
                 messenger.showErrorMessage({ key: 'Error al obtener datos de la empresa' });

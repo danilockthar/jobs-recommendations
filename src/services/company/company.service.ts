@@ -1,8 +1,8 @@
 import { useLocalSession } from 'auth/helpers/session.hooks';
 import { ApiCompanyService } from 'services/company/api-company.service';
 
-export interface CompanyDto {
-    name: string;
+export class CompanyDto {
+    name?: string;
 }
 
 export interface CompanyService {
