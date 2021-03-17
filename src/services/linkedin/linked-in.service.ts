@@ -9,6 +9,7 @@ export class ConnectLinkedInPersonInput {
 
 export class ImportLinkedInJobsInput {
     jobsUrl?: string;
+    companyName?: string;
 }
 
 export interface LinkedInService {

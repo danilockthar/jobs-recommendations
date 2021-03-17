@@ -16,17 +16,41 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
     return (
         <div className={'relevance-user-data'}>
             <ModalForm
+                title={
+                    controller.modalNameCompany
+                        ? translate({ key: 'Ingresá el nombre de la organización.' })
+                        : translate({ key: 'Ingresá la url de trabajo (LinkedIn)' })
+                }
+                form={controller.importJobsForm}
+                isVisible={controller.modalNameCompany || controller.isImportFormVisible}
+                isLoading={controller.isImportFormLoading}
+                onCancel={controller.onImportFormCancel}
+                onFinish={
+                    controller.modalNameCompany ? controller.onNameCompanyAdded : controller.onImportJobsSubmitted
+                }
+            >
+                {controller.modalNameCompany ? (
+                    <Form.Item
+                        label={translate({ key: 'Nombre de la organización' })}
+                        name="name"
+                        rules={[{ required: true }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                ) : (
+                    <Form.Item label={translate({ key: 'URL' })} name="jobsUrl" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+                )}
+            </ModalForm>
+            {/* <ModalForm
                 title={translate({ key: 'Ingresá la url de trabajo (LinkedIn)' })}
                 form={controller.importJobsForm}
                 isVisible={controller.isImportFormVisible}
                 isLoading={controller.isImportFormLoading}
                 onCancel={controller.onImportFormCancel}
                 onFinish={controller.onImportJobsSubmitted}
-            >
-                <Form.Item label={translate({ key: 'URL' })} name="jobsUrl" rules={[{ required: true }]}>
-                    <Input />
-                </Form.Item>
-            </ModalForm>
+            ></ModalForm> */}
             <Card style={{ width: '100%', borderRadius: '10px', textAlign: 'center', border: '1px solid #d4d4d4' }}>
                 <h2>{'Compania'}</h2>
                 {controller.isLoaderVisible ? (
