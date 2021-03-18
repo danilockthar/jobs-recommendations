@@ -59,7 +59,6 @@ export const useCompanyOffersController = (
 
     /* Private Methods */
     const mapDtoToViewModel = (dto: LinkedInJobDto): JobOfferViewModel => {
-        console.log(dto);
         return {
             author: dto.company ?? '',
             company: dto.company ?? '',

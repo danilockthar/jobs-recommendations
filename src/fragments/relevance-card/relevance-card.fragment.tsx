@@ -24,7 +24,7 @@ export const RelevanceCardFragment: React.FC<RelevanceCardFragmentProps> = (prop
                 onFinish={controller.onConnectFormSubmit}
                 onCancel={controller.onConnectFormCancel}
             >
-                <Form.Item label={translate({ key: 'Usuario' })} name="vanityName" rules={[{ required: true }]}>
+                <Form.Item label={translate({ key: 'Usuario' })} name="profileURL" rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
             </ModalForm>

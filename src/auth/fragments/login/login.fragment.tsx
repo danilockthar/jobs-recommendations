@@ -12,8 +12,6 @@ export const LoginFragment: React.FC<LoginFragmentProps> = (props) => {
     const controller = useController();
     const { translate } = useTranslator();
 
-    console.log(process.env.PUBLIC_URL);
-
     // Render
     return (
         <div className={'login'}>

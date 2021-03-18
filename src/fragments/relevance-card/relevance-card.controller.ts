@@ -68,8 +68,13 @@ export const useRelevanceCardController = (
                 setIsConnectFormVisible(false);
                 updateViewModel(output);
             })
-            .catch(() => {
-                messenger.showErrorMessage({ key: 'Ocurrió un error al conectar cuenta' });
+            .catch((err) => {
+                if (err.response.status === 404) {
+                    messenger.showErrorMessage({
+                        key:
+                            'Ocurrió un error al conectar cuenta. Verifique si el perfil ingresado existe o es válido.',
+                    });
+                }
             })
             .finally(() => {
                 setIsConnectFormLoading(false);

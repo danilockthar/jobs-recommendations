@@ -4,7 +4,7 @@ import { ApiLinkedInService } from 'services/linkedin/api-linked-in.service';
 import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 
 export class ConnectLinkedInPersonInput {
-    vanityName?: string;
+    linkedinURL?: string;
 }
 
 export class ImportLinkedInJobsInput {

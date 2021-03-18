@@ -56,7 +56,7 @@ export const useCompanyCardController = (
         companyService
             .createCompany(input)
             .then((output) => {
-                console.log(output, 'a');
+                console.log('success');
             })
             .catch((err) => {
                 messenger.showErrorMessage({ key: 'Ocurrió un problema al ingresar el nombre.' });
