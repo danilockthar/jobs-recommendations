@@ -72,6 +72,7 @@ export const useCompanyCardController = (
         linkedInService
             .importLinkedInJobs(input)
             .then((output) => {
+                console.log(output);
                 setIsImportFormVisible(false);
                 setJobs(output);
             })

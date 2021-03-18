@@ -24,6 +24,10 @@ export const useCompanyOffersController = (
 
     useEffect(() => {
         const viewModels = jobs.map(mapDtoToViewModel);
+        if (viewModels.length > 0) {
+            setErrorExist(false);
+            setErrorMessage('');
+        }
         setJobsViewModels(viewModels);
     }, [jobs]);
 

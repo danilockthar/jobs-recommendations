@@ -45,6 +45,11 @@
         text-align: center;
     }
     .job-description {
+        .job-description-injected {
+            button {
+                display: none;
+            }
+        }
         h3 {
             color: $DARK_CYAN_BLUE;
             font-weight: 600;

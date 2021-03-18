@@ -63,7 +63,10 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                                 <div className="job-description">
                                     <h3>{t(['general.description'])}</h3>
                                     {/*<p>{item.description}</p>*/}
-                                    <div dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}></div>
+                                    <div
+                                        className="job-description-injected"
+                                        dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}
+                                    ></div>
                                 </div>
                             </Panel>
                         );
