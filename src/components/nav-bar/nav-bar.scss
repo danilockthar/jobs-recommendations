@@ -16,9 +16,9 @@
             padding: 0 16vw;
             width: 100%;
             .menu_nav_ {
-                width: 40%;
-                display: grid;
-                justify-content: right;
+                width: 50%;
+                display: flex;
+                justify-content: space-around;
                 justify-self: right;
                 a {
                     color: white;

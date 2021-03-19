@@ -101,7 +101,10 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                                 <div className="job-description">
                                     <h3>{t(['general.description'])}</h3>
                                     {/*<p>{item.description}</p>*/}
-                                    <div dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}></div>
+                                    <div
+                                        className="inner-job-description"
+                                        dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}
+                                    ></div>
                                     <div className="job-action-buttons">
                                         <div className="action-buttons">
                                             {/* <button className="btn-apply"> {t(['general.applyButton'])}</button> */}

@@ -1,23 +1,27 @@
 @import 'src/base';
 
 .main {
-
 }
 
 .jobs-fragment {
-  width: 100%;
-  background: $WHITE_BONE;
-  display: grid;
-  grid-template-columns: 1fr 35%;
-  grid-column-gap: 2vw;
-  padding: 8vh 16vw 4vh 16vw;
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    padding: 2vh;
-    grid-row-gap: 2vh;
-  }
-  // ANTD CSS IN JOB-OFFERS CLASS */
-  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-    padding: 0;
-  }
+    width: 100%;
+    background: $WHITE_BONE;
+    display: grid;
+    grid-template-columns: 1fr 35%;
+    grid-column-gap: 2vw;
+    padding: 8vh 16vw 4vh 16vw;
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+        padding: 2vh;
+        grid-row-gap: 2vh;
+    }
+    // ANTD CSS IN JOB-OFFERS CLASS */
+    .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+        padding: 0;
+    }
+}
+.recommended-jobs-fragment {
+    width: 100%;
+    background: $WHITE_BONE;
+    padding: 8vh 16vw 4vh 16vw;
 }
