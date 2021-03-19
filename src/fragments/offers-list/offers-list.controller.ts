@@ -74,13 +74,15 @@ export const useOffersListController = (
             case 'refer':
                 setIsLoading(true);
                 const personReferred = formRef.getFieldValue(['referred']);
+                console.log(personReferred, 'referido');
                 referralsService
-                    .send({ jobId: uniqueJob.id, referredEmail: personReferred })
+                    .send({ job: parseInt(uniqueJob.id, 10), referredEmail: personReferred })
                     .then((result) => {
                         setReferred(personReferred);
                         setModalView('refer-success');
                     })
-                    .catch(() => {
+                    .catch((err) => {
+                        console.log(err, 'err');
                         // TODO - Show error message
                     })
                     .finally(() => {

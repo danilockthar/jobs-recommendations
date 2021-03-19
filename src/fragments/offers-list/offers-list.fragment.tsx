@@ -72,6 +72,7 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                     style={{ borderRadius: '10px' }}
                 >
                     {controller.jobs.map((item) => {
+                        console.log(item.id, 'ID');
                         const createdAt = moment(item.createdAt).format('DD/MM/YYYY');
                         return (
                             <Panel
@@ -107,7 +108,10 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                                     ></div>
                                     <div className="job-action-buttons">
                                         <div className="action-buttons">
-                                            {/* <button className="btn-apply"> {t(['general.applyButton'])}</button> */}
+                                            <button onClick={() => controller.openModal(item)} className="btn-apply">
+                                                {' '}
+                                                {t(['general.applyButton'])}
+                                            </button>
                                             <button onClick={() => controller.openModal(item)} className="btn-reffer">
                                                 {t(['general.referrButton'])}
                                             </button>

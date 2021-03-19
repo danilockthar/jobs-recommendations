@@ -92,8 +92,8 @@
             display: grid;
             grid-template-columns: 1fr 50px;
             .action-buttons {
-                display: grid;
-                justify-content: left;
+                display: flex;
+                justify-content: space-around;
                 width: 60%;
                 button {
                     outline: none;

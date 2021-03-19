@@ -4,9 +4,11 @@ import { useApiOffersListService } from 'services/offers-list/offers-list.servic
 import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
 import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 import { JobOfferViewModel } from 'fragments/offers-list/interfaces';
+import { useApiReferralService } from 'services/referrals/referrals.service';
 
 export const useRecommendedJobsFragmentController = (
     offerService = useApiOffersListService(),
+    referralService = useApiReferralService(),
     linkedInService = useAPILinkedInService(),
 ): /* <--Dependency Injections  like services hooks */
 RecommendedJobsFragmentController => {
@@ -21,8 +23,8 @@ RecommendedJobsFragmentController => {
     const fetchData = async () => {
         setIsLoaderVisible(true);
 
-        linkedInService
-            .findLinkedInJobs()
+        referralService
+            .getReferralJobs()
             .then((output) => {
                 if (output.length > 0) {
                     // setActiveKey(output[0].jobId);
