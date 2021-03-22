@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import 'components/nav-bar/nav-bar.scss';
-import { Switch, Route, Link, Redirect, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, Link, Redirect, useRouteMatch, useParams } from 'react-router-dom';
 import { Avatar, Layout } from 'antd';
 import { NavBarDropdown } from 'components/nav-bar-dropdown/nav-bar-dropdown.component';
 import { useLocalSession } from 'auth/helpers/session.hooks';
@@ -24,6 +24,10 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
     const firstPath = params?.first;
     const [getSession] = useLocalSession();
     const session = getSession();
+
+    const queryparams = useParams();
+
+    console.log(queryparams, 'qp');
 
     const AvatarDropdown = (
         <NavBarDropdown className={'avatar-dropdown'} menuItemsChildren={[<ButtonLogout key={'logout'} />]}>
@@ -95,6 +99,9 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
                     </Route>
                 );
             })}
+            <Route key={'/as'} path="/as/:id">
+                <h1> asd</h1>
+            </Route>
             <Route key={'/'}>
                 <Redirect to={'/' + Object.keys(props.screens)[0]} />
             </Route>

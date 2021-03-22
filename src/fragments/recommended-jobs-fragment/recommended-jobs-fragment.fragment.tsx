@@ -27,6 +27,7 @@ export const RecommendedJobsFragmentFragment: React.FC<RecommendedJobsFragmentFr
             >
                 {controller.jobs.map((item) => {
                     const createdAt = moment(item.createdAt).format('DD/MM/YYYY');
+                    console.log('job: ', item);
                     return (
                         <Panel
                             showArrow={false}
@@ -61,7 +62,7 @@ export const RecommendedJobsFragmentFragment: React.FC<RecommendedJobsFragmentFr
                                 ></div>
                                 <div className="job-action-buttons">
                                     <div className="action-buttons">
-                                        {/* <button className="btn-apply"> {t(['general.applyButton'])}</button> */}
+                                        <button className="btn-apply"> {t(['general.applyButton'])}</button>
                                         {/* <button onClick={() => controller.openModal(item)} className="btn-reffer">
                                             {t(['general.referrButton'])}
                                         </button> */}

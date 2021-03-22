@@ -5,6 +5,7 @@ import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
 import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 import { JobOfferViewModel } from 'fragments/offers-list/interfaces';
 import { useApiReferralService } from 'services/referrals/referrals.service';
+import { stringify } from 'node:querystring';
 
 export const useRecommendedJobsFragmentController = (
     offerService = useApiOffersListService(),
@@ -22,11 +23,11 @@ RecommendedJobsFragmentController => {
     }, []);
     const fetchData = async () => {
         setIsLoaderVisible(true);
-
         referralService
             .getReferralJobs()
             .then((output) => {
                 if (output.length > 0) {
+                    console.log(output, 'outpur');
                     // setActiveKey(output[0].jobId);
                     setJobs(output.map(mapDtoToViewModel));
                 } else {
@@ -50,6 +51,7 @@ RecommendedJobsFragmentController => {
             descriptionHTML: dto.descriptionHTML ?? '',
             id: dto.jobId ?? '',
             jobTitle: dto.title ?? '',
+            link: dto.link ?? '',
             logo: '',
             relevanceIndex: 0,
             status: false,

@@ -5,6 +5,7 @@ export interface JobOfferViewModel {
     createdAt: string;
     author: string;
     logo: string;
+    link: string;
     relevanceIndex: number;
     status: boolean;
     type: string;

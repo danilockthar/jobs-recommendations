@@ -61,6 +61,7 @@ export const useOffersListController = (
             descriptionHTML: dto.descriptionHTML ?? '',
             id: dto.jobId ?? '',
             jobTitle: dto.title ?? '',
+            link: dto.link ?? '',
             logo: '',
             relevanceIndex: 0,
             status: false,
@@ -70,11 +71,11 @@ export const useOffersListController = (
 
     /* PRIVATE METHODS */
     const onFinish = () => {
+        let personReferred: any;
         switch (modalView) {
             case 'refer':
                 setIsLoading(true);
-                const personReferred = formRef.getFieldValue(['referred']);
-                console.log(personReferred, 'referido');
+                personReferred = formRef.getFieldValue(['referred']);
                 referralsService
                     .send({ job: parseInt(uniqueJob.id, 10), referredEmail: personReferred })
                     .then((result) => {
@@ -91,7 +92,25 @@ export const useOffersListController = (
                     });
 
                 break;
-
+            case 'apply':
+                setIsLoading(true);
+                personReferred = formRef.getFieldValue(['referred']);
+                console.log('apply');
+                referralsService
+                    .askForReferral({ job: parseInt(uniqueJob.id, 10), referrerEmail: personReferred })
+                    .then((result) => {
+                        setReferred(personReferred);
+                        setModalView('apply-success');
+                    })
+                    .catch((err) => {
+                        console.log(err, 'err');
+                        // TODO - Show error message
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
+                        formRef.resetFields();
+                    });
+                break;
             default:
                 onCancel();
                 break;
@@ -103,7 +122,16 @@ export const useOffersListController = (
         setModalView('refer');
     };
 
-    const openModal = (job: any) => {
+    const openModal = (job: any, action: string) => {
+        switch (action) {
+            case 'refer':
+                setModalView('refer');
+                break;
+
+            default:
+                setModalView('apply');
+                break;
+        }
         setUniqueJob(job);
         setIsVisible(true);
     };

@@ -4,6 +4,7 @@ export interface JobOfferViewModel {
     company: string;
     createdAt: string;
     author: string;
+    link: string;
     logo: string;
     relevanceIndex: number;
     status: boolean;
@@ -23,7 +24,7 @@ export interface OffersListController {
     /* Events */
     activeKey: string;
     setNewCollapseKey: (key: string) => void;
-    openModal: (key: any) => void;
+    openModal: (key: any, action: string) => void;
     onCancel: () => void;
     onFinish: () => void;
     error: Error;

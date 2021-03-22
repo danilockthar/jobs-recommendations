@@ -21,16 +21,23 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
     }
 
     const ModalReferContent =
-        controller.modalView === 'refer' ? (
+        controller.modalView === 'refer' || controller.modalView === 'apply' ? (
             <Form.Item name="referred" label={t(['general.referredEmail'])} rules={[{ required: true, type: 'email' }]}>
                 <Input />
             </Form.Item>
+        ) : controller.modalView === 'refer-success' ? (
+            <div className="modal-referred-success">
+                <p>
+                    {`Hemos envíado un email a `} <b> {controller.referred} </b> notificandole que ha sido recomendado
+                    para el puesto de <b>{controller.uniqueJob.jobTitle}</b> en <b>{controller.uniqueJob.company}</b>
+                </p>
+            </div>
         ) : (
             <div className="modal-referred-success">
                 <p>
-                    {' '}
-                    {`Hemos envíado un email a `} <b> {controller.referred} </b> notificandole que ha sido recomendado
-                    para el puesto de <b>{controller.uniqueJob.jobTitle}</b> en <b>{controller.uniqueJob.company}</b>.
+                    {`Hemos envíado un email a `} <b> {controller.referred} </b> notificandole que has solicitado una
+                    recomendación para el puesto de <b>{controller.uniqueJob.jobTitle}</b> en{' '}
+                    <b>{controller.uniqueJob.company}</b>
                 </p>
             </div>
         );
@@ -39,18 +46,38 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
     return (
         <div className={'job-offers-list'}>
             <ModalForm
-                title={controller.modalView === 'refer' ? `Referir` : `Referencia exitosa.`}
+                title={
+                    controller.modalView === 'refer'
+                        ? `Referir`
+                        : controller.modalView === 'apply'
+                        ? 'Aplicár'
+                        : controller.modalView === 'refer-success'
+                        ? `Referencia exitosa.`
+                        : 'Aplicación exitosa'
+                }
                 isVisible={controller.isVisible}
                 form={controller.formRef}
                 isLoading={controller.isLoading}
                 onCancel={controller.onCancel}
                 onFinish={controller.onFinish}
-                okText={controller.modalView === 'refer' ? `Referir` : `Cerrar`}
+                okText={
+                    controller.modalView === 'refer'
+                        ? `Referir`
+                        : controller.modalView === 'apply'
+                        ? 'Aplicár'
+                        : 'Cerrar'
+                }
             >
                 {controller.modalView === 'refer' && (
                     <p>
                         La persona referida recibirá un correo electrónico con los detalles de la oferta seleccionada
                         para poder aplicar.{' '}
+                    </p>
+                )}
+                {controller.modalView === 'apply' && (
+                    <p>
+                        La persona ingresada recibirá un correo electrónico con los detalles de la oferta seleccionada a
+                        la que aplicaste.{' '}
                     </p>
                 )}
 
@@ -72,7 +99,6 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                     style={{ borderRadius: '10px' }}
                 >
                     {controller.jobs.map((item) => {
-                        console.log(item.id, 'ID');
                         const createdAt = moment(item.createdAt).format('DD/MM/YYYY');
                         return (
                             <Panel
@@ -108,11 +134,17 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                                     ></div>
                                     <div className="job-action-buttons">
                                         <div className="action-buttons">
-                                            <button onClick={() => controller.openModal(item)} className="btn-apply">
+                                            <button
+                                                onClick={() => controller.openModal(item, 'apply')}
+                                                className="btn-apply"
+                                            >
                                                 {' '}
                                                 {t(['general.applyButton'])}
                                             </button>
-                                            <button onClick={() => controller.openModal(item)} className="btn-reffer">
+                                            <button
+                                                onClick={() => controller.openModal(item, 'refer')}
+                                                className="btn-reffer"
+                                            >
                                                 {t(['general.referrButton'])}
                                             </button>
                                         </div>

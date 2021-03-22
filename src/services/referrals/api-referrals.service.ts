@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { ReferralsService, SendReferralInput, SendReferralOutput } from 'services/referrals/referrals.service';
+import {
+    ReferralsService,
+    SendReferralInput,
+    SendReferralOutput,
+    AskReferralInput,
+    AskReferralOutput,
+} from 'services/referrals/referrals.service';
 import { plainToClass } from 'class-transformer';
 import { Session } from 'auth/models/session';
 
@@ -18,5 +24,12 @@ export class ApiReferralsService implements ReferralsService {
             headers: { Authorization: 'Bearer ' + this.session.getToken() },
         });
         return plainToClass(SendReferralOutput, response.data);
+    }
+
+    async askForReferral(input: AskReferralInput): Promise<any> {
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/referrals/ask-for-referral`, input, {
+            headers: { Authorization: 'Bearer ' + this.session.getToken() },
+        });
+        return plainToClass(AskReferralOutput, response.data);
     }
 }
