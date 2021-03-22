@@ -27,8 +27,6 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
 
     const queryparams = useParams();
 
-    console.log(queryparams, 'qp');
-
     const AvatarDropdown = (
         <NavBarDropdown className={'avatar-dropdown'} menuItemsChildren={[<ButtonLogout key={'logout'} />]}>
             <Avatar size={'large'} src={'logo-placeholder.png'} />

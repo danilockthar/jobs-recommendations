@@ -27,7 +27,6 @@ export const RecommendedJobsFragmentFragment: React.FC<RecommendedJobsFragmentFr
             >
                 {controller.jobs.map((item) => {
                     const createdAt = moment(item.createdAt).format('DD/MM/YYYY');
-                    console.log('job: ', item);
                     return (
                         <Panel
                             showArrow={false}
