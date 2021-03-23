@@ -27,7 +27,6 @@ RecommendedJobsFragmentController => {
             .getReferralJobs()
             .then((output) => {
                 if (output.length > 0) {
-                    console.log(output, 'outpur');
                     // setActiveKey(output[0].jobId);
                     setJobs(output.map(mapDtoToViewModel));
                 } else {

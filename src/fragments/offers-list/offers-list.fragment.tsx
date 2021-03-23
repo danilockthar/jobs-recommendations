@@ -111,7 +111,7 @@ export const OffersListFragment: React.FC<OffersListFragmentProps> = (props) => 
                                                 : 'custom_job_header'
                                         }
                                     >
-                                        <img src={'logo-placeholder.png'} />
+                                        <img src={'/placeholder.jpg'} />
                                         <div className="custom_job_header_desc">
                                             <h2> {`${item.jobTitle} en ${item.company}`} </h2>
                                             <p>

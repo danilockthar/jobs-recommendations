@@ -29,7 +29,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
 
     const AvatarDropdown = (
         <NavBarDropdown className={'avatar-dropdown'} menuItemsChildren={[<ButtonLogout key={'logout'} />]}>
-            <Avatar size={'large'} src={'logo-placeholder.png'} />
+            <Avatar size={'large'} src={'/placeholder.jpg'} />
         </NavBarDropdown>
     );
 

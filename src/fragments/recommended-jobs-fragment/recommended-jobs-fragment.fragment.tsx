@@ -38,7 +38,7 @@ export const RecommendedJobsFragmentFragment: React.FC<RecommendedJobsFragmentFr
                                             : 'custom_job_header'
                                     }
                                 >
-                                    <img src={'logo-placeholder.png'} />
+                                    <img src={'/placeholder.jpg'} />
                                     <div className="custom_job_header_desc">
                                         <h2> {`${item.jobTitle} en ${item.company}`} </h2>
                                         <p>
@@ -61,7 +61,10 @@ export const RecommendedJobsFragmentFragment: React.FC<RecommendedJobsFragmentFr
                                 ></div>
                                 <div className="job-action-buttons">
                                     <div className="action-buttons">
-                                        <button className="btn-apply"> {t(['general.applyButton'])}</button>
+                                        <a className="btn-apply" href={item.link} target="_blank" rel="noreferrer">
+                                            {' '}
+                                            {t(['general.applyButton'])}
+                                        </a>
                                         {/* <button onClick={() => controller.openModal(item)} className="btn-reffer">
                                             {t(['general.referrButton'])}
                                         </button> */}

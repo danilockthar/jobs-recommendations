@@ -18,6 +18,7 @@ export interface LinkedInService {
     disconnectLinkedInPerson(): Promise<LinkedInPersonDataDto>;
     importLinkedInJobs(input: ImportLinkedInJobsInput): Promise<LinkedInJobDto[]>;
     findLinkedInJobs(): Promise<LinkedInJobDto[]>;
+    getOneJobByID(id: number): Promise<LinkedInJobDto>;
 }
 
 export const useAPILinkedInService = (): LinkedInService => {

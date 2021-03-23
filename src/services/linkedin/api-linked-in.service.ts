@@ -50,4 +50,11 @@ export class ApiLinkedInService implements LinkedInService {
             return plainToClass(LinkedInJobDto, data);
         });
     }
+
+    async getOneJobByID(id: number): Promise<LinkedInJobDto> {
+        const response = await axios.get(process.env.REACT_APP_API_BASE_URL + `/linked-in/one-job/${id}`, {
+            headers: { Authorization: 'Bearer ' + this.session.getToken() },
+        });
+        return plainToClass(LinkedInJobDto, response.data);
+    }
 }

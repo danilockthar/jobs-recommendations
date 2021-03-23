@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react';
-import { OffersListController, JobOfferViewModel } from 'fragments/offers-list/interfaces';
+import { OfferUniqueJobController, JobOfferViewModel } from 'fragments/offer-unique-job/interfaces';
+import { useParams } from 'react-router';
 import { useApiOffersListService } from 'services/offers-list/offers-list.service';
 import { useApiReferralService } from 'services/referrals/referrals.service';
 import { Form } from 'antd';
 import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
 import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 
-export const useOffersListController = (
+export const useOfferUniqueJobController = (
     offerService = useApiOffersListService(),
     referralsService = useApiReferralService(),
     linkedInService = useAPILinkedInService(),
-): /* <--Dependency Injections  like services hooks */ OffersListController => {
-    const [jobs, setJobs] = useState<JobOfferViewModel[]>([]);
+): /* <--Dependency Injections  like services hooks */
+OfferUniqueJobController => {
+    const { id } = useParams<{ id: string }>();
+    /* State */
+    // Ex. const [count, setCount] = useState(0);
+    const [example, setExample] = useState('example');
+    const [jobs, setJobs] = useState<LinkedInJobDto>();
     const [error, setError] = useState({ exist: false, message: '' });
     const [activeKey, setActiveKey] = useState('');
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
@@ -35,23 +41,22 @@ export const useOffersListController = (
         setIsLoaderVisible(true);
 
         linkedInService
-            .findLinkedInJobs()
+            .getOneJobByID(parseInt(id, 10))
             .then((output) => {
-                if (output.length > 0) {
+                if (output) {
                     // setActiveKey(output[0].jobId);
-                    setJobs(output.map(mapDtoToViewModel));
+                    setJobs(output);
                 } else {
                     setError({ exist: true, message: 'Aún no hay ofertas de trabajo disponibles.' });
                 }
             })
-            .catch(() => {
+            .catch((err) => {
                 setError({ exist: true, message: 'Something went wrong' });
             })
             .finally(() => {
                 setIsLoaderVisible(false);
             });
     };
-
     const mapDtoToViewModel = (dto: LinkedInJobDto): JobOfferViewModel => {
         return {
             author: dto.company ?? '',
@@ -142,10 +147,10 @@ export const useOffersListController = (
         isLoading,
         activeKey,
         setNewCollapseKey,
-        isVisible,
         openModal,
         onCancel,
         onFinish,
+        isVisible,
         uniqueJob,
         formRef,
         modalView,

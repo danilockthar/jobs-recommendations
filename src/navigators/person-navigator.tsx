@@ -5,13 +5,17 @@ import { OffersListFragment } from 'fragments/offers-list/offers-list.fragment';
 import { RelevanceCardFragment } from 'fragments/relevance-card/relevance-card.fragment';
 import { RecommendedJobsFragmentFragment } from 'fragments/recommended-jobs-fragment/recommended-jobs-fragment.fragment';
 import { Switch, Route } from 'react-router';
+import { OfferUniqueJobFragment } from 'fragments/offer-unique-job/offer-unique-job.fragment';
 export const PersonNavigator: React.FC = () => {
     const { t } = useTranslation();
 
     const PersonJobsFragment = (
         <Switch>
             <Route path={'/jobs/:id'}>
-                <h1>detalle</h1>
+                <div className={'jobs-fragment'}>
+                    <OfferUniqueJobFragment />
+                    <RelevanceCardFragment />
+                </div>
             </Route>
             <Route>
                 <div className={'jobs-fragment'}>
