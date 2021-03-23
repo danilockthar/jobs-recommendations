@@ -27,9 +27,8 @@ RecommendedJobsFragmentController => {
             .getReferralJobs()
             .then((output) => {
                 if (output.length > 0) {
-                    setJobs([]);
                     // setActiveKey(output[0].jobId);
-                    // setJobs(output.map(mapDtoToViewModel));
+                    setJobs(output.map(mapDtoToViewModel));
                 } else {
                     setError({ exist: true, message: 'Aún no hay ofertas de trabajo disponibles.' });
                 }
@@ -53,7 +52,7 @@ RecommendedJobsFragmentController => {
             jobTitle: dto.title ?? '',
             link: dto.link ?? '',
             logo: '',
-            relevanceIndex: 0,
+            relevanceIndex: dto.relevanceIndex ?? 0,
             status: false,
             type: '',
         };
