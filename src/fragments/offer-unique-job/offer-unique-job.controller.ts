@@ -6,10 +6,12 @@ import { useApiReferralService } from 'services/referrals/referrals.service';
 import { Form } from 'antd';
 import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
 import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
+import { useMessenger } from 'tools/view-hooks/messenger-hook';
 
 export const useOfferUniqueJobController = (
     offerService = useApiOffersListService(),
     referralsService = useApiReferralService(),
+    messenger = useMessenger(),
     linkedInService = useAPILinkedInService(),
 ): /* <--Dependency Injections  like services hooks */
 OfferUniqueJobController => {
@@ -89,6 +91,11 @@ OfferUniqueJobController => {
                         setModalView('refer-success');
                     })
                     .catch((err) => {
+                        if (err.response.status === 403) {
+                            messenger.showErrorMessage({
+                                key: 'Este perfil ya ha sido referido previamente.',
+                            });
+                        }
                         console.log(err, 'err');
                         // TODO - Show error message
                     })
