@@ -19,9 +19,69 @@ export const OfferUniqueJobFragment: React.FC<OfferUniqueJobFragmentProps> = (pr
 
     // const createdAt = moment(controller.jobs[0].createdAt).format('DD/MM/YYYY');
 
+    const ModalReferContent =
+        controller.modalView === 'refer' || controller.modalView === 'apply' ? (
+            <Form.Item name="referred" label={t(['general.referredEmail'])} rules={[{ required: true, type: 'email' }]}>
+                <Input />
+            </Form.Item>
+        ) : controller.modalView === 'refer-success' ? (
+            <div className="modal-referred-success">
+                <p>
+                    {`Hemos envíado un email a `} <b> {controller.referred} </b> notificandole que ha sido recomendado
+                    para el puesto de <b>{controller.uniqueJob.jobTitle}</b> en <b>{controller.uniqueJob.company}</b>
+                </p>
+            </div>
+        ) : (
+            <div className="modal-referred-success">
+                <p>
+                    {`Hemos envíado un email a `} <b> {controller.referred} </b> notificandole que has solicitado una
+                    recomendación para el puesto de <b>{controller.uniqueJob.jobTitle}</b> en{' '}
+                    <b>{controller.uniqueJob.company}</b>
+                </p>
+            </div>
+        );
+
     // Render
     return (
         <div className={'job-offers-list'}>
+            <ModalForm
+                title={
+                    controller.modalView === 'refer'
+                        ? `Referir`
+                        : controller.modalView === 'apply'
+                        ? 'Aplicár'
+                        : controller.modalView === 'refer-success'
+                        ? `Referencia exitosa.`
+                        : 'Aplicación exitosa'
+                }
+                isVisible={controller.isVisible}
+                form={controller.formRef}
+                isLoading={controller.isLoading}
+                onCancel={controller.onCancel}
+                onFinish={controller.onFinish}
+                okText={
+                    controller.modalView === 'refer'
+                        ? `Referir`
+                        : controller.modalView === 'apply'
+                        ? 'Aplicár'
+                        : 'Cerrar'
+                }
+            >
+                {controller.modalView === 'refer' && (
+                    <p>
+                        La persona referida recibirá un correo electrónico con los detalles de la oferta seleccionada
+                        para poder aplicar.{' '}
+                    </p>
+                )}
+                {controller.modalView === 'apply' && (
+                    <p>
+                        La persona ingresada recibirá un correo electrónico con los detalles de la oferta seleccionada a
+                        la que aplicaste.{' '}
+                    </p>
+                )}
+
+                {ModalReferContent}
+            </ModalForm>
             {controller.isLoaderVisible ? (
                 <div className="offers-collapse-container">
                     <FlexLoader />
