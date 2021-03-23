@@ -17,8 +17,6 @@ export const RecommendedJobsFragmentFragment: React.FC<RecommendedJobsFragmentFr
         controller.setNewCollapseKey(keyId);
     }
 
-    console.log(controller.jobs.length);
-
     return (
         <div className={'recommended-jobs-fragment'}>
             {controller.jobs.length > 0 ? (

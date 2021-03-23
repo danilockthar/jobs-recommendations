@@ -83,7 +83,6 @@ OfferUniqueJobController => {
             case 'refer':
                 setIsLoading(true);
                 personReferred = formRef.getFieldValue(['referred']);
-                console.log(uniqueJob, 'uniq');
                 referralsService
                     .send({ job: parseInt(uniqueJob.jobId, 10), referredEmail: personReferred })
                     .then((result) => {
@@ -96,7 +95,6 @@ OfferUniqueJobController => {
                                 key: 'Este perfil ya ha sido referido previamente.',
                             });
                         }
-                        console.log(err, 'err');
                         // TODO - Show error message
                     })
                     .finally(() => {
