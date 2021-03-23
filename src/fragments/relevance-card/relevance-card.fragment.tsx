@@ -17,7 +17,7 @@ export const RelevanceCardFragment: React.FC<RelevanceCardFragmentProps> = (prop
     return (
         <div className={'relevance-user-data'}>
             <ModalForm
-                title={translate({ key: 'Ingresá tu usuario de LinkedIn' })}
+                title={translate({ key: 'Ingresá tu URL del perfil de LinkedIn' })}
                 form={controller.connectForm}
                 isVisible={controller.isConnectFormVisible}
                 isLoading={controller.isConnectFormLoading}
