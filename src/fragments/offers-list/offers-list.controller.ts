@@ -63,7 +63,7 @@ export const useOffersListController = (
             jobTitle: dto.title ?? '',
             link: dto.link ?? '',
             logo: '',
-            relevanceIndex: 0,
+            relevanceIndex: dto.relevanceIndex ?? 0,
             status: false,
             type: '',
         };

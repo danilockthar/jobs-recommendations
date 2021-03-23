@@ -10,4 +10,5 @@ export class LinkedInJobDto {
     industries?: string;
     description?: string;
     descriptionHTML?: string;
+    relevanceIndex?: number;
 }
