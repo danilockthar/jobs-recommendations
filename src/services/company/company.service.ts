@@ -3,6 +3,8 @@ import { ApiCompanyService } from 'services/company/api-company.service';
 
 export class CompanyDto {
     name?: string;
+    id?: number;
+    subscriptions?: any;
 }
 
 export interface CompanyService {

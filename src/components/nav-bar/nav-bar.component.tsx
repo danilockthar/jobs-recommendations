@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import 'components/nav-bar/nav-bar.scss';
-import { Switch, Route, Link, Redirect, useRouteMatch, useParams } from 'react-router-dom';
+import { Switch, Route, Link, Redirect, useRouteMatch, useParams, NavLink } from 'react-router-dom';
 import { Avatar, Layout } from 'antd';
 import { NavBarDropdown } from 'components/nav-bar-dropdown/nav-bar-dropdown.component';
 import { useLocalSession } from 'auth/helpers/session.hooks';
@@ -25,6 +25,7 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
     const [getSession] = useLocalSession();
     const session = getSession();
 
+    console.log(session, 'as');
     const queryparams = useParams();
 
     const AvatarDropdown = (
@@ -51,10 +52,10 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
             {Object.keys(props.screens).map((screenKey) => {
                 const screen = props.screens[screenKey];
                 return (
-                    <Link key={screenKey} to={'/' + screenKey}>
+                    <NavLink activeClassName="selected" key={screenKey} to={'/' + screenKey}>
                         {' '}
                         {screen.title}{' '}
-                    </Link>
+                    </NavLink>
                 );
             })}
         </div>
@@ -87,12 +88,12 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
                             <Layout.Header>
                                 <div className={'header'}>
                                     <img className={'logo-header'} src="/img_logo_funkeyup_white.png" />
-                                    {NavMenu}
+                                    <div></div>
                                     {AvatarDropdown}
                                 </div>
                             </Layout.Header>
+                            <Layout className={'side-menu'}>{NavMenu}</Layout>
                             <Layout.Content>{screen.component}</Layout.Content>
-                            <Layout.Footer className={'footer'}>{props.footer}</Layout.Footer>
                         </Layout>
                     </Route>
                 );

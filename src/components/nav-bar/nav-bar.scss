@@ -4,29 +4,46 @@
     &.ant-layout {
         min-height: 100vh;
     }
-
+    display: grid;
+    grid-template-columns: 15vw 1fr;
+    grid-template-rows: 10vh 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        'header header'
+        'side-menu content';
+    .side-menu {
+        grid-area: side-menu;
+        padding: 4vw 0 0 4vw;
+        height: 90vh;
+        width: 15vw;
+        background: #413f99;
+        .menu_nav_ {
+            width: 100%;
+            height: 20vh;
+            display: grid;
+            justify-self: right;
+            a {
+                font-size: 1rem;
+                font-weight: 600;
+                color: white;
+            }
+            .selected {
+                color: gold;
+            }
+        }
+    }
     .ant-layout-header {
+        grid-area: header;
         background-color: #413f99;
-
+        width: 100vw;
+        height: 10vh;
         .header {
             display: grid;
             grid-template-columns: 6vw 1fr 6vw;
             max-width: 1366px;
             margin: 0 auto;
-            padding: 0 16vw;
             width: 100%;
-            .menu_nav_ {
-                width: 50%;
-                display: flex;
-                justify-content: space-around;
-                justify-self: right;
-                a {
-                    color: white;
-                    &:hover {
-                        color: $primary-color;
-                    }
-                }
-            }
+
             .logo-header {
                 align-self: center;
                 max-height: 40px;
@@ -40,6 +57,7 @@
     }
 
     .ant-layout-content {
+        grid-area: content;
         display: flex;
         padding: 0px 50px 50px;
         max-width: 1450px;

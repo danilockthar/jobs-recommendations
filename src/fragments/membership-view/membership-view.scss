@@ -1,0 +1,101 @@
+@import 'src/base';
+
+.membership-view {
+    width: 100%;
+    display: grid;
+    grid-row-gap: 2vh;
+    .select-time-subscription {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr;
+        width: 16vw;
+        align-items: center;
+        h4 {
+            margin: 0;
+        }
+        .select-time {
+            border-radius: 3px;
+            border: 1px solid gold;
+            display: grid;
+            justify-content: center;
+            justify-items: center;
+            grid-template-columns: 1fr 1fr;
+            width: 12vw;
+            .subscription-option {
+                cursor: pointer;
+                text-align: center;
+                padding: 4px;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                font-weight: 600;
+            }
+            .active {
+                background: #ffde91;
+            }
+            p {
+                margin: 0;
+            }
+        }
+    }
+    .membership-options {
+        display: grid;
+        width: 100%;
+        min-height: 60vh;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 2vw;
+        .box {
+            width: 100%;
+            height: 60vh;
+            border-radius: 5px;
+            padding: 15px;
+            button {
+                cursor: pointer;
+                width: 100%;
+                padding: 5px;
+                border-radius: 3px;
+                border: none;
+                font-weight: 600;
+            }
+        }
+        .free-box {
+            background: #cccccc;
+            h5,
+            p,
+            h4 {
+                color: #333;
+                font-size: 120%;
+            }
+            button {
+                background: rgb(230, 230, 230);
+                cursor: not-allowed;
+            }
+        }
+        .basic-box {
+            background: #2c1138;
+            h5,
+            p,
+            h4 {
+                color: white;
+                font-size: 120%;
+            }
+            button {
+                background: #a876f5;
+                color: white;
+            }
+        }
+        .full-box {
+            background: #ffde91;
+            h5,
+            p,
+            h4 {
+                color: #333;
+                font-size: 120%;
+            }
+            button {
+                background: #2c1138;
+                color: white;
+            }
+        }
+    }
+}
