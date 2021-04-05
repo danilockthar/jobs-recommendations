@@ -9,6 +9,7 @@ export interface MembershipViewController {
     timeSub: string;
     company: any;
     changeTimeSubscription: (time: string) => void;
+    getCostumerPortalURL: () => void;
     subscribeTo: (input: InputDto) => void;
     subscriptions: any;
     basic: any;

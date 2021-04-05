@@ -27,4 +27,14 @@ export class APIsubscriptionService implements SubscriptionService {
             throw error;
         }
     }
+    async getCostumerPortal(): Promise<any> {
+        try {
+            const response = await axios.get(process.env.REACT_APP_API_BASE_URL + '/gateway/customer-portal-session', {
+                headers: { Authorization: 'Bearer ' + this.session.getToken() },
+            });
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    }
 }

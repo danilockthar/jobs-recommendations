@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'auth/fragments/register/register.scss';
 import { Button, Form, Input, Radio } from 'antd';
 import { RegisterFragmentProps } from 'auth/fragments/register/interfaces';
 import { useRegisterController } from 'auth/fragments/register/register.controller';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslator } from 'tools/view-hooks/translator-hook';
 
 export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
     const { useController = useRegisterController } = props;
     const controller = useController();
     const { translate } = useTranslator();
+
+    function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    }
+    const query = useQuery();
+    useEffect(() => {
+        if (query.get('invitationCode')) {
+            controller.setQueryURL(query.get('invitationCode') ?? '');
+        }
+    }, [query.get('invitationCode')]);
 
     // Render
     return (
@@ -67,17 +77,28 @@ export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
                     >
                         <Input.Password />
                     </Form.Item>
-
-                    <Form.Item
-                        label={translate({ key: 'auth.role-input-label' })}
-                        name="role"
-                        rules={[{ required: true }]}
-                    >
-                        <Radio.Group>
-                            <Radio.Button value="company">Organización</Radio.Button>
-                            <Radio.Button value="person">Individuo</Radio.Button>
-                        </Radio.Group>
-                    </Form.Item>
+                    {query.get('invitationCode') ? (
+                        <Form.Item
+                            label={translate({ key: 'auth.role-input-label' })}
+                            name="role"
+                            rules={[{ required: true }]}
+                        >
+                            <Radio.Group>
+                                <Radio.Button value="editor">Editor</Radio.Button>
+                            </Radio.Group>
+                        </Form.Item>
+                    ) : (
+                        <Form.Item
+                            label={translate({ key: 'auth.role-input-label' })}
+                            name="role"
+                            rules={[{ required: true }]}
+                        >
+                            <Radio.Group>
+                                <Radio.Button value="company">Organización</Radio.Button>
+                                <Radio.Button value="person">Individuo</Radio.Button>
+                            </Radio.Group>
+                        </Form.Item>
+                    )}
 
                     <Form.Item>
                         <Button type="primary" block={true} htmlType="submit" loading={controller.isLoading}>

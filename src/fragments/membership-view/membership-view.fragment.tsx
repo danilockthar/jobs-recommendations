@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'fragments/membership-view/membership-view.scss';
 import { MembershipViewFragmentProps } from 'fragments/membership-view/interfaces';
 import { useMembershipViewController } from 'fragments/membership-view/membership-view.controller';
@@ -13,13 +13,8 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-
-        // These options are needed to round to whole numbers if that's what you want.
-        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
     });
 
-    console.log(controller.company);
     return (
         <div className={'membership-view'}>
             <div className="select-time-subscription">
@@ -45,13 +40,15 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                 <div className="membership-options">
                     <FlexLoader />
                 </div>
-            ) : controller.subscriptions.length > 0 ? (
+            ) : controller.subscriptions.length > 0 && controller.basic.length > 0 && controller.full.length > 0 ? (
                 controller.timeSub === 'monthly' ? (
                     <div className="membership-options">
                         <div className="box free-box">
                             <h5>Free Plan</h5>
                             <h4> $0</h4>
-                            <button className={`btn-disabled`}>
+                            <button
+                                className={controller.company.subscriptions.length === 0 ? `btn-disabled` : `btn-ok`}
+                            >
                                 {' '}
                                 <CheckOutlined />{' '}
                                 {controller.company.subscriptions.length === 0 ? 'Current Plan' : 'Free Plan'}
@@ -69,20 +66,38 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             </h4>
                             {/* onClick={() => controller.subscribeTo({ priceId: 'price_1IYy5UIKVu1c1nGOGcbJrtl1' })} */}
                             <button
-                                onClick={() =>
-                                    controller.subscribeTo({
-                                        priceId: controller.basic
-                                            .filter((item: any) => item.nickname === 'basic_month')
-                                            .map((sub: any) => sub.id)[0],
-                                        productId: controller.basic
-                                            .filter((item: any) => item.nickname === 'basic_month')
-                                            .map((sub: any) => sub.product.id)[0],
-                                        companyId: controller.company.id,
-                                    })
+                                onClick={() => {
+                                    if (controller.company.subscriptions.length > 0) {
+                                        controller.getCostumerPortalURL();
+                                    } else {
+                                        controller.subscribeTo({
+                                            priceId: controller.basic
+                                                .filter((item: any) => item.nickname === 'basic_month')
+                                                .map((sub: any) => sub.id)[0],
+                                            productId: controller.basic
+                                                .filter((item: any) => item.nickname === 'basic_month')
+                                                .map((sub: any) => sub.product.id)[0],
+                                            companyId: controller.company.id,
+                                        });
+                                    }
+                                }}
+                                className={
+                                    controller.basic
+                                        .filter((item: any) => item.nickname === 'basic_month')
+                                        .map((sub: any) => sub.id)[0] ===
+                                    controller.company.subscriptions.slice().reverse()[0].gatewayPriceId
+                                        ? 'btn-disabled'
+                                        : 'btn-ok'
                                 }
                             >
                                 {' '}
-                                <CheckOutlined /> Upgrade to Team
+                                <CheckOutlined />{' '}
+                                {controller.basic
+                                    .filter((item: any) => item.nickname === 'basic_month')
+                                    .map((sub: any) => sub.id)[0] ===
+                                controller.company.subscriptions.slice().reverse()[0].gatewayPriceId
+                                    ? 'Current Plan'
+                                    : 'Upgrade to Team'}
                             </button>
                         </div>
                         <div className="box full-box">
@@ -96,16 +111,30 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                                 )}{' '}
                             </h4>
                             <button
-                                onClick={() =>
-                                    controller.subscribeTo({
-                                        priceId: controller.full[1].id,
-                                        productId: controller.full[1].product.id,
-                                        companyId: controller.company.id,
-                                    })
+                                onClick={() => {
+                                    if (controller.company.subscriptions.length > 0) {
+                                        controller.getCostumerPortalURL();
+                                    } else {
+                                        controller.subscribeTo({
+                                            priceId: controller.full[1].id,
+                                            productId: controller.full[1].product.id,
+                                            companyId: controller.company.id,
+                                        });
+                                    }
+                                }}
+                                className={
+                                    controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                    controller.full[1].id
+                                        ? 'btn-disabled'
+                                        : 'btn-ok'
                                 }
                             >
                                 {' '}
-                                <CheckOutlined /> Upgrade to Business
+                                <CheckOutlined />
+                                {controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                controller.full[1].id
+                                    ? 'Current Plan'
+                                    : 'Upgrade to Business'}
                             </button>
                         </div>
                     </div>
@@ -132,20 +161,38 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             </h4>
                             {/* onClick={() => controller.subscribeTo({ priceId: 'price_1IYy5UIKVu1c1nGOGcbJrtl1' })} */}
                             <button
-                                onClick={() =>
-                                    controller.subscribeTo({
-                                        priceId: controller.basic
-                                            .filter((item: any) => item.nickname === 'basic_year')
-                                            .map((sub: any) => sub.id)[0],
-                                        productId: controller.basic
-                                            .filter((item: any) => item.nickname === 'basic_year')
-                                            .map((sub: any) => sub.product.id)[0],
-                                        companyId: controller.company.id,
-                                    })
+                                onClick={() => {
+                                    if (controller.company.subscriptions.length > 0) {
+                                        controller.getCostumerPortalURL();
+                                    } else {
+                                        controller.subscribeTo({
+                                            priceId: controller.basic
+                                                .filter((item: any) => item.nickname === 'basic_year')
+                                                .map((sub: any) => sub.id)[0],
+                                            productId: controller.basic
+                                                .filter((item: any) => item.nickname === 'basic_year')
+                                                .map((sub: any) => sub.product.id)[0],
+                                            companyId: controller.company.id,
+                                        });
+                                    }
+                                }}
+                                className={
+                                    controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                    controller.basic
+                                        .filter((item: any) => item.nickname === 'basic_year')
+                                        .map((sub: any) => sub.id)[0]
+                                        ? 'btn-disabled'
+                                        : 'btn-ok'
                                 }
                             >
                                 {' '}
-                                <CheckOutlined /> Upgrade to Team
+                                <CheckOutlined />
+                                {controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                controller.basic
+                                    .filter((item: any) => item.nickname === 'basic_year')
+                                    .map((sub: any) => sub.id)[0]
+                                    ? 'Current Plan'
+                                    : 'Upgrade to Team'}
                             </button>
                         </div>
                         <div className="box full-box">
@@ -159,16 +206,30 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                                 )}{' '}
                             </h4>
                             <button
-                                onClick={() =>
-                                    controller.subscribeTo({
-                                        priceId: controller.full[0].id,
-                                        productId: controller.full[0].product.id,
-                                        companyId: controller.company.id,
-                                    })
+                                onClick={() => {
+                                    if (controller.company.subscriptions.length > 0) {
+                                        controller.getCostumerPortalURL();
+                                    } else {
+                                        controller.subscribeTo({
+                                            priceId: controller.full[0].id,
+                                            productId: controller.full[0].product.id,
+                                            companyId: controller.company.id,
+                                        });
+                                    }
+                                }}
+                                className={
+                                    controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                    controller.full[0].id
+                                        ? 'btn-disabled'
+                                        : 'btn-ok'
                                 }
                             >
                                 {' '}
-                                <CheckOutlined /> Upgrade to Business
+                                <CheckOutlined />{' '}
+                                {controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                controller.full[0].id
+                                    ? 'Current Plan'
+                                    : 'Upgrade tu Business'}
                             </button>
                         </div>
                     </div>

@@ -25,7 +25,6 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
     const [getSession] = useLocalSession();
     const session = getSession();
 
-    console.log(session, 'as');
     const queryparams = useParams();
 
     const AvatarDropdown = (

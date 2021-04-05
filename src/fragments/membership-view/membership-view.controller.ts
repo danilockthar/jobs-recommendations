@@ -49,7 +49,6 @@ MembershipViewController => {
                             }
                         })
                         .catch((e) => {
-                            console.log(e, 'error');
                             messenger.showErrorMessage({ key: e.message });
                         });
                 } else {
@@ -72,11 +71,24 @@ MembershipViewController => {
             });
     };
 
+    const getCostumerPortalURL = async () => {
+        subscribptionService
+            .getCostumerPortal()
+            .then((output) => {
+                if (output && output.url) {
+                    window.location.href = output.url;
+                }
+            })
+            .catch((err) => {
+                messenger.showErrorMessage({
+                    key: err.message,
+                });
+            });
+    };
+
     const subscribeTo = async (input: InputDto) => {
-        console.log(input, 'inpt');
         const stripe = await stripePromise;
         const response = await subscribptionService.getCheckoutSessionId(input);
-        console.log(response, 'rsp');
 
         if (response && response.sessionId) {
             if (stripe !== null) {
@@ -121,5 +133,15 @@ MembershipViewController => {
     //Ex. const increaseCount = () => {}
 
     // Return state and events
-    return { timeSub, changeTimeSubscription, subscribeTo, subscriptions, isLoaderVisible, basic, full, company };
+    return {
+        timeSub,
+        changeTimeSubscription,
+        subscribeTo,
+        subscriptions,
+        isLoaderVisible,
+        basic,
+        full,
+        company,
+        getCostumerPortalURL,
+    };
 };

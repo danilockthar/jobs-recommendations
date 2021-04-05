@@ -11,6 +11,7 @@ export const useRegisterController = (
 ): RegisterController => {
     /* State */
     const [isLoading, setIsLoading] = useState(false);
+    const [queryInvite, setQueryInvite] = useState('');
     const history = useHistory();
     const location = useLocation();
     const { from } = (location.state as { from: any }) || { from: { pathname: '/' } };
@@ -19,12 +20,18 @@ export const useRegisterController = (
     // Ex. useEffect(() => { onSessionUpdate(); }, [session]);
 
     /* View Events */
+    const setQueryURL = (query: string) => {
+        setQueryInvite(query);
+    };
     const onRegisterSubmit = (formInputs: unknown) => {
         setIsLoading(true);
         const input = plainToClass(RegisterInput, formInputs);
         const roleInput = parseRoleInput(formInputs);
         if (roleInput) {
             input.roles = [roleInput];
+        }
+        if (queryInvite.length > 5) {
+            input.invitationCode = queryInvite;
         }
         authService
             .register(input)
@@ -54,5 +61,5 @@ export const useRegisterController = (
     };
 
     // Return state and events
-    return { isLoading, onRegisterSubmit };
+    return { isLoading, onRegisterSubmit, setQueryURL };
 };

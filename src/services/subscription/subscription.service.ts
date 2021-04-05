@@ -10,6 +10,7 @@ export interface InputDto {
 export interface SubscriptionService {
     getCheckoutSessionId(input: InputDto): Promise<any>;
     getStripeProducts(): Promise<any>;
+    getCostumerPortal(): Promise<any>;
 }
 export const useAPIsubscriptionService = (): SubscriptionService => {
     const [getSession, setSession] = useLocalSession();

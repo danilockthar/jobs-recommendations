@@ -3,6 +3,7 @@ import { ApiAuthService } from 'auth/services/auth/api-auth.service';
 
 export enum Role {
     Person = 'person',
+    Editor = 'editor',
     Company = 'company',
 }
 export class UserDto {
@@ -28,6 +29,7 @@ export class RegisterInput {
         public username: string,
         public password: string,
         public roles: Role[],
+        public invitationCode?: string,
     ) {}
 }
 export class LoginInput {
