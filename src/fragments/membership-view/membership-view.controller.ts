@@ -18,7 +18,7 @@ MembershipViewController => {
     const [example, setExample] = useState('example');
     const [timeSub, setTimeSub] = useState('monthly');
     const [companyID, setCompanyID] = useState<number>(0);
-    const [company, setCompany] = useState({});
+    const [company, setCompany] = useState<any>({ subscriptions: [] });
     const [basic, setBasic] = useState([]);
     const [full, setFull] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
@@ -34,6 +34,7 @@ MembershipViewController => {
             .getCompany()
             .then((output) => {
                 if (output.id) {
+                    console.log(output, 'id');
                     setCompany(output);
                     subscribptionService
                         .getStripeProducts()
