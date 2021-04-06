@@ -23,4 +23,14 @@ export class ApiCompanyService implements CompanyService {
 
         return response.data;
     }
+
+    async deleteCompanyEditor(id: number): Promise<any> {
+        const response = await axios.delete(process.env.REACT_APP_API_BASE_URL + '/editor/' + id, {
+            headers: { Authorization: 'Bearer ' + this.session.getToken() },
+        });
+
+        // return plainToClass(CompanyDto, response.data);
+
+        return response.data;
+    }
 }

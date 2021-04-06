@@ -10,6 +10,7 @@ export class CompanyDto {
 export interface CompanyService {
     getCompany(): Promise<CompanyDto>;
     createCompany(input: CompanyDto): Promise<CompanyDto>;
+    deleteCompanyEditor(id: number): Promise<any>;
 }
 
 export const useAPICompanyService = (): CompanyService => {

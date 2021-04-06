@@ -34,24 +34,7 @@ MembershipViewController => {
             .getCompany()
             .then((output) => {
                 if (output.id) {
-                    console.log(output, 'id');
                     setCompany(output);
-                    subscribptionService
-                        .getStripeProducts()
-                        .then((output) => {
-                            if (output && output.data && output.data.length > 0) {
-                                setSubscriptions(
-                                    output.data.filter(
-                                        (item: any) => item.product.name === 'basic' || item.product.name === 'full',
-                                    ),
-                                );
-                                setBasic(output.data.filter((item: any) => item.product.name === 'basic'));
-                                setFull(output.data.filter((item: any) => item.product.name === 'full'));
-                            }
-                        })
-                        .catch((e) => {
-                            messenger.showErrorMessage({ key: e.message });
-                        });
                 } else {
                     messenger.showErrorMessage({
                         key: 'Error al obtener datos de la organización.',
@@ -66,9 +49,23 @@ MembershipViewController => {
                 }
             })
             .finally(() => {
-                setTimeout(() => {
-                    setIsLoaderVisible(false);
-                }, 500);
+                subscribptionService
+                    .getStripeProducts()
+                    .then((output) => {
+                        if (output && output.data && output.data.length > 0) {
+                            setSubscriptions(
+                                output.data.filter(
+                                    (item: any) => item.product.name === 'basic' || item.product.name === 'full',
+                                ),
+                            );
+                            setBasic(output.data.filter((item: any) => item.product.name === 'basic'));
+                            setFull(output.data.filter((item: any) => item.product.name === 'full'));
+                        }
+                    })
+                    .catch((e) => {
+                        messenger.showErrorMessage({ key: e.message });
+                    });
+                setIsLoaderVisible(false);
             });
     };
 

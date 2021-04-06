@@ -4,7 +4,7 @@ import { Form, Modal, Typography } from 'antd';
 import { FormInstance, FormProps } from 'antd/lib/form';
 
 export interface ModalFormProps<Values = []> extends FormProps {
-    form: FormInstance<Values>;
+    form?: FormInstance<Values>;
     isVisible: boolean;
     isLoading: boolean;
     title?: string;
@@ -24,7 +24,7 @@ const ModalForm: React.FC<ModalFormProps> = (props) => {
             closable={!props.isLoading}
             maskClosable={!props.isLoading}
             onCancel={props.onCancel}
-            onOk={props.form.submit}
+            onOk={props.form?.submit}
             okText={props.okText}
         >
             {props.title ? (

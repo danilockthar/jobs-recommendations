@@ -12,10 +12,30 @@ export const useTeamFragmentController = (
 TeamFragmentController => {
     const [isLoaderVisible, setIsLoaderVisible] = useState(false);
     const [company, setCompany] = useState<any>({ editors: [] });
+    const [dataSource, setDataSource] = useState<any>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const data: any[] = [];
+        console.log(company.editors, 'editors:');
+        if (company.editors.length > 0) {
+            company.editors.map((item: any, index: any) =>
+                data.push({
+                    key: index,
+                    id: item.id,
+                    name: item.firstName,
+                    lastname: item.lastName,
+                    email: item.lastName,
+                }),
+            );
+            setDataSource(data);
+        }
+    }, [company.editors]);
 
     const fetchData = () => {
         setIsLoaderVisible(true);
@@ -41,8 +61,26 @@ TeamFragmentController => {
                 setIsLoaderVisible(false);
             });
     };
-    const onButtonPressed = () => {
-        // Example event
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
     };
-    return { isLoaderVisible, company };
+
+    const deleteEditor = async (id: number) => {
+        setIsLoading(true);
+        companyService
+            .deleteCompanyEditor(id)
+            .then((output) => {
+                setDataSource((prevstate: any) => prevstate.filter((item: any) => item.id !== id));
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 200);
+            });
+    };
+
+    return { isLoaderVisible, company, dataSource, deleteEditor, isLoading, isModalOpen, toggleModal };
 };
