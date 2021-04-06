@@ -9,6 +9,8 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
     const { useController = useTeamFragmentController } = props;
     const controller = useController();
 
+    console.log(controller.company, 'company');
+
     const deleteUser = (name: string) => {
         console.log('deleted: ', name);
     };

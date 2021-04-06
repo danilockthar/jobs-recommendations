@@ -15,8 +15,6 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
         currency: 'USD',
     });
 
-    console.log(controller.company, 'comp');
-
     return (
         <div className={'membership-view'}>
             <div className="select-time-subscription">

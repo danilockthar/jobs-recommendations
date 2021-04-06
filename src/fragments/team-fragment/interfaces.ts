@@ -1,8 +1,8 @@
 export interface TeamFragmentController {
     /* State */
-    example: string;
     /* Events */
-    onButtonPressed: () => void;
+    isLoaderVisible: boolean;
+    company: any;
 }
 
 export interface TeamFragmentFragmentProps {

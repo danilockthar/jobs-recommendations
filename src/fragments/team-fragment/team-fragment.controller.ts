@@ -1,24 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TeamFragmentController } from 'fragments/team-fragment/interfaces';
+import { useAPIsubscriptionService } from 'services/subscription/subscription.service';
+import { useAPICompanyService } from 'services/company/company.service';
+import { useMessenger } from 'tools/view-hooks/messenger-hook';
 
-export const useTeamFragmentController = (): /* <--Dependency Injections  like services hooks */
+export const useTeamFragmentController = (
+    subscribptionService = useAPIsubscriptionService(),
+    companyService = useAPICompanyService(),
+    messenger = useMessenger(),
+): /* <--Dependency Injections  like services hooks */
 TeamFragmentController => {
-    /* State */
-    // Ex. const [count, setCount] = useState(0);
-    const [example, setExample] = useState('example');
+    const [isLoaderVisible, setIsLoaderVisible] = useState(false);
+    const [company, setCompany] = useState<any>({ editors: [] });
 
-    /* Listeners */
-    // Ex. useEffect(() => { onSessionUpdate(); }, [session]);
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-    /* View Events */
-    //Ex. const onIncreaseButtonPressed = () => {}
+    const fetchData = () => {
+        setIsLoaderVisible(true);
+        companyService
+            .getCompany()
+            .then((output) => {
+                if (output.id) {
+                    setCompany(output);
+                } else {
+                    messenger.showErrorMessage({
+                        key: 'Error al obtener datos de la organización.',
+                    });
+                }
+            })
+            .catch((err) => {
+                if (err.response.status === 404) {
+                    messenger.showErrorMessage({
+                        key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
+                    });
+                }
+            })
+            .finally(() => {
+                setIsLoaderVisible(false);
+            });
+    };
     const onButtonPressed = () => {
         // Example event
     };
-
-    /* Private Methods */
-    //Ex. const increaseCount = () => {}
-
-    // Return state and events
-    return { example, onButtonPressed };
+    return { isLoaderVisible, company };
 };
