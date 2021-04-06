@@ -46,7 +46,10 @@ export const useOffersListController = (
                     setError({ exist: true, message: 'Aún no hay ofertas de trabajo disponibles.' });
                 }
             })
-            .catch(() => {
+            .catch((err) => {
+                if (err.response.status === 404) {
+                    console.log(err.response);
+                }
                 setError({ exist: true, message: 'Something went wrong' });
             })
             .finally(() => {

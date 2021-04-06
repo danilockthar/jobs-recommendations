@@ -22,7 +22,6 @@ TeamFragmentController => {
 
     useEffect(() => {
         const data: any[] = [];
-        console.log(company.editors, 'editors:');
         if (company.editors.length > 0) {
             company.editors.map((item: any, index: any) =>
                 data.push({
@@ -76,9 +75,7 @@ TeamFragmentController => {
                 console.log(err);
             })
             .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 200);
+                setIsLoading(false);
             });
     };
 
