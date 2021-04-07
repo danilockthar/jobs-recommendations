@@ -6,10 +6,16 @@ import { Table, Tag, Space } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
 import ModalForm from 'components/modal-form/modal-form.component';
+import { Typography } from 'antd';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import Modal from 'antd/lib/modal/Modal';
 
 export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props) => {
     const { useController = useTeamFragmentController } = props;
     const controller = useController();
+
+    const { Title, Paragraph, Text, Link } = Typography;
 
     const columns = [
         {
@@ -38,7 +44,7 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
             render: function deleteItem(record: any) {
                 return (
                     <Space size="middle">
-                        <a onClick={() => controller.deleteEditor(record.id)}>
+                        <a onClick={() => controller.confirmEditor(record.id, record.email)}>
                             <DeleteOutlined />
                         </a>
                     </Space>
@@ -56,16 +62,31 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
                 onCancel={controller.toggleModal}
                 onFinish={controller.toggleModal}
             >
-                <input
-                    className={'input-modal-invite'}
-                    disabled
-                    value={`http://localhost:9000/register?invitationCode=${controller.company.invitationCode}`}
-                />
+                <Typography>
+                    <Paragraph
+                        className={'input-modal-invite'}
+                        copyable
+                    >{`http://localhost:9000/register?invitationCode=${controller.company.invitationCode}`}</Paragraph>
+                </Typography>
                 <p>
                     Comparte este link con con aquellas personas que desees invitar. Pasaran a ser parte de de tu equipo
                     automáticamente después de registrarse en FunkeyUp.
                 </p>
             </ModalForm>
+            <Modal
+                className={'as'}
+                centered
+                visible={controller.isModalDeleteOpen}
+                cancelButtonProps={{ disabled: false }}
+                okButtonProps={{ loading: false }}
+                closable={true}
+                maskClosable={true}
+                onCancel={controller.closeDeleteModal}
+                onOk={() => controller.deleteEditor(controller.editor.id, controller.editor.email)}
+                okText={controller.isModalLoading ? <LoadingOutlined style={{ fontSize: 24 }} spin /> : 'Aceptar'}
+            >
+                <Paragraph> {`¿Desea eliminar a ${controller.editor.email}?`}</Paragraph>
+            </Modal>
             <h2> Equipo</h2>
             <p>Lorep ipsum dolor sit amet, conse</p>
             <button className={'invite-button-modal'} onClick={controller.toggleModal}>

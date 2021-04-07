@@ -15,6 +15,9 @@ TeamFragmentController => {
     const [dataSource, setDataSource] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalDeleteOpen, setisModalDeleteOpen] = useState(false);
+    const [isModalLoading, setIsModalLoading] = useState(false);
+    const [editor, setEditor] = useState({ id: 0, email: '' });
 
     useEffect(() => {
         fetchData();
@@ -29,7 +32,7 @@ TeamFragmentController => {
                     id: item.id,
                     name: item.firstName,
                     lastname: item.lastName,
-                    email: item.lastName,
+                    email: item.email,
                 }),
             );
             setDataSource(data);
@@ -64,8 +67,17 @@ TeamFragmentController => {
         setIsModalOpen(!isModalOpen);
     };
 
-    const deleteEditor = async (id: number) => {
-        setIsLoading(true);
+    const confirmEditor = (id: number, email: string) => {
+        setEditor({ id, email });
+        setisModalDeleteOpen(true);
+    };
+
+    const closeDeleteModal = () => {
+        setisModalDeleteOpen(false);
+    };
+
+    const deleteEditor = async (id: number, email: string) => {
+        setIsModalLoading(true);
         companyService
             .deleteCompanyEditor(id)
             .then((output) => {
@@ -75,9 +87,23 @@ TeamFragmentController => {
                 console.log(err);
             })
             .finally(() => {
-                setIsLoading(false);
+                setIsModalLoading(false);
+                setisModalDeleteOpen(false);
             });
     };
 
-    return { isLoaderVisible, company, dataSource, deleteEditor, isLoading, isModalOpen, toggleModal };
+    return {
+        isLoaderVisible,
+        company,
+        dataSource,
+        deleteEditor,
+        confirmEditor,
+        isLoading,
+        isModalLoading,
+        isModalOpen,
+        isModalDeleteOpen,
+        closeDeleteModal,
+        toggleModal,
+        editor,
+    };
 };
