@@ -42,7 +42,7 @@ export const useCompanyOffersController = (
             .then((output) => {
                 if (output.length == 0) {
                     setErrorExist(true);
-                    setErrorMessage('Aún no hay trabajos.');
+                    setErrorMessage('Aún no hay trabajos cargados.');
                     // setActiveKey(output[0].jobId);
                 } else {
                     setErrorExist(false);

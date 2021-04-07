@@ -47,10 +47,17 @@ export const useOffersListController = (
                 }
             })
             .catch((err) => {
-                if (err.response.status === 404) {
-                    console.log(err.response);
+                switch (err.response.status) {
+                    case 409:
+                        setError({ exist: true, message: 'Conecte su perfil de LinkedIn.' });
+                        break;
+                    case 404:
+                        setError({ exist: true, message: 'No hay trabajos disponibles.' });
+                        break;
+                    default:
+                        setError({ exist: true, message: 'Algo salió mal, intente nuevamente.' });
+                        break;
                 }
-                setError({ exist: true, message: 'Something went wrong' });
             })
             .finally(() => {
                 setIsLoaderVisible(false);

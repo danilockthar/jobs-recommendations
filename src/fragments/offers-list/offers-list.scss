@@ -165,6 +165,13 @@
 .error-message {
     height: 100%;
     display: grid;
+    position: relative;
+    h2 {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 .modal-referred-success {
     p {
