@@ -3,6 +3,8 @@ import { TeamFragmentController } from 'fragments/team-fragment/interfaces';
 import { useAPIsubscriptionService } from 'services/subscription/subscription.service';
 import { useAPICompanyService } from 'services/company/company.service';
 import { useMessenger } from 'tools/view-hooks/messenger-hook';
+import { message } from 'antd';
+import { AxiosError } from 'axios';
 
 export const useTeamFragmentController = (
     subscribptionService = useAPIsubscriptionService(),
@@ -18,6 +20,7 @@ TeamFragmentController => {
     const [isModalDeleteOpen, setisModalDeleteOpen] = useState(false);
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [editor, setEditor] = useState({ id: 0, email: '' });
+    const [emailToInvitate, setEmailToInvitate] = useState('');
 
     useEffect(() => {
         fetchData();
@@ -72,7 +75,9 @@ TeamFragmentController => {
             });
     };
     const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
+        if (!isModalLoading) {
+            setIsModalOpen(!isModalOpen);
+        }
     };
 
     const confirmEditor = (id: number, email: string) => {
@@ -101,12 +106,42 @@ TeamFragmentController => {
             });
     };
 
+    const sendInvitationEditor = () => {
+        setIsModalLoading(true);
+        companyService
+            .sendInvitationEditor(emailToInvitate)
+            .then((_) => {
+                setIsModalLoading(false);
+                setIsModalOpen(false);
+                messenger.showSuccessMessage({ key: 'Invitado correctamente!' });
+            })
+            .catch((err: AxiosError) => {
+                setIsModalLoading(false);
+                setIsModalOpen(false);
+                switch (err.response?.status) {
+                    case 500:
+                        messenger.showErrorMessage({ key: 'Ha ocurrido un error inesperado' });
+                        break;
+
+                    default:
+                        messenger.showErrorMessage({ key: err.response?.data?.message });
+                }
+            });
+    };
+
+    const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmailToInvitate(e.target.value);
+    };
+
     return {
         isLoaderVisible,
         company,
         dataSource,
         deleteEditor,
         confirmEditor,
+        onChangeEmail,
+        emailToInvitate,
+        sendInvitationEditor,
         isLoading,
         isModalLoading,
         isModalOpen,

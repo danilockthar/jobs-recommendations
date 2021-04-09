@@ -19,6 +19,7 @@ MembershipViewController => {
     const [timeSub, setTimeSub] = useState('monthly');
     const [companyID, setCompanyID] = useState<number>(0);
     const [company, setCompany] = useState<any>({ subscriptions: [] });
+    const [emailToInvitate, setEmailToInvitate] = useState('');
     const [basic, setBasic] = useState([]);
     const [full, setFull] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);

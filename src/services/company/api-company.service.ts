@@ -1,6 +1,6 @@
 import { CompanyDto, CompanyService } from 'services/company/company.service';
 import { Session } from 'auth/models/session';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { plainToClass } from 'class-transformer';
 
 export class ApiCompanyService implements CompanyService {
@@ -32,5 +32,13 @@ export class ApiCompanyService implements CompanyService {
         // return plainToClass(CompanyDto, response.data);
 
         return response.data;
+    }
+
+    async sendInvitationEditor(email: string): Promise<AxiosResponse<any>> {
+        return await axios.post(
+            process.env.REACT_APP_API_BASE_URL + '/editor/invitation',
+            { email },
+            { headers: { Authorization: 'Bearer ' + this.session.getToken() } },
+        );
     }
 }

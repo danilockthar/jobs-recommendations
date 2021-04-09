@@ -3,7 +3,7 @@ import 'fragments/team-fragment/team-fragment.scss';
 import { TeamFragmentFragmentProps } from 'fragments/team-fragment/interfaces';
 import { Link } from 'react-router-dom';
 import { useTeamFragmentController } from 'fragments/team-fragment/team-fragment.controller';
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Space, Input, Divider, Button, Form } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
 import ModalForm from 'components/modal-form/modal-form.component';
@@ -56,13 +56,43 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
 
     return (
         <div className={'team-fragment'}>
-            <ModalForm
-                title="Invita a tu equipo"
-                isVisible={controller.isModalOpen}
-                isLoading={false}
+            <Modal
+                onOk={controller.toggleModal}
                 onCancel={controller.toggleModal}
-                onFinish={controller.toggleModal}
+                visible={controller.isModalOpen}
+                footer={null}
+                title="Invita a tu equipo"
             >
+                <Form initialValues={{ remember: true }} onFinish={(_) => controller.sendInvitationEditor()}>
+                    <Form.Item
+                        rules={[
+                            {
+                                type: 'email',
+                                message: 'The input is not valid E-mail!',
+                            },
+                            {
+                                required: true,
+                                message: 'Please input your E-mail!',
+                            },
+                        ]}
+                    >
+                        <label>Email</label>
+                        <Input
+                            onChange={(e) => controller.onChangeEmail(e)}
+                            required
+                            type="email"
+                            placeholder="Ingresa el email de quien quieres invitar"
+                            name="email"
+                        />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button loading={controller.isModalLoading} type="primary" htmlType="submit">
+                            {' '}
+                            Invitar{' '}
+                        </Button>
+                    </Form.Item>
+                </Form>
+                <Divider />
                 <Typography>
                     <Paragraph
                         className={'input-modal-invite'}
@@ -73,7 +103,7 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
                     Comparte este link con con aquellas personas que desees invitar. Pasaran a ser parte de de tu equipo
                     automáticamente después de registrarse en FunkeyUp.
                 </p>
-            </ModalForm>
+            </Modal>
             <Modal
                 className={'as'}
                 centered

@@ -15,6 +15,9 @@ export interface TeamFragmentController {
     confirmEditor: (id: number, email: string) => void;
     closeDeleteModal: () => void;
     toggleModal: () => void;
+    emailToInvitate: string;
+    onChangeEmail: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    sendInvitationEditor: () => void;
     isModalOpen: boolean;
     isModalLoading: boolean;
     isModalDeleteOpen: boolean;

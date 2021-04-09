@@ -11,11 +11,13 @@ export interface ModalFormProps<Values = []> extends FormProps {
     onFinish?: (inputs: unknown) => void;
     onCancel?: () => void;
     okText?: string;
+    footer?: React.ReactNode;
 }
 
 const ModalForm: React.FC<ModalFormProps> = (props) => {
     return (
         <Modal
+            footer={props.footer}
             className={props.className}
             centered
             visible={props.isVisible}

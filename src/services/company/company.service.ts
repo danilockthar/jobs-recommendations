@@ -1,4 +1,5 @@
 import { useLocalSession } from 'auth/helpers/session.hooks';
+import { AxiosResponse } from 'axios';
 import { ApiCompanyService } from 'services/company/api-company.service';
 
 export class CompanyDto {
@@ -11,6 +12,7 @@ export interface CompanyService {
     getCompany(): Promise<CompanyDto>;
     createCompany(input: CompanyDto): Promise<CompanyDto>;
     deleteCompanyEditor(id: number): Promise<any>;
+    sendInvitationEditor(email: string): Promise<AxiosResponse<any>>;
 }
 
 export const useAPICompanyService = (): CompanyService => {
