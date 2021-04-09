@@ -20,7 +20,7 @@ TeamFragmentController => {
     const [isModalDeleteOpen, setisModalDeleteOpen] = useState(false);
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [editor, setEditor] = useState({ id: 0, email: '' });
-    const [emailToInvitate, setEmailToInvitate] = useState('');
+    const [emailToInvitate, setEmailToInvitate] = useState({ value: '', error: '' });
 
     useEffect(() => {
         fetchData();
@@ -109,7 +109,7 @@ TeamFragmentController => {
     const sendInvitationEditor = () => {
         setIsModalLoading(true);
         companyService
-            .sendInvitationEditor(emailToInvitate)
+            .sendInvitationEditor(emailToInvitate.value)
             .then((_) => {
                 setIsModalLoading(false);
                 setIsModalOpen(false);
@@ -130,7 +130,12 @@ TeamFragmentController => {
     };
 
     const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmailToInvitate(e.target.value);
+        const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!regex.test(e.target.value)) {
+            setEmailToInvitate({ value: e.target.value, error: 'Invalido!' });
+        } else {
+            setEmailToInvitate({ value: e.target.value, error: '' });
+        }
     };
 
     return {

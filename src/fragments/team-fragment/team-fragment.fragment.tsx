@@ -65,16 +65,14 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
             >
                 <Form initialValues={{ remember: true }} onFinish={(_) => controller.sendInvitationEditor()}>
                     <Form.Item
-                        rules={[
-                            {
-                                type: 'email',
-                                message: 'The input is not valid E-mail!',
-                            },
-                            {
-                                required: true,
-                                message: 'Please input your E-mail!',
-                            },
-                        ]}
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}
+                        validateStatus={controller.emailToInvitate.error ? 'error' : 'success'}
+                        hasFeedback={controller.emailToInvitate.error ? true : false}
+                        help={
+                            controller.emailToInvitate.error ? (
+                                <p style={{ color: 'red' }}> {controller.emailToInvitate.error} </p>
+                            ) : null
+                        }
                     >
                         <label>Email</label>
                         <Input
