@@ -19,6 +19,7 @@ export interface LinkedInService {
     importLinkedInJobs(input: ImportLinkedInJobsInput): Promise<LinkedInJobDto[]>;
     findLinkedInJobs(): Promise<LinkedInJobDto[]>;
     getOneJobByID(id: number): Promise<LinkedInJobDto>;
+    editJobsStatus(id: string[], action: string): Promise<any>;
 }
 
 export const useAPILinkedInService = (): LinkedInService => {

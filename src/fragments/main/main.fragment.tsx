@@ -6,6 +6,7 @@ import { PersonNavigator } from 'navigators/person-navigator';
 import { useLocalSession } from 'auth/helpers/session.hooks';
 import { Role } from 'auth/services/auth/auth.service';
 import { CompanyNavigator } from 'navigators/company-navigator';
+import { EditorNavigator } from 'navigators/editor-navigator';
 
 export const MainFragment: React.FC<MainFragmentProps> = (props) => {
     const { useController = useMainController } = props;
@@ -15,5 +16,15 @@ export const MainFragment: React.FC<MainFragmentProps> = (props) => {
     const currentRole = session.getUser()?.roles[0];
 
     // Render
-    return <div className={'main'}>{currentRole == Role.Company ? <CompanyNavigator /> : <PersonNavigator />}</div>;
+    return (
+        <div className={'main'}>
+            {currentRole == Role.Company ? (
+                <CompanyNavigator />
+            ) : currentRole == Role.Editor ? (
+                <EditorNavigator />
+            ) : (
+                <PersonNavigator />
+            )}
+        </div>
+    );
 };

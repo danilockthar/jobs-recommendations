@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import 'fragments/team-fragment/team-fragment.scss';
 import { TeamFragmentFragmentProps } from 'fragments/team-fragment/interfaces';
+import { Link } from 'react-router-dom';
 import { useTeamFragmentController } from 'fragments/team-fragment/team-fragment.controller';
 import { Table, Tag, Space } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
@@ -8,14 +9,14 @@ import FlexLoader from 'components/flex-loader/flex-loader.component';
 import ModalForm from 'components/modal-form/modal-form.component';
 import { Typography } from 'antd';
 import { Spin } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, LockOutlined } from '@ant-design/icons';
 import Modal from 'antd/lib/modal/Modal';
 
 export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props) => {
     const { useController = useTeamFragmentController } = props;
     const controller = useController();
 
-    const { Title, Paragraph, Text, Link } = Typography;
+    const { Title, Paragraph, Text } = Typography;
 
     const columns = [
         {
@@ -83,17 +84,36 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
                 maskClosable={true}
                 onCancel={controller.closeDeleteModal}
                 onOk={() => controller.deleteEditor(controller.editor.id, controller.editor.email)}
-                okText={controller.isModalLoading ? <LoadingOutlined style={{ fontSize: 24 }} spin /> : 'Aceptar'}
+                okText={controller.isModalLoading ? <LoadingOutlined style={{ fontSize: 15 }} spin /> : 'Aceptar'}
             >
                 <Paragraph> {`¿Desea eliminar a ${controller.editor.email}?`}</Paragraph>
             </Modal>
-            <h2> Equipo</h2>
-            <p>Lorep ipsum dolor sit amet, conse</p>
-            <button className={'invite-button-modal'} onClick={controller.toggleModal}>
-                {' '}
-                Invitar{' '}
-            </button>
-            {controller.isLoading ? <FlexLoader /> : <Table dataSource={controller.dataSource} columns={columns} />}
+
+            {(controller.company && controller.company.subscriptions?.length === 0) ||
+            (controller.company && controller.company.subscriptions?.slice().reverse()[0]?.status === 'canceled') ? (
+                <h2 className="lock-view">
+                    {' '}
+                    <LockOutlined style={{ fontSize: '30px', color: '#08c' }} /> Para poder usar las funciones de equipo
+                    debe solicitar una membresía.
+                    <Link to="/subscriptions">
+                        <button> Ir a membresías</button>
+                    </Link>
+                </h2>
+            ) : (
+                <>
+                    <h2> Equipo</h2>
+                    <p>Lorep ipsum dolor sit amet, conse</p>
+                    <button className={'invite-button-modal'} onClick={controller.toggleModal}>
+                        {' '}
+                        Invitar{' '}
+                    </button>
+                    {controller.isLoading ? (
+                        <FlexLoader />
+                    ) : (
+                        <Table dataSource={controller.dataSource} columns={columns} />
+                    )}
+                </>
+            )}
         </div>
     );
 };

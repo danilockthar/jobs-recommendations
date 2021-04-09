@@ -53,10 +53,18 @@ TeamFragmentController => {
                 }
             })
             .catch((err) => {
-                if (err.response.status === 404) {
-                    messenger.showErrorMessage({
-                        key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
-                    });
+                switch (err.response.status) {
+                    case 404:
+                        messenger.showErrorMessage({
+                            key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
+                        });
+                        break;
+                    case 401:
+                        setCompany(err.response.data.company);
+                        break;
+
+                    default:
+                        break;
                 }
             })
             .finally(() => {
@@ -82,6 +90,7 @@ TeamFragmentController => {
             .deleteCompanyEditor(id)
             .then((output) => {
                 setDataSource((prevstate: any) => prevstate.filter((item: any) => item.id !== id));
+                messenger.showSuccessMessage({ key: 'Se ha eliminado un editor correctamente.' });
             })
             .catch((err) => {
                 console.log(err);

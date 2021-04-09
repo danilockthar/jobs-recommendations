@@ -3,6 +3,11 @@
     /* First component block */
     width: 100%;
     justify-self: center;
+    .filter-wrapper {
+        p {
+            display: inline-block;
+        }
+    }
     .offers-collapse-container {
         width: 100%;
         min-height: 50vh;
@@ -106,7 +111,7 @@
         display: grid;
         align-items: center;
         transition: 0.3s;
-        grid-template-columns: 60px 1fr 35px;
+        grid-template-columns: 30px 60px 1fr 35px;
         padding: 10px;
         background: $LIGHT_WHITE;
         img {
@@ -131,7 +136,7 @@
         display: grid;
         align-items: center;
         transition: 0.3s;
-        grid-template-columns: 60px 1fr 35px;
+        grid-template-columns: 30px 60px 1fr 35px;
         padding: 10px;
         img {
             width: 50px;

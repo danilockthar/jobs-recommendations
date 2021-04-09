@@ -52,7 +52,7 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
                 onFinish={controller.onImportJobsSubmitted}
             ></ModalForm> */}
             <Card style={{ width: '100%', borderRadius: '10px', textAlign: 'center', border: '1px solid #d4d4d4' }}>
-                <h2>{'Compania'}</h2>
+                <h2>{'Organización'}</h2>
                 {controller.isLoaderVisible ? (
                     <FlexLoader />
                 ) : (

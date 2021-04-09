@@ -7,6 +7,7 @@ export class LinkedInJobDto {
     date?: string; //YYYY-MM-DD
     link?: string;
     applyLink?: string;
+    status?: string;
     industries?: string;
     description?: string;
     descriptionHTML?: string;

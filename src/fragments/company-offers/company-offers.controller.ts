@@ -5,13 +5,19 @@ import { useMessenger } from 'tools/view-hooks/messenger-hook';
 import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
 import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 import { LinkedInJobsContext } from 'services/linkedin/linked-in-jobs.context';
+import { useAPICompanyService } from 'services/company/company.service';
 
 export const useCompanyOffersController = (
     messenger = useMessenger(),
     linkedInService = useAPILinkedInService(),
+    companyService = useAPICompanyService(),
 ): CompanyOffersController => {
+    const [isLoading, setIsLoading] = useState(false);
     const [jobsViewModels, setJobsViewModels] = useState<JobOfferViewModel[]>([]);
     const [activeKey, setActiveKey] = useState('');
+    const [filter, setFilter] = useState('ALL');
+    const [action, setAction] = useState('PUBLISH');
+    const [checkedID, setCheckedID] = useState<string[]>([]);
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [errorExist, setErrorExist] = useState(true);
@@ -33,6 +39,83 @@ export const useCompanyOffersController = (
 
     const setNewCollapseKey = (key: string) => {
         setActiveKey(key);
+    };
+
+    const changeJobStatus = async (action: string) => {
+        setIsLoaderVisible(true);
+        if (checkedID.length > 0) {
+            console.log('entra');
+            linkedInService
+                .editJobsStatus(checkedID, action)
+                .then((output) => {
+                    const jobcopy = [...jobsViewModels];
+                    console.log(jobcopy, 'copy');
+                    const newArr = jobcopy.map((item) => {
+                        checkedID.map((ite, index) => {
+                            if (item.id === ite) {
+                                console.log('EQUAL: ', item.id, ite);
+                                switch (action) {
+                                    case 'PUBLISH':
+                                        item.status = 'PUBLIC';
+                                        break;
+                                    default:
+                                        item.status = 'HIDDEN';
+                                        break;
+                                }
+                            }
+                            return ite;
+                        });
+                        return item;
+                    });
+                    setCheckedID([]);
+                    setJobsViewModels(newArr);
+                    // setJobsViewModels((prev) => {
+                    //     prev.map((item) => {
+                    //         checkedID.map((ite, index) => {
+                    //             if (item.id === ite) {
+                    //                 switch (item.status) {
+                    //                     case 'PUBLIC':
+                    //                         item.status = 'HIDDEN';
+                    //                         break;
+                    //                     default:
+                    //                         item.status = 'PUBLIC';
+                    //                         break;
+                    //                 }
+                    //             }
+                    //             return ite;
+                    //         });
+                    //         return item;
+                    //     });
+                    //     return prev;
+                    // });
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+                .finally(() => {
+                    setIsLoaderVisible(false);
+                });
+        } else {
+            setIsLoaderVisible(false);
+        }
+    };
+
+    const handleSelect = (value: any) => {
+        if (value === 'PUBLISHED' || value === 'HIDDEN' || value === 'ALL') {
+            setFilter(value);
+        } else {
+            setAction(value);
+        }
+        console.log(`selected ${value}`);
+    };
+
+    const handleCheckbox = (e: any) => {
+        if (checkedID.includes(e.target.value)) {
+            setCheckedID((prev) => prev.filter((item) => item !== e.target.value));
+        } else {
+            setCheckedID((prev) => [...prev, e.target.value]);
+        }
+        console.log(`checked = ${e.target.checked}`);
     };
 
     const fetchData = () => {
@@ -73,7 +156,7 @@ export const useCompanyOffersController = (
             jobTitle: dto.title ?? '',
             logo: '',
             relevanceIndex: 0,
-            status: false,
+            status: dto.status ?? '',
             type: '',
         };
     };
@@ -84,6 +167,12 @@ export const useCompanyOffersController = (
         activeKey,
         errorMessage,
         errorExist,
+        handleSelect,
+        checkedID,
+        action,
+        changeJobStatus,
+        filter,
+        handleCheckbox,
         setNewCollapseKey,
     };
 };
