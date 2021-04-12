@@ -43,8 +43,6 @@ export const useRegisterController = (
                     case 'existing_user':
                         messenger.showErrorMessage({ key: 'auth.register-error-existing-user' });
                         break;
-
-                    case 'company_reached_trial_limits':
                     case 'company_reached_limit_editors':
                         messenger.showErrorMessage({ key: 'La organización alcanzó el límite de editores' });
                         break;
@@ -57,7 +55,7 @@ export const useRegisterController = (
                         break;
 
                     case 'one_company_per_editor':
-                        messenger.showErrorMessage({ key: 'Un editor no puede pertenecer a dos organizaciónes.' });
+                        messenger.showErrorMessage({ key: 'Un editor no puede pertenecer a dos organizaciones.' });
                         break;
 
                     case 'current_editor':
@@ -65,7 +63,7 @@ export const useRegisterController = (
                         break;
 
                     case 'subscription_canceled':
-                        messenger.showErrorMessage({ key: 'La compañia cancelo la membresia.' });
+                        messenger.showErrorMessage({ key: 'La organización canceló la membresía.' });
                         break;
 
                     default:
