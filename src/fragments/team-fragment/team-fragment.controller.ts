@@ -129,12 +129,11 @@ TeamFragmentController => {
             })
             .catch((err: AxiosError) => {
                 setIsModalLoading(false);
-                setIsModalOpen(false);
                 switch (err.response?.status) {
                     case 500:
                         messenger.showErrorMessage({ key: 'Ha ocurrido un error inesperado' });
                         break;
-                    case 409:
+                    case 401:
                         messenger.showErrorMessage({ key: 'Haz alcanzado el limite máximo de editores.' });
                         break;
                     default:

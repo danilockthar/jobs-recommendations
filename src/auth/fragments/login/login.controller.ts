@@ -30,10 +30,18 @@ export const useLoginController = (authService = useAPIAuthService(), messenger 
                 history.replace(from);
             })
             .catch((errorCode) => {
-                if (errorCode == 'invalid_credentials') {
-                    messenger.showErrorMessage({ key: 'auth.login-error-invalid-credentials' });
-                } else {
-                    messenger.showErrorMessage({ key: 'auth.login-error' });
+                switch (errorCode) {
+                    case 'company_overcame_limit_editors':
+                        messenger.showErrorMessage({ key: 'La compañia alcanzo supero el limite de editores.' });
+                        break;
+
+                    case 'invalid_credentials':
+                        messenger.showErrorMessage({ key: 'auth.login-error-invalid-credentials' });
+                        break;
+
+                    default:
+                        messenger.showErrorMessage({ key: 'auth.login-error' });
+                        break;
                 }
             })
             .finally(() => {

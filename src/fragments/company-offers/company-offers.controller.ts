@@ -6,6 +6,7 @@ import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
 import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 import { LinkedInJobsContext } from 'services/linkedin/linked-in-jobs.context';
 import { useAPICompanyService } from 'services/company/company.service';
+import { AxiosError } from 'axios';
 
 export const useCompanyOffersController = (
     messenger = useMessenger(),
@@ -117,6 +118,7 @@ export const useCompanyOffersController = (
     };
 
     const fetchData = () => {
+        console.log('fetch data company-offers.controller');
         setIsLoaderVisible(true);
         companyService
             .getCompany()
@@ -129,9 +131,9 @@ export const useCompanyOffersController = (
                     });
                 }
             })
-            .catch((err) => {
+            .catch((err: AxiosError) => {
                 messenger.showErrorMessage({
-                    key: err.response.message,
+                    key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
                 });
             })
             .finally(() => {

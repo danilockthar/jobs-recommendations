@@ -39,10 +39,34 @@ export const useRegisterController = (
                 history.replace(from);
             })
             .catch((errorCode) => {
-                if (errorCode == 'existing_user') {
-                    messenger.showErrorMessage({ key: 'auth.register-error-existing-user' });
-                } else {
-                    messenger.showErrorMessage({ key: 'auth.register-error' });
+                switch (errorCode) {
+                    case 'existing_user':
+                        messenger.showErrorMessage({ key: 'auth.register-error-existing-user' });
+                        break;
+
+                    case 'company_reached_trial_limits':
+                    case 'company_reached_limit_editors':
+                        messenger.showErrorMessage({ key: 'La compañia alcanzo el limite de editores' });
+                        break;
+                    case 'company_overcame_limit_editors':
+                        messenger.showErrorMessage({ key: 'La compañia supero el limite de editores' });
+                        break;
+
+                    case 'company_cant_be_editor':
+                        messenger.showErrorMessage({ key: 'Una compañia no puede ser editor.' });
+                        break;
+
+                    case 'one_company_per_editor':
+                        messenger.showErrorMessage({ key: 'Un editor no puede pertenecer a dos compañias.' });
+                        break;
+
+                    case 'current_editor':
+                        messenger.showErrorMessage({ key: 'Actualmente ya eres editor de esta compañia' });
+                        break;
+
+                    default:
+                        messenger.showErrorMessage({ key: 'auth.register-error' });
+                        break;
                 }
             })
             .finally(() => {
