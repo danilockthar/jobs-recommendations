@@ -150,7 +150,16 @@ TeamFragmentController => {
                         messenger.showErrorMessage({ key: 'Haz alcanzado el limite máximo de editores.' });
                         break;
                     default:
-                        messenger.showErrorMessage({ key: err.response?.data?.message });
+                        switch (err.response?.data?.code) {
+                            case 'company_overcame_limit_editors':
+                            case 'company_overcame_trial_limits':
+                                messenger.showErrorMessage({ key: 'Haz superado el limite de editores' });
+                                break;
+
+                            default:
+                                messenger.showErrorMessage({ key: 'Haz alcanzado el limite de editores' });
+                                break;
+                        }
                 }
             });
     };

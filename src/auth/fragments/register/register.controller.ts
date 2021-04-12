@@ -64,6 +64,10 @@ export const useRegisterController = (
                         messenger.showErrorMessage({ key: 'Actualmente ya eres editor de esta organización' });
                         break;
 
+                    case 'subscription_canceled':
+                        messenger.showErrorMessage({ key: 'La compañia cancelo la membresia.' });
+                        break;
+
                     default:
                         messenger.showErrorMessage({ key: 'auth.register-error' });
                         break;

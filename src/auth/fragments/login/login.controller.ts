@@ -31,12 +31,17 @@ export const useLoginController = (authService = useAPIAuthService(), messenger 
             })
             .catch((errorCode) => {
                 switch (errorCode) {
+                    case 'company_overcame_trial_limits':
                     case 'company_overcame_limit_editors':
                         messenger.showErrorMessage({ key: 'La compañia superó el límite de editores.' });
                         break;
 
                     case 'invalid_credentials':
                         messenger.showErrorMessage({ key: 'auth.login-error-invalid-credentials' });
+                        break;
+
+                    case 'subscription_canceled':
+                        messenger.showErrorMessage({ key: 'Tu compañia cancelo la membresia.' });
                         break;
 
                     default:
