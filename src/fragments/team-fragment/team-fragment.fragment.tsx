@@ -161,7 +161,10 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
                     {controller.isLoading ? (
                         <FlexLoader />
                     ) : (
-                        <Table dataSource={controller.dataSource} columns={columns} />
+                        <Table
+                            dataSource={controller.dataSource}
+                            columns={columns.filter((col) => col.dataIndex !== 'id')}
+                        />
                     )}
                 </>
             )}
