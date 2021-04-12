@@ -114,11 +114,9 @@ export const useCompanyOffersController = (
         } else {
             setCheckedID((prev) => [...prev, e.target.value]);
         }
-        console.log(`checked = ${e.target.checked}`);
     };
 
     const fetchData = () => {
-        console.log('fetch data company-offers.controller');
         setIsLoaderVisible(true);
         companyService
             .getCompany()
@@ -132,9 +130,23 @@ export const useCompanyOffersController = (
                 }
             })
             .catch((err: AxiosError) => {
-                messenger.showErrorMessage({
-                    key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
-                });
+                switch (err.response?.data?.code) {
+                    case 'company_overcame_limit_editors':
+                        messenger.showErrorMessage({
+                            key: 'La organización superó el limite de editores disponibles.',
+                        });
+                        break;
+                    case 'subscription_canceled':
+                        messenger.showErrorMessage({
+                            key: 'Haz cancelado una membresía y el período de prueba ha finalizado.',
+                        });
+                        break;
+                    default:
+                        messenger.showErrorMessage({
+                            key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
+                        });
+                        break;
+                }
             })
             .finally(() => {
                 linkedInService

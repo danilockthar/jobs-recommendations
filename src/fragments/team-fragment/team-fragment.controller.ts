@@ -16,6 +16,7 @@ TeamFragmentController => {
     const [company, setCompany] = useState<any>({ editors: [] });
     const [dataSource, setDataSource] = useState<any>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [overpassEditors, setOverpassEditors] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalDeleteOpen, setisModalDeleteOpen] = useState(false);
     const [fixedMessage, setFixedMessage] = useState('');
@@ -26,6 +27,18 @@ TeamFragmentController => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (overpassEditors > 0) {
+            setFixedMessage(
+                `Haz pasado el limite de editores disponibles para tu subscripción. Por favor elimina ${overpassEditors} ${
+                    overpassEditors > 1 ? 'editores' : 'editor'
+                } para poder continuar.`,
+            );
+        } else {
+            setFixedMessage(``);
+        }
+    }, [overpassEditors]);
 
     useEffect(() => {
         const data: any[] = [];
@@ -73,9 +86,8 @@ TeamFragmentController => {
                         messenger.showErrorMessage({
                             key: 'Haz pasado el limite de editores disponibles.',
                         });
-                        setFixedMessage(
-                            'Haz pasado el limite de editores disponibles para tu subscripción. Por favor elimina editores para poder continuar.',
-                        );
+                        setOverpassEditors(err.response.data.overpassEditors);
+
                         setCompany(err.response.data.company);
                         break;
                     default:
@@ -107,6 +119,7 @@ TeamFragmentController => {
             .deleteCompanyEditor(id)
             .then((output) => {
                 setDataSource((prevstate: any) => prevstate.filter((item: any) => item.id !== id));
+                setOverpassEditors((prevstate) => prevstate - 1);
                 messenger.showSuccessMessage({ key: 'Se ha eliminado un editor correctamente.' });
             })
             .catch((err) => {
@@ -156,6 +169,7 @@ TeamFragmentController => {
         company,
         dataSource,
         deleteEditor,
+        overpassEditors,
         confirmEditor,
         onChangeEmail,
         emailToInvitate,

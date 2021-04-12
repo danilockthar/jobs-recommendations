@@ -16,8 +16,6 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
     const [getSession] = useLocalSession();
     const session = getSession();
 
-    console.log(props, 'sesio');
-
     // Render
     return (
         <div className={'relevance-user-data'}>

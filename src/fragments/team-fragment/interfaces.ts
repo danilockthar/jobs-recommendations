@@ -11,6 +11,7 @@ export interface TeamFragmentController {
     isLoading: boolean;
     fixedMessage: string;
     company: any;
+    overpassEditors: number;
     dataSource: any;
     deleteEditor: (id: number, email: string) => void;
     confirmEditor: (id: number, email: string) => void;

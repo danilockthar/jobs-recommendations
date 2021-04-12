@@ -42,7 +42,6 @@ export class ApiLinkedInService implements LinkedInService {
         });
     }
     async editJobsStatus(linkedInJobsIds: string[], action: string): Promise<any> {
-        console.log(linkedInJobsIds);
         const response = await axios.put(
             process.env.REACT_APP_API_BASE_URL + `/linked-in/jobs`,
             { linkedInJobsIds, action },

@@ -32,7 +32,7 @@ export const useLoginController = (authService = useAPIAuthService(), messenger 
             .catch((errorCode) => {
                 switch (errorCode) {
                     case 'company_overcame_limit_editors':
-                        messenger.showErrorMessage({ key: 'La compañia alcanzo supero el limite de editores.' });
+                        messenger.showErrorMessage({ key: 'La compañia superó el límite de editores.' });
                         break;
 
                     case 'invalid_credentials':

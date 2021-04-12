@@ -22,8 +22,6 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
         return getDateAsArray(end_date).diff(getDateAsArray(start_date), 'days') + 1;
     };
 
-    console.log(controller.subscriptions);
-
     return (
         <div className={'membership-view'}>
             {controller.company?.isTrial && controller.company?.subscriptions.length === 0 && (

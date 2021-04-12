@@ -43,10 +43,16 @@ MembershipViewController => {
                 }
             })
             .catch((err) => {
-                if (err.response.status === 404) {
-                    messenger.showErrorMessage({
-                        key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
-                    });
+                switch (err.response.status) {
+                    case 409:
+                        setCompany(err.response.data.company);
+                        break;
+
+                    default:
+                        messenger.showErrorMessage({
+                            key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
+                        });
+                        break;
                 }
             })
             .finally(() => {

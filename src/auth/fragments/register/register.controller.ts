@@ -46,22 +46,22 @@ export const useRegisterController = (
 
                     case 'company_reached_trial_limits':
                     case 'company_reached_limit_editors':
-                        messenger.showErrorMessage({ key: 'La compañia alcanzo el limite de editores' });
+                        messenger.showErrorMessage({ key: 'La organización alcanzó el límite de editores' });
                         break;
                     case 'company_overcame_limit_editors':
-                        messenger.showErrorMessage({ key: 'La compañia supero el limite de editores' });
+                        messenger.showErrorMessage({ key: 'La organización supero el límite de editores' });
                         break;
 
                     case 'company_cant_be_editor':
-                        messenger.showErrorMessage({ key: 'Una compañia no puede ser editor.' });
+                        messenger.showErrorMessage({ key: 'Una organización no puede ser editor.' });
                         break;
 
                     case 'one_company_per_editor':
-                        messenger.showErrorMessage({ key: 'Un editor no puede pertenecer a dos compañias.' });
+                        messenger.showErrorMessage({ key: 'Un editor no puede pertenecer a dos organizaciónes.' });
                         break;
 
                     case 'current_editor':
-                        messenger.showErrorMessage({ key: 'Actualmente ya eres editor de esta compañia' });
+                        messenger.showErrorMessage({ key: 'Actualmente ya eres editor de esta organización' });
                         break;
 
                     default:
