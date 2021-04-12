@@ -18,6 +18,7 @@ TeamFragmentController => {
     const [isLoading, setIsLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalDeleteOpen, setisModalDeleteOpen] = useState(false);
+    const [fixedMessage, setFixedMessage] = useState('');
     const [isModalLoading, setIsModalLoading] = useState(false);
     const [editor, setEditor] = useState({ id: 0, email: '' });
     const [emailToInvitate, setEmailToInvitate] = useState({ value: '', error: '' });
@@ -63,9 +64,20 @@ TeamFragmentController => {
                         });
                         break;
                     case 401:
+                        messenger.showErrorMessage({
+                            key: 'El periodo de prueba de 30 días ha finalizado.',
+                        });
                         setCompany(err.response.data.company);
                         break;
-
+                    case 409:
+                        messenger.showErrorMessage({
+                            key: 'Haz pasado el limite de editores disponibles.',
+                        });
+                        setFixedMessage(
+                            'Haz pasado el limite de editores disponibles para tu subscripción. Por favor elimina editores para poder continuar.',
+                        );
+                        setCompany(err.response.data.company);
+                        break;
                     default:
                         break;
                 }
@@ -122,7 +134,9 @@ TeamFragmentController => {
                     case 500:
                         messenger.showErrorMessage({ key: 'Ha ocurrido un error inesperado' });
                         break;
-
+                    case 409:
+                        messenger.showErrorMessage({ key: 'Haz alcanzado el limite máximo de editores.' });
+                        break;
                     default:
                         messenger.showErrorMessage({ key: err.response?.data?.message });
                 }
@@ -147,6 +161,7 @@ TeamFragmentController => {
         onChangeEmail,
         emailToInvitate,
         sendInvitationEditor,
+        fixedMessage,
         isLoading,
         isModalLoading,
         isModalOpen,

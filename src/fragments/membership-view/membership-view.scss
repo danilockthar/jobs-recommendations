@@ -4,6 +4,20 @@
     width: 100%;
     display: grid;
     grid-row-gap: 2vh;
+    .alert-trial-ends {
+        padding: 5px;
+        width: fit-content;
+        background: #ffd300;
+        border-radius: 5px;
+        position: fixed;
+        top: 3vh;
+        z-index: 2000;
+        right: 10vw;
+        p {
+            font-weight: 600;
+            margin: 0;
+        }
+    }
     .btn-disabled {
         cursor: not-allowed !important;
     }
@@ -45,7 +59,7 @@
         display: grid;
         width: 100%;
         min-height: 60vh;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-column-gap: 2vw;
 
         .box {

@@ -17,6 +17,7 @@ export interface CompanyOffersController {
     jobsViewModels: JobOfferViewModel[];
     changeJobStatus: (action: string) => void;
     checkedID: string[];
+    company: any;
     errorExist: boolean;
     action: string;
     errorMessage: string;

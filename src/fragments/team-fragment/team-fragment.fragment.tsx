@@ -11,12 +11,20 @@ import { Typography } from 'antd';
 import { Spin } from 'antd';
 import { LoadingOutlined, LockOutlined } from '@ant-design/icons';
 import Modal from 'antd/lib/modal/Modal';
+import moment from 'moment';
 
 export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props) => {
     const { useController = useTeamFragmentController } = props;
     const controller = useController();
 
     const { Title, Paragraph, Text } = Typography;
+
+    const getDaysDiff = (start_date: string, end_date: string, date_format = 'MM/DD/YYYY') => {
+        const getDateAsArray = (date: any) => {
+            return moment(date.split(/\D+/), date_format);
+        };
+        return getDateAsArray(end_date).diff(getDateAsArray(start_date), 'days') + 1;
+    };
 
     const columns = [
         {
@@ -56,6 +64,7 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
 
     return (
         <div className={'team-fragment'}>
+            {controller.fixedMessage.length > 10 && <p className="fixed-message"> {controller.fixedMessage} </p>}
             <Modal
                 onOk={controller.toggleModal}
                 onCancel={controller.toggleModal}
@@ -116,9 +125,23 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
             >
                 <Paragraph> {`¿Desea eliminar a ${controller.editor.email}?`}</Paragraph>
             </Modal>
-
-            {(controller.company && controller.company.subscriptions?.length === 0) ||
-            (controller.company && controller.company.subscriptions?.slice().reverse()[0]?.status === 'canceled') ? (
+            {controller.company?.isTrial && controller.company?.subscriptions.length === 0 && (
+                <div className={'alert-trial-ends'}>
+                    <p>
+                        {' '}
+                        Quedan{' '}
+                        {getDaysDiff(
+                            moment().format('MM/DD/YYYY'),
+                            moment.unix(controller.company?.trialEnd).format('MM/DD/YYYY'),
+                        )}{' '}
+                        días de free trial.
+                    </p>
+                </div>
+            )}
+            {(controller.company && controller.company.subscriptions?.length === 0 && controller.company.mustUpgrade) ||
+            (controller.company &&
+                controller.company.subscriptions?.slice().reverse()[0]?.status === 'canceled' &&
+                controller.company.mustUpgrade) ? (
                 <h2 className="lock-view">
                     {' '}
                     <LockOutlined style={{ fontSize: '30px', color: '#08c' }} /> Para poder usar las funciones de equipo

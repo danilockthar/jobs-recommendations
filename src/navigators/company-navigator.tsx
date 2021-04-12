@@ -7,10 +7,13 @@ import { LinkedInJobsContext } from 'services/linkedin/linked-in-jobs.context';
 import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 import { MembershipViewFragment } from 'fragments/membership-view/membership-view.fragment';
 import { TeamFragmentFragment } from 'fragments/team-fragment/team-fragment.fragment';
+import { useAPICompanyService } from 'services/company/company.service';
 
 export const CompanyNavigator: React.FC = () => {
     const { t } = useTranslation();
     const [jobs, setJobs] = useState<LinkedInJobDto[]>([]);
+
+    // const companyService = useAPICompanyService();
 
     const CompanyJobsFragment = (
         <LinkedInJobsContext.Provider value={{ jobs, setJobs }}>

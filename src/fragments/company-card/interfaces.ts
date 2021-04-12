@@ -16,5 +16,6 @@ export interface CompanyCardController {
 }
 
 export interface CompanyCardFragmentProps {
+    isEditor?: boolean;
     useController?: () => CompanyCardController;
 }

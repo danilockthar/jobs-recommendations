@@ -6,6 +6,28 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    .fixed-message {
+        padding: 5px;
+        width: fit-content;
+        background: #960a0acf;
+        color: white;
+        font-weight: 600;
+        border-radius: 5px;
+    }
+    .alert-trial-ends {
+        padding: 5px;
+        width: fit-content;
+        background: #ffd300;
+        border-radius: 5px;
+        position: fixed;
+        top: 3vh;
+        z-index: 2000;
+        right: 10vw;
+        p {
+            font-weight: 600;
+            margin: 0;
+        }
+    }
     .invite-button-modal {
         border-radius: 30px;
         border: none;

@@ -14,6 +14,7 @@ export const useCompanyOffersController = (
 ): CompanyOffersController => {
     const [isLoading, setIsLoading] = useState(false);
     const [jobsViewModels, setJobsViewModels] = useState<JobOfferViewModel[]>([]);
+    const [company, setCompany] = useState<any>({ subscriptions: [] });
     const [activeKey, setActiveKey] = useState('');
     const [filter, setFilter] = useState('ALL');
     const [action, setAction] = useState('PUBLISH');
@@ -44,16 +45,13 @@ export const useCompanyOffersController = (
     const changeJobStatus = async (action: string) => {
         setIsLoaderVisible(true);
         if (checkedID.length > 0) {
-            console.log('entra');
             linkedInService
                 .editJobsStatus(checkedID, action)
                 .then((output) => {
                     const jobcopy = [...jobsViewModels];
-                    console.log(jobcopy, 'copy');
                     const newArr = jobcopy.map((item) => {
                         checkedID.map((ite, index) => {
                             if (item.id === ite) {
-                                console.log('EQUAL: ', item.id, ite);
                                 switch (action) {
                                     case 'PUBLISH':
                                         item.status = 'PUBLIC';
@@ -103,10 +101,10 @@ export const useCompanyOffersController = (
     const handleSelect = (value: any) => {
         if (value === 'PUBLISHED' || value === 'HIDDEN' || value === 'ALL') {
             setFilter(value);
+            setCheckedID([]);
         } else {
             setAction(value);
         }
-        console.log(`selected ${value}`);
     };
 
     const handleCheckbox = (e: any) => {
@@ -120,26 +118,42 @@ export const useCompanyOffersController = (
 
     const fetchData = () => {
         setIsLoaderVisible(true);
-        linkedInService
-            .findLinkedInJobs()
+        companyService
+            .getCompany()
             .then((output) => {
-                if (output.length == 0) {
-                    setErrorExist(true);
-                    setErrorMessage('Aún no hay trabajos cargados.');
-                    // setActiveKey(output[0].jobId);
+                if (output.id) {
+                    setCompany(output);
                 } else {
-                    setErrorExist(false);
-                    setErrorMessage('');
-                    const viewModels = output.map(mapDtoToViewModel);
-                    setJobsViewModels(viewModels);
+                    messenger.showErrorMessage({
+                        key: 'Error al obtener datos de la organización.',
+                    });
                 }
             })
-            .catch((e) => {
-                setErrorExist(true);
-                setErrorMessage('Ocurió un problema al buscar los trabajos.');
-                messenger.showErrorMessage({ key: 'Ocurió un problema al buscar los trabajos.' });
+            .catch((err) => {
+                messenger.showErrorMessage({
+                    key: err.response.message,
+                });
             })
             .finally(() => {
+                linkedInService
+                    .findLinkedInJobs()
+                    .then((output) => {
+                        if (output.length == 0) {
+                            setErrorExist(true);
+                            setErrorMessage('Aún no hay trabajos cargados.');
+                            // setActiveKey(output[0].jobId);
+                        } else {
+                            setErrorExist(false);
+                            setErrorMessage('');
+                            const viewModels = output.map(mapDtoToViewModel);
+                            setJobsViewModels(viewModels);
+                        }
+                    })
+                    .catch((e) => {
+                        setErrorExist(true);
+                        setErrorMessage('Ocurió un problema al buscar los trabajos.');
+                        messenger.showErrorMessage({ key: 'Ocurió un problema al buscar los trabajos.' });
+                    });
                 setIsLoaderVisible(false);
             });
     };
@@ -163,6 +177,7 @@ export const useCompanyOffersController = (
 
     return {
         jobsViewModels,
+        company,
         isLoaderVisible,
         activeKey,
         errorMessage,

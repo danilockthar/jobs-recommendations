@@ -96,42 +96,12 @@ MembershipViewController => {
                 });
             }
         }
-
-        // .then((output) => {
-        //     if (output && output.sessionId) {
-        //         // setActiveKey(output[0].jobId);
-
-        //         console.log(output.sessionId, 'id chkt');
-        //         const { error } = stripe.redirectToCheckout({
-        //             sessionId: output.sessionId,
-        //         });
-        //     }
-        // })
-        // .catch((err) => {
-        //     console.log(err, 'err');
-        // })
-        // .finally(() => {
-        //     // do nothing //
-        // });
     };
 
     const changeTimeSubscription = (time: string) => {
         setTimeSub(time);
     };
 
-    /* Listeners */
-    // Ex. useEffect(() => { onSessionUpdate(); }, [session]);
-
-    /* View Events */
-    //Ex. const onIncreaseButtonPressed = () => {}
-    const onButtonPressed = () => {
-        // Example event
-    };
-
-    /* Private Methods */
-    //Ex. const increaseCount = () => {}
-
-    // Return state and events
     return {
         timeSub,
         changeTimeSubscription,

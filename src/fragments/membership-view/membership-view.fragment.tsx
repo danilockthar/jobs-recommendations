@@ -4,6 +4,7 @@ import { MembershipViewFragmentProps } from 'fragments/membership-view/interface
 import { useMembershipViewController } from 'fragments/membership-view/membership-view.controller';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
+import moment from 'moment';
 
 export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (props) => {
     const { useController = useMembershipViewController } = props;
@@ -14,9 +15,30 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
         style: 'currency',
         currency: 'USD',
     });
+    const getDaysDiff = (start_date: string, end_date: string, date_format = 'MM/DD/YYYY') => {
+        const getDateAsArray = (date: any) => {
+            return moment(date.split(/\D+/), date_format);
+        };
+        return getDateAsArray(end_date).diff(getDateAsArray(start_date), 'days') + 1;
+    };
+
+    console.log(controller.subscriptions);
 
     return (
         <div className={'membership-view'}>
+            {controller.company?.isTrial && controller.company?.subscriptions.length === 0 && (
+                <div className={'alert-trial-ends'}>
+                    <p>
+                        {' '}
+                        Quedan{' '}
+                        {getDaysDiff(
+                            moment().format('MM/DD/YYYY'),
+                            moment.unix(controller.company?.trialEnd).format('MM/DD/YYYY'),
+                        )}{' '}
+                        días de free trial.
+                    </p>
+                </div>
+            )}
             <div className="select-time-subscription">
                 <h4>Billing</h4>
                 <div className="select-time">
@@ -43,17 +65,6 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
             ) : controller.subscriptions.length > 0 && controller.basic.length > 0 && controller.full.length > 0 ? (
                 controller.timeSub === 'monthly' ? (
                     <div className="membership-options">
-                        <div className="box free-box">
-                            <h5>Free Plan</h5>
-                            <h4> $0</h4>
-                            <button
-                                className={controller.company.subscriptions.length === 0 ? `btn-disabled` : `btn-ok`}
-                            >
-                                {' '}
-                                <CheckOutlined />{' '}
-                                {controller.company.subscriptions.length === 0 ? 'Current Plan' : 'Free Plan'}
-                            </button>
-                        </div>
                         <div className="box basic-box">
                             <h5>Team Plan</h5>
                             <h4>
@@ -64,6 +75,12 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                                         .map((sub: any) => sub.unit_amount / 100),
                                 )}{' '}
                             </h4>
+                            <p>
+                                {' '}
+                                {controller.basic
+                                    .filter((item: any) => item.nickname === 'basic_month')
+                                    .map((sub: any) => sub.product.description)}{' '}
+                            </p>
                             {/* onClick={() => controller.subscribeTo({ priceId: 'price_1IYy5UIKVu1c1nGOGcbJrtl1' })} */}
                             <button
                                 onClick={() => {
@@ -114,6 +131,12 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                                         .map((sub: any) => sub.unit_amount / 100),
                                 )}{' '}
                             </h4>
+                            <p>
+                                {' '}
+                                {controller.full
+                                    .filter((item: any) => item.nickname === 'full_month')
+                                    .map((sub: any) => sub.product.description)}{' '}
+                            </p>
                             <button
                                 onClick={() => {
                                     if (controller.company.subscriptions.length > 0) {
@@ -148,15 +171,6 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                     </div>
                 ) : (
                     <div className="membership-options">
-                        <div className="box free-box">
-                            <h5>Free Plan</h5>
-                            <h4> $0</h4>
-                            <button>
-                                {' '}
-                                <CheckOutlined />{' '}
-                                {controller.company.subscriptions.length === 0 ? 'Current Plan' : 'Free Plan'}
-                            </button>
-                        </div>
                         <div className="box basic-box">
                             <h5>Team Plan</h5>
                             <h4>
@@ -167,6 +181,12 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                                         .map((sub: any) => sub.unit_amount / 100),
                                 )}{' '}
                             </h4>
+                            <p>
+                                {' '}
+                                {controller.basic
+                                    .filter((item: any) => item.nickname === 'basic_year')
+                                    .map((sub: any) => sub.product.description)}{' '}
+                            </p>
                             {/* onClick={() => controller.subscribeTo({ priceId: 'price_1IYy5UIKVu1c1nGOGcbJrtl1' })} */}
                             <button
                                 onClick={() => {
@@ -217,6 +237,12 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                                         .map((sub: any) => sub.unit_amount / 100),
                                 )}{' '}
                             </h4>
+                            <p>
+                                {' '}
+                                {controller.full
+                                    .filter((item: any) => item.nickname === 'full_month')
+                                    .map((sub: any) => sub.product.description)}{' '}
+                            </p>
                             <button
                                 onClick={() => {
                                     if (controller.company.subscriptions.length > 0) {

@@ -2,6 +2,7 @@ import React from 'react';
 import 'fragments/company-card/company-card.scss';
 import { CompanyCardFragmentProps } from 'fragments/company-card/interfaces';
 import { Card, Form, Input } from 'antd';
+import { useLocalSession } from 'auth/helpers/session.hooks';
 import { useCompanyCardController } from 'fragments/company-card/company-card.controller';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
 import { useTranslator } from 'tools/view-hooks/translator-hook';
@@ -11,6 +12,11 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
     const { useController = useCompanyCardController } = props;
     const controller = useController();
     const { translate } = useTranslator();
+
+    const [getSession] = useLocalSession();
+    const session = getSession();
+
+    console.log(props, 'sesio');
 
     // Render
     return (
@@ -59,9 +65,13 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
                     <React.Fragment>
                         <img className="image-profile" src={''} />
                         <h3>{controller.companyName}</h3>
-                        <button onClick={controller.onImportJobsPressed}>
-                            {translate({ key: 'Importar Trabajos desde LinkedIn' })}
-                        </button>
+                        {props.isEditor ? (
+                            ''
+                        ) : (
+                            <button onClick={controller.onImportJobsPressed}>
+                                {translate({ key: 'Importar Trabajos desde LinkedIn' })}
+                            </button>
+                        )}
                     </React.Fragment>
                 )}
             </Card>

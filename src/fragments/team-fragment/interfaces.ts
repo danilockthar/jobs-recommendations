@@ -9,6 +9,7 @@ export interface TeamFragmentController {
     editor: EditorModal;
     isLoaderVisible: boolean;
     isLoading: boolean;
+    fixedMessage: string;
     company: any;
     dataSource: any;
     deleteEditor: (id: number, email: string) => void;

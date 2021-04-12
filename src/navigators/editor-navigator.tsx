@@ -15,7 +15,7 @@ export const EditorNavigator: React.FC = () => {
         <LinkedInJobsContext.Provider value={{ jobs, setJobs }}>
             <div className={'jobs-fragment'}>
                 <CompanyOffersFragment />
-                <CompanyCardFragment />
+                <CompanyCardFragment isEditor={true} />
             </div>
         </LinkedInJobsContext.Provider>
     );

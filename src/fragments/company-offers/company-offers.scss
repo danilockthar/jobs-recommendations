@@ -3,9 +3,42 @@
     /* First component block */
     width: 100%;
     justify-self: center;
+    .alert-trial-ends {
+        padding: 5px;
+        width: fit-content;
+        background: #ffd300;
+        border-radius: 5px;
+        position: fixed;
+        top: 3vh;
+        z-index: 2000;
+        right: 10vw;
+        p {
+            font-weight: 600;
+            margin: 0;
+        }
+    }
     .filter-wrapper {
+        height: 100%;
         p {
             display: inline-block;
+            margin: 0;
+        }
+    }
+    .action-wrapper {
+        margin: 0 0 2vh 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        .apply-button-action {
+            height: 100%;
+            background: $CYAN_BLUE;
+            color: white;
+            border-radius: 25px;
+            padding: 0vh 2vw;
+            border: none;
+            cursor: pointer;
+            margin: 0 0 0 1vw;
+            outline: none;
         }
     }
     .offers-collapse-container {
@@ -111,7 +144,7 @@
         display: grid;
         align-items: center;
         transition: 0.3s;
-        grid-template-columns: 30px 60px 1fr 35px;
+        grid-template-columns: 30px 60px 1fr 60px;
         padding: 10px;
         background: $LIGHT_WHITE;
         img {
@@ -136,7 +169,7 @@
         display: grid;
         align-items: center;
         transition: 0.3s;
-        grid-template-columns: 30px 60px 1fr 35px;
+        grid-template-columns: 30px 60px 1fr 60px;
         padding: 10px;
         img {
             width: 50px;
