@@ -37,9 +37,9 @@ export const useCompanyCardController = (
             .catch((err) => {
                 if (err.response.status === 404) {
                     setModalNameCompany(true);
-                    messenger.showErrorMessage({
-                        key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
-                    });
+                    // messenger.showErrorMessage({
+                    //     key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
+                    // });
                 }
             })
             .finally(() => {

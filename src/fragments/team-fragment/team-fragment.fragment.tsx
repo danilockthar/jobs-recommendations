@@ -134,7 +134,7 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
                             moment().format('MM/DD/YYYY'),
                             moment.unix(controller.company?.trialEnd).format('MM/DD/YYYY'),
                         )}{' '}
-                        días de free trial.
+                        días de período de prueba.
                     </p>
                 </div>
             )}
@@ -153,7 +153,7 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
             ) : (
                 <>
                     <h2> Equipo</h2>
-                    <p>Lorep ipsum dolor sit amet, conse</p>
+                    <p>Organiza tu equipo de trabajo.</p>
                     <button className={'invite-button-modal'} onClick={controller.toggleModal}>
                         {' '}
                         Invitar{' '}

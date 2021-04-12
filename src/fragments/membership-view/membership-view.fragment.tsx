@@ -33,7 +33,7 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             moment().format('MM/DD/YYYY'),
                             moment.unix(controller.company?.trialEnd).format('MM/DD/YYYY'),
                         )}{' '}
-                        días de free trial.
+                        días de período de prueba.
                     </p>
                 </div>
             )}

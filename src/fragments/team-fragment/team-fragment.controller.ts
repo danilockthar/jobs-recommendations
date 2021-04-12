@@ -31,9 +31,9 @@ TeamFragmentController => {
     useEffect(() => {
         if (overpassEditors > 0) {
             setFixedMessage(
-                `Haz pasado el limite de editores disponibles para tu subscripción. Por favor elimina ${overpassEditors} ${
+                `Tu equipo excede la cantidad de editores permitidos para tu plan. Por favor elimina ${overpassEditors} ${
                     overpassEditors > 1 ? 'editores' : 'editor'
-                } para poder continuar.`,
+                } para que el resto puedan volver a acceder a la plataforma.`,
             );
         } else {
             setFixedMessage(``);
@@ -84,7 +84,7 @@ TeamFragmentController => {
                         break;
                     case 409:
                         messenger.showErrorMessage({
-                            key: 'Haz pasado el limite de editores disponibles.',
+                            key: 'Has pasado el limite de editores disponibles.',
                         });
                         setOverpassEditors(err.response.data.overpassEditors);
 
@@ -147,17 +147,17 @@ TeamFragmentController => {
                         messenger.showErrorMessage({ key: 'Ha ocurrido un error inesperado' });
                         break;
                     case 401:
-                        messenger.showErrorMessage({ key: 'Haz alcanzado el limite máximo de editores.' });
+                        messenger.showErrorMessage({ key: 'Has alcanzado el limite máximo de editores.' });
                         break;
                     default:
                         switch (err.response?.data?.code) {
                             case 'company_overcame_limit_editors':
                             case 'company_overcame_trial_limits':
-                                messenger.showErrorMessage({ key: 'Haz superado el limite de editores' });
+                                messenger.showErrorMessage({ key: 'Has superado el limite de editores' });
                                 break;
 
                             default:
-                                messenger.showErrorMessage({ key: 'Haz alcanzado el limite de editores' });
+                                messenger.showErrorMessage({ key: 'Has alcanzado el limite de editores' });
                                 break;
                         }
                 }

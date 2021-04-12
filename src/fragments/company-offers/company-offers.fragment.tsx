@@ -41,7 +41,7 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                             moment().format('MM/DD/YYYY'),
                             moment.unix(controller.company?.trialEnd).format('MM/DD/YYYY'),
                         )}{' '}
-                        días de free trial.
+                        días de período de prueba.
                     </p>
                 </div>
             )}

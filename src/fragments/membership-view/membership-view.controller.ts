@@ -47,7 +47,12 @@ MembershipViewController => {
                     case 409:
                         setCompany(err.response.data.company);
                         break;
-
+                    case 401:
+                        messenger.showErrorMessage({
+                            key: 'La membresía ha sido cancelada.',
+                        });
+                        setCompany(err.response.data.company);
+                        break;
                     default:
                         messenger.showErrorMessage({
                             key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',

@@ -142,9 +142,9 @@ export const useCompanyOffersController = (
                         });
                         break;
                     default:
-                        messenger.showErrorMessage({
-                            key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
-                        });
+                        // messenger.showErrorMessage({
+                        //     key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
+                        // });
                         break;
                 }
             })

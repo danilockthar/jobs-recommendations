@@ -33,7 +33,10 @@ export const useLoginController = (authService = useAPIAuthService(), messenger 
                 switch (errorCode) {
                     case 'company_overcame_trial_limits':
                     case 'company_overcame_limit_editors':
-                        messenger.showErrorMessage({ key: 'La compañia superó el límite de editores.' });
+                        messenger.showErrorMessage({
+                            key:
+                                'No puedes acceder porque tu organización ha excedido el máximo de editores permitido en su plan.',
+                        });
                         break;
 
                     case 'invalid_credentials':
@@ -41,7 +44,7 @@ export const useLoginController = (authService = useAPIAuthService(), messenger 
                         break;
 
                     case 'subscription_canceled':
-                        messenger.showErrorMessage({ key: 'Tu compañia cancelo la membresia.' });
+                        messenger.showErrorMessage({ key: 'Tu organización canceló la membresia.' });
                         break;
 
                     default:
