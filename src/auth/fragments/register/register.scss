@@ -51,6 +51,26 @@
     .right-login-screen {
         overflow-y: scroll;
         position: relative;
+        .has-to-confirm-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            h1 {
+                font-size: 40px;
+                color: #4c4c4c;
+            }
+            p {
+                font-weight: 600;
+            }
+        }
+        .wrapper-input-name {
+            display: grid;
+            width: 100%;
+            grid-template-columns: 1fr 1fr;
+            grid-column-gap: 1vw;
+        }
         .register-wrapper {
             display: flex;
             justify-content: space-around;
@@ -81,6 +101,7 @@
                     border-radius: 6px;
                     height: 7vh;
                     justify-self: center;
+                    margin: 4vh 0 0 0;
                 }
             }
 

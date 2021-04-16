@@ -31,52 +31,23 @@ MembershipViewController => {
 
     const fetchData = () => {
         setIsLoaderVisible(true);
-        companyService
-            .getCompany()
+        subscribptionService
+            .getStripeProducts()
             .then((output) => {
-                if (output.id) {
-                    setCompany(output);
-                } else {
-                    messenger.showErrorMessage({
-                        key: 'Error al obtener datos de la organización.',
-                    });
+                if (output && output.data && output.data.length > 0) {
+                    setSubscriptions(
+                        output.data.filter(
+                            (item: any) => item.product.name === 'basic' || item.product.name === 'full',
+                        ),
+                    );
+                    setBasic(output.data.filter((item: any) => item.product.name === 'basic'));
+                    setFull(output.data.filter((item: any) => item.product.name === 'full'));
                 }
             })
-            .catch((err) => {
-                switch (err.response.status) {
-                    case 409:
-                        setCompany(err.response.data.company);
-                        break;
-                    case 401:
-                        messenger.showErrorMessage({
-                            key: 'La membresía ha sido cancelada.',
-                        });
-                        setCompany(err.response.data.company);
-                        break;
-                    default:
-                        messenger.showErrorMessage({
-                            key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
-                        });
-                        break;
-                }
+            .catch((e) => {
+                messenger.showErrorMessage({ key: e.message });
             })
             .finally(() => {
-                subscribptionService
-                    .getStripeProducts()
-                    .then((output) => {
-                        if (output && output.data && output.data.length > 0) {
-                            setSubscriptions(
-                                output.data.filter(
-                                    (item: any) => item.product.name === 'basic' || item.product.name === 'full',
-                                ),
-                            );
-                            setBasic(output.data.filter((item: any) => item.product.name === 'basic'));
-                            setFull(output.data.filter((item: any) => item.product.name === 'full'));
-                        }
-                    })
-                    .catch((e) => {
-                        messenger.showErrorMessage({ key: e.message });
-                    });
                 setIsLoaderVisible(false);
             });
     };

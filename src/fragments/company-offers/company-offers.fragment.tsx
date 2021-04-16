@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import 'fragments/company-offers/company-offers.scss';
 import { CompanyOffersFragmentProps, JobOfferViewModel } from 'fragments/company-offers/interfaces';
 import { useCompanyOffersController } from 'fragments/company-offers/company-offers.controller';
@@ -8,43 +8,23 @@ import { Collapse, Checkbox, Select, Switch, Tag } from 'antd';
 import moment from 'moment';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
 import { CalendarOutlined, LoadingOutlined, LockOutlined } from '@ant-design/icons';
+import { SessionContext } from 'auth/helpers/session.context';
 
 export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (props) => {
     const { useController = useCompanyOffersController } = props;
     const controller = useController();
     const { Panel } = Collapse;
     const { t } = useTranslation();
-
+    const { company } = useContext(SessionContext);
     const { Option } = Select;
 
     function onItemCollapseChange(keyId: any) {
         controller.setNewCollapseKey(keyId);
     }
 
-    const getDaysDiff = (start_date: string, end_date: string, date_format = 'MM/DD/YYYY') => {
-        const getDateAsArray = (date: any) => {
-            return moment(date.split(/\D+/), date_format);
-        };
-        return getDateAsArray(end_date).diff(getDateAsArray(start_date), 'days') + 1;
-    };
-
-    console.log(controller.company);
     // Render
     return (
         <div className={'job-offers-list'}>
-            {controller.company?.isTrial && controller.company?.subscriptions.length === 0 && (
-                <div className={'alert-trial-ends'}>
-                    <p>
-                        {' '}
-                        Quedan{' '}
-                        {getDaysDiff(
-                            moment().format('MM/DD/YYYY'),
-                            moment.unix(controller.company?.trialEnd).format('MM/DD/YYYY'),
-                        )}{' '}
-                        días de período de prueba.
-                    </p>
-                </div>
-            )}
             {controller.isLoaderVisible ? (
                 <div className="offers-collapse-container">
                     <FlexLoader />
@@ -53,7 +33,7 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                 <div className="error-message">
                     <h2> {controller.errorMessage}</h2>
                 </div>
-            ) : controller.company.subscriptions.length === 0 && controller.company.mustUpgrade ? (
+            ) : company.subscriptions.length === 0 && company.mustUpgrade ? (
                 <h2 className="lock-view">
                     {' '}
                     <LockOutlined style={{ fontSize: '30px', color: '#08c' }} /> Para poder usar las funciones de equipo
@@ -65,19 +45,6 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
             ) : (
                 <div>
                     <div className={'action-wrapper'}>
-                        <div className={'filter-wrapper'}>
-                            {/* <p> {JSON.stringify(controller.checkedID)} </p> */}
-                            <p>Filtrar por</p>
-                            <Select
-                                defaultValue={controller.filter}
-                                style={{ width: 160, margin: '0 0 0 1vw' }}
-                                onChange={controller.handleSelect}
-                            >
-                                <Option value="ALL">Todos</Option>
-                                <Option value="PUBLISHED">Publicados</Option>
-                                <Option value="HIDDEN">Ocultos</Option>
-                            </Select>
-                        </div>
                         <div className={'filter-wrapper'}>
                             <Select
                                 defaultValue="Seleccionar acción"
@@ -94,6 +61,40 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                                 {' '}
                                 Aplicar
                             </button>
+                        </div>
+                        <div className={'filter-wrapper-right'}>
+                            {/* <p> {JSON.stringify(controller.checkedID)} </p> */}
+                            <div className="select-time-subscription">
+                                <div className="select-time">
+                                    <p
+                                        className={`subscription-option ${
+                                            controller.filter === 'ALL' && 'active left-active'
+                                        }`}
+                                        onClick={() => controller.handleFilter('ALL')}
+                                    >
+                                        {' '}
+                                        Todos
+                                    </p>
+                                    <p
+                                        className={`subscription-option ${
+                                            controller.filter === 'PUBLISHED' && 'active'
+                                        }`}
+                                        onClick={() => controller.handleFilter('PUBLISHED')}
+                                    >
+                                        {' '}
+                                        Publicados
+                                    </p>
+                                    <p
+                                        className={`subscription-option ${
+                                            controller.filter === 'HIDDEN' && 'active right-active'
+                                        }`}
+                                        onClick={() => controller.handleFilter('HIDDEN')}
+                                    >
+                                        {' '}
+                                        Ocultos
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {controller.filter === 'PUBLISHED' ? (

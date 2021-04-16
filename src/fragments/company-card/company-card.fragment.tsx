@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import 'fragments/company-card/company-card.scss';
 import { CompanyCardFragmentProps } from 'fragments/company-card/interfaces';
 import { Card, Form, Input } from 'antd';
@@ -7,6 +7,7 @@ import { useCompanyCardController } from 'fragments/company-card/company-card.co
 import FlexLoader from 'components/flex-loader/flex-loader.component';
 import { useTranslator } from 'tools/view-hooks/translator-hook';
 import ModalForm from 'components/modal-form/modal-form.component';
+import { SessionContext } from 'auth/helpers/session.context';
 
 export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) => {
     const { useController = useCompanyCardController } = props;
@@ -16,10 +17,12 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
     const [getSession] = useLocalSession();
     const session = getSession();
 
+    const { company } = useContext(SessionContext);
+
     // Render
     return (
-        <div className={'relevance-user-data'}>
-            <ModalForm
+        <div className={'relevance-company-data'}>
+            {/* <ModalForm
                 title={
                     controller.modalNameCompany
                         ? translate({ key: 'Ingresá el nombre de la organización.' })
@@ -46,22 +49,20 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
                         <Input />
                     </Form.Item>
                 )}
-            </ModalForm>
-            {/* <ModalForm
-                title={translate({ key: 'Ingresá la url de trabajo (LinkedIn)' })}
-                form={controller.importJobsForm}
-                isVisible={controller.isImportFormVisible}
-                isLoading={controller.isImportFormLoading}
-                onCancel={controller.onImportFormCancel}
-                onFinish={controller.onImportJobsSubmitted}
-            ></ModalForm> */}
-            <Card style={{ width: '100%', borderRadius: '10px', textAlign: 'center', border: '1px solid #d4d4d4' }}>
-                <h2>{'Organización'}</h2>
-                {controller.isLoaderVisible ? (
+            </ModalForm> */}
+            <Card style={{ width: '100%', borderRadius: '60px', textAlign: 'center', border: '1px solid #d4d4d4' }}>
+                <div className={'card-company-wrapper'}>
+                    <div className={'card-company-data-wrapper'}>
+                        <h4> {company.name ?? ''}</h4>
+                        <p>Agustín Campos - Administrador de la organización</p>
+                    </div>
+                    <button className={'btn-company-data'}> Actualizar Trabajos</button>
+                </div>
+                {/* {controller.isLoaderVisible ? (
                     <FlexLoader />
                 ) : (
                     <React.Fragment>
-                        <img className="image-profile" src={''} />
+                        
                         <h3>{controller.companyName}</h3>
                         {props.isEditor ? (
                             ''
@@ -71,7 +72,7 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
                             </button>
                         )}
                     </React.Fragment>
-                )}
+                )} */}
             </Card>
         </div>
     );

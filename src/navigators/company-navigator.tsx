@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavBar, NavBarProps } from 'components/nav-bar/nav-bar.component';
 import { useTranslation } from 'react-i18next/';
 import { CompanyOffersFragment } from 'fragments/company-offers/company-offers.fragment';
@@ -8,11 +8,13 @@ import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 import { MembershipViewFragment } from 'fragments/membership-view/membership-view.fragment';
 import { TeamFragmentFragment } from 'fragments/team-fragment/team-fragment.fragment';
 import { CompanyDto, useAPICompanyService } from 'services/company/company.service';
+import { TeamOutlined, SolutionOutlined, ProfileOutlined } from '@ant-design/icons';
+import { SessionContext } from 'auth/helpers/session.context';
 
 export const CompanyNavigator: React.FC = () => {
     const { t } = useTranslation();
     const [jobs, setJobs] = useState<LinkedInJobDto[]>([]);
-    const [company, setCompany] = useState<any>({ mustUpgrade: false });
+    const { session, company, setCompany } = useContext(SessionContext);
 
     const companyService = useAPICompanyService();
 
@@ -42,8 +44,8 @@ export const CompanyNavigator: React.FC = () => {
     const CompanyJobsFragment = (
         <LinkedInJobsContext.Provider value={{ jobs, setJobs }}>
             <div className={'jobs-fragment'}>
-                <CompanyOffersFragment />
                 <CompanyCardFragment />
+                <CompanyOffersFragment />
             </div>
         </LinkedInJobsContext.Provider>
     );
@@ -65,14 +67,17 @@ export const CompanyNavigator: React.FC = () => {
             : {
                   jobs: {
                       title: t(['general.company-jobs-title']),
+                      icon: <SolutionOutlined />,
                       component: CompanyJobsFragment,
                   },
                   subscriptions: {
                       title: t(['general.company-subscriptions']),
+                      icon: <ProfileOutlined />,
                       component: MembershipFragment,
                   },
                   team: {
                       title: t(['general.company-team']),
+                      icon: <TeamOutlined />,
                       component: <TeamFragmentFragment />,
                   },
               },

@@ -52,6 +52,7 @@ export interface AuthService {
     me(): Promise<UserDto>;
     sendResetPasswordMail(input: SendResetPasswordMailInput): Promise<void>;
     resetPassword(token: string, input: ResetPasswordInput): Promise<void>;
+    confirmEmail(token: string): Promise<void>;
 }
 
 export const useAPIAuthService = (): AuthService => {

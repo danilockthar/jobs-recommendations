@@ -41,8 +41,8 @@ export class ApiAuthService implements AuthService {
         try {
             const response = await axios.post(process.env.REACT_APP_API_BASE_URL + '/auth/register', input);
             const output = plainToClass(LoginOutput, response.data as unknown);
-            const user = await this.getUser(output.accessToken);
-            this.saveSession(new Session(output.accessToken, user));
+            // const user = await this.getUser(output.accessToken);
+            // this.saveSession(new Session(output.accessToken, user));
             return output;
         } catch (e) {
             throw e.response.data.code;
@@ -68,5 +68,12 @@ export class ApiAuthService implements AuthService {
         return await axios.post(process.env.REACT_APP_API_BASE_URL + '/auth/resetPassword', input, {
             headers: { Authorization: 'Bearer ' + token },
         });
+    }
+    async confirmEmail(token: string): Promise<void> {
+        const response = await axios.get(process.env.REACT_APP_API_BASE_URL + '/auth/email', {
+            headers: { Authorization: 'Bearer ' + token },
+        });
+
+        return response.data;
     }
 }

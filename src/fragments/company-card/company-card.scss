@@ -1,10 +1,39 @@
 @import 'src/base';
-.relevance-user-data {
+.relevance-company-data {
     /* Second component block */
     justify-self: left;
     width: 100%;
     @media (max-width: 600px) {
         grid-row: 1;
+    }
+    .card-company-wrapper {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        padding: 0 20px;
+        .btn-company-data {
+            border: 1px solid $CYAN_BLUE;
+            height: 65%;
+            align-self: center;
+            border-radius: 30px;
+            font-weight: 600;
+            outline: none;
+            color: white;
+            background: $CYAN_BLUE;
+            cursor: pointer;
+            width: fit-content;
+            padding: 0 15px 0 15px;
+            margin: 0 !important;
+            justify-self: right;
+        }
+        .card-company-data-wrapper {
+            display: grid;
+            justify-content: left;
+            h4 {
+                font-weight: 800;
+                justify-self: left;
+                color: black;
+            }
+        }
     }
     p {
         color: $DARK_CYAN_BLUE;
@@ -22,17 +51,6 @@
         object-fit: cover;
         border-radius: 9999px;
         border: 1px solid #e6e6e6;
-    }
-    button {
-        border: 1px solid $CYAN_BLUE;
-        padding: 5px 25px;
-        border-radius: 30px;
-        font-weight: 600;
-        outline: none;
-        color: white;
-        background: $CYAN_BLUE;
-        margin: 3vh 0 0 0;
-        cursor: pointer;
     }
     h2 {
         color: $DARK_CYAN_BLUE;

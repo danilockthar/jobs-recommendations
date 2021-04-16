@@ -1,0 +1,65 @@
+@import 'src/base';
+
+.on-boarding {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    .wrapper-panel {
+        position: absolute;
+        top: 57%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50vw;
+    }
+    .introduction-onboard {
+        text-align: center;
+        padding: 0 0 3vh 0;
+        h1 {
+            font-size: 2rem;
+            color: #2b2b2b;
+        }
+        p {
+            font-weight: 600;
+        }
+    }
+    .inputs-onboard {
+        display: grid;
+        .ant-form-item-control-input-content {
+            display: grid;
+        }
+        button {
+            width: 9vw;
+            border-radius: 6px;
+            height: 7vh;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            justify-self: center;
+            margin: 4vh 0 0 0;
+        }
+        input {
+            height: 7vh;
+            border-radius: 5px;
+        }
+        .ant-input-affix-wrapper {
+            border-radius: 5px;
+            input {
+                height: 6vh;
+            }
+        }
+        .ant-row {
+            display: grid;
+        }
+        .ant-form-item-label {
+            text-align: left;
+            font-weight: 700;
+            color: #4c4c4cd9 i !important;
+        }
+        .linkedin-note {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+    }
+}

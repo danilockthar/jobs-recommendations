@@ -12,6 +12,8 @@ export const useRegisterController = (
     /* State */
     const [isLoading, setIsLoading] = useState(false);
     const [queryInvite, setQueryInvite] = useState('');
+    const [typeQuery, setTypeQuery] = useState<Role>(Role.Person);
+    const [hasToConfirmEmail, setHasToConfirmEmail] = useState(false);
     const history = useHistory();
     const location = useLocation();
     const { from } = (location.state as { from: any }) || { from: { pathname: '/' } };
@@ -20,15 +22,32 @@ export const useRegisterController = (
     // Ex. useEffect(() => { onSessionUpdate(); }, [session]);
 
     /* View Events */
+
     const setQueryURL = (query: string) => {
-        setQueryInvite(query);
+        switch (query) {
+            case 'organization':
+                setTypeQuery(Role.Company);
+                break;
+            case 'colaborator':
+                setTypeQuery(Role.Editor);
+                break;
+            case 'individual':
+                setTypeQuery(Role.Person);
+                break;
+            case 'invitationCode':
+                setQueryInvite(query);
+                break;
+            default:
+                // nothing to do here
+                break;
+        }
     };
     const onRegisterSubmit = (formInputs: unknown) => {
         setIsLoading(true);
         const input = plainToClass(RegisterInput, formInputs);
-        const roleInput = parseRoleInput(formInputs);
-        if (roleInput) {
-            input.roles = [roleInput];
+        // const roleInput = parseRoleInput(formInputs);
+        if (typeQuery.length > 5) {
+            input.roles = [typeQuery];
         }
         if (queryInvite.length > 5) {
             input.invitationCode = queryInvite;
@@ -36,9 +55,12 @@ export const useRegisterController = (
         authService
             .register(input)
             .then(() => {
-                history.replace(from);
+                setHasToConfirmEmail(true);
+                // history.replace(from);
             })
             .catch((errorCode) => {
+                alert('error');
+                console.log(errorCode, 'codeerro');
                 switch (errorCode) {
                     case 'existing_user':
                         messenger.showErrorMessage({ key: 'auth.register-error-existing-user' });
@@ -87,5 +109,5 @@ export const useRegisterController = (
     };
 
     // Return state and events
-    return { isLoading, onRegisterSubmit, setQueryURL };
+    return { isLoading, onRegisterSubmit, setQueryURL, hasToConfirmEmail };
 };

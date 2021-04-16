@@ -99,6 +99,11 @@ export const useCompanyOffersController = (
         }
     };
 
+    const handleFilter = (value: string) => {
+        setFilter(value);
+        setCheckedID([]);
+    };
+
     const handleSelect = (value: any) => {
         if (value === 'PUBLISHED' || value === 'HIDDEN' || value === 'ALL') {
             setFilter(value);
@@ -201,6 +206,7 @@ export const useCompanyOffersController = (
         action,
         changeJobStatus,
         filter,
+        handleFilter,
         handleCheckbox,
         setNewCollapseKey,
     };

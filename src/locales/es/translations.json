@@ -50,6 +50,11 @@
     "forgot-pass-success": "Enviamos un email a tu casilla, para poder resetear la contraseña",
     "forgot-pass-error": "Ocurrió un problema al intentar enviar el email de restauración"
   },
+  "onBoarding" : {
+    "name-organization": "¿Cuál es el nombre de tu organización?",
+    "linkedin-organization-url": "Ingresá el link de la página de LinkedIn de tu organización.",
+    "start-organization": "Empezar"
+  },
   "common-errors": {
     "not-found-message": "Lo sentimos, no encontramos esta dirección",
     "web-error-message": "Lo sentimos, algo salió mal",

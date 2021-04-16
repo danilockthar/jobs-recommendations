@@ -6,6 +6,7 @@ import { LoginFragment } from 'auth/fragments/login/login.fragment';
 import { RegisterFragment } from 'auth/fragments/register/register.fragment';
 import { ResetPasswordFragment } from 'auth/fragments/reset-password/reset-password.fragment';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
+import { ActivateAccountFragment } from 'fragments/activate-account/activate-account.fragment';
 
 export type RoutePrivateProps = RouteProps;
 
@@ -29,6 +30,9 @@ const AuthRoute: React.FC<RoutePrivateProps> = (props) => {
                     </Route>
                     <Route path={'/reset-password/:token'}>
                         <ResetPasswordFragment />
+                    </Route>
+                    <Route path={'/activate'}>
+                        <ActivateAccountFragment />
                     </Route>
                     <Route
                         render={({ location }) =>

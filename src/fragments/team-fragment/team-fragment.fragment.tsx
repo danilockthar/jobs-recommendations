@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import 'fragments/team-fragment/team-fragment.scss';
 import { TeamFragmentFragmentProps } from 'fragments/team-fragment/interfaces';
 import { Link } from 'react-router-dom';
@@ -8,23 +8,16 @@ import { DeleteOutlined } from '@ant-design/icons';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
 import ModalForm from 'components/modal-form/modal-form.component';
 import { Typography } from 'antd';
-import { Spin } from 'antd';
 import { LoadingOutlined, LockOutlined } from '@ant-design/icons';
 import Modal from 'antd/lib/modal/Modal';
-import moment from 'moment';
+import { SessionContext } from 'auth/helpers/session.context';
 
 export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props) => {
     const { useController = useTeamFragmentController } = props;
     const controller = useController();
 
     const { Title, Paragraph, Text } = Typography;
-
-    const getDaysDiff = (start_date: string, end_date: string, date_format = 'MM/DD/YYYY') => {
-        const getDateAsArray = (date: any) => {
-            return moment(date.split(/\D+/), date_format);
-        };
-        return getDateAsArray(end_date).diff(getDateAsArray(start_date), 'days') + 1;
-    };
+    const { company } = useContext(SessionContext);
 
     const columns = [
         {
@@ -104,7 +97,7 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
                     <Paragraph
                         className={'input-modal-invite'}
                         copyable
-                    >{`http://localhost:9000/register?invitationCode=${controller.company.invitationCode}`}</Paragraph>
+                    >{`http://localhost:9000/register?invitationCode=${company.invitationCode}`}</Paragraph>
                 </Typography>
                 <p>
                     Comparte este link con con aquellas personas que desees invitar. Pasaran a ser parte de de tu equipo
@@ -125,23 +118,8 @@ export const TeamFragmentFragment: React.FC<TeamFragmentFragmentProps> = (props)
             >
                 <Paragraph> {`¿Desea eliminar a ${controller.editor.email}?`}</Paragraph>
             </Modal>
-            {controller.company?.isTrial && controller.company?.subscriptions.length === 0 && (
-                <div className={'alert-trial-ends'}>
-                    <p>
-                        {' '}
-                        Quedan{' '}
-                        {getDaysDiff(
-                            moment().format('MM/DD/YYYY'),
-                            moment.unix(controller.company?.trialEnd).format('MM/DD/YYYY'),
-                        )}{' '}
-                        días de período de prueba.
-                    </p>
-                </div>
-            )}
-            {(controller.company && controller.company.subscriptions?.length === 0 && controller.company.mustUpgrade) ||
-            (controller.company &&
-                controller.company.subscriptions?.slice().reverse()[0]?.status === 'canceled' &&
-                controller.company.mustUpgrade) ? (
+            {(company && company.subscriptions?.length === 0 && company.mustUpgrade) ||
+            (company && company.subscriptions?.slice().reverse()[0]?.status === 'canceled' && company.mustUpgrade) ? (
                 <h2 className="lock-view">
                     {' '}
                     <LockOutlined style={{ fontSize: '30px', color: '#08c' }} /> Para poder usar las funciones de equipo

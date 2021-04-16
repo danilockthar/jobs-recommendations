@@ -8,6 +8,7 @@ import AuthRoute from 'auth/components/auth-route.component';
 const SessionProvider: React.FC = (props) => {
     const [session, setSession] = useState(new Session());
     const [isLoading, setIsLoading] = useState(true);
+    const [company, setCompany] = useState<any>({ subscriptions: [] });
 
     useEffect(() => {
         onViewMounted().finally();
@@ -22,7 +23,7 @@ const SessionProvider: React.FC = (props) => {
     };
 
     return (
-        <SessionContext.Provider value={{ isLoading, session, setSession }}>
+        <SessionContext.Provider value={{ isLoading, session, setSession, company, setCompany }}>
             <AuthRoute>{props.children}</AuthRoute>
         </SessionContext.Provider>
     );

@@ -24,6 +24,13 @@ export class ApiCompanyService implements CompanyService {
         return response.data;
     }
 
+    async setCompanyNameAndLinkedinUrl(input: any): Promise<any> {
+        const response = await axios.put(process.env.REACT_APP_API_BASE_URL + '/company', input, {
+            headers: { Authorization: 'Bearer ' + this.session.getToken() },
+        });
+        return response.data;
+    }
+
     async deleteCompanyEditor(id: number): Promise<any> {
         const response = await axios.delete(process.env.REACT_APP_API_BASE_URL + '/editor/' + id, {
             headers: { Authorization: 'Bearer ' + this.session.getToken() },

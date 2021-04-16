@@ -5,6 +5,7 @@ import { RegisterFragmentProps } from 'auth/fragments/register/interfaces';
 import { useRegisterController } from 'auth/fragments/register/register.controller';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslator } from 'tools/view-hooks/translator-hook';
+import { SmileTwoTone } from '@ant-design/icons';
 
 export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
     const { useController = useRegisterController } = props;
@@ -16,10 +17,11 @@ export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
     }
     const query = useQuery();
     useEffect(() => {
-        if (query.get('invitationCode')) {
+        if (query.get('invitationCode') || query.get('type')) {
             controller.setQueryURL(query.get('invitationCode') ?? '');
+            controller.setQueryURL(query.get('type') ?? '');
         }
-    }, [query.get('invitationCode')]);
+    }, [query.get('invitationCode'), query.get('type')]);
 
     // Render
     return (
@@ -44,68 +46,59 @@ export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
                         <Button>{translate({ key: 'auth.go-to-login-button-label' })}</Button>
                     </Link>
                 </div>
+                {controller.hasToConfirmEmail ? (
+                    <div className={'has-to-confirm-wrapper'}>
+                        <SmileTwoTone style={{ fontSize: '30px', textAlign: 'center' }} />
+                        <h1>¡Registro exitoso!</h1>
+                        <p> Hemos envíado un email a tu casilla de correo para verificar la cuenta. </p>
+                    </div>
+                ) : (
+                    <Form name="basic" initialValues={{ remember: true }} onFinish={controller.onRegisterSubmit}>
+                        <div className={'title-register'}>
+                            <h2> Registro </h2>
+                            <p>
+                                {query.get('type') === 'organization' && 'Soy una organización buscando contratar'}
+                                {query.get('type') === 'individual' && 'Soy un individuo buscando recomendar'}
+                                {query.get('type') === 'colaborator' && 'Soy colaborador de una organización'}
+                            </p>
+                        </div>
+                        <div className={'wrapper-input-name'}>
+                            <Form.Item
+                                label={translate({ key: 'auth.first-name-input-label' })}
+                                name="firstName"
+                                rules={[{ required: true }]}
+                            >
+                                <Input />
+                            </Form.Item>
 
-                <Form name="basic" initialValues={{ remember: true }} onFinish={controller.onRegisterSubmit}>
-                    <Form.Item
-                        label={translate({ key: 'auth.first-name-input-label' })}
-                        name="firstName"
-                        rules={[{ required: true }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label={translate({ key: 'auth.last-name-input-label' })}
-                        name="lastName"
-                        rules={[{ required: true }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label={translate({ key: 'auth.email-input-label' })}
-                        name="email"
-                        rules={[{ required: true }]}
-                    >
-                        <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                        label={translate({ key: 'auth.password-input-label' })}
-                        name="password"
-                        rules={[{ required: true }]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
-                    {query.get('invitationCode') ? (
+                            <Form.Item
+                                label={translate({ key: 'auth.last-name-input-label' })}
+                                name="lastName"
+                                rules={[{ required: true }]}
+                            >
+                                <Input />
+                            </Form.Item>
+                        </div>
                         <Form.Item
-                            label={translate({ key: 'auth.role-input-label' })}
-                            name="role"
+                            label={translate({ key: 'auth.email-input-label' })}
+                            name="email"
                             rules={[{ required: true }]}
                         >
-                            <Radio.Group>
-                                <Radio.Button value="editor">Editor</Radio.Button>
-                            </Radio.Group>
+                            <Input />
                         </Form.Item>
-                    ) : (
+
                         <Form.Item
-                            label={translate({ key: 'auth.role-input-label' })}
-                            name="role"
+                            label={translate({ key: 'auth.password-input-label' })}
+                            name="password"
                             rules={[{ required: true }]}
                         >
-                            <Radio.Group>
-                                <Radio.Button value="company">Organización</Radio.Button>
-                                <Radio.Button value="person">Individuo</Radio.Button>
-                            </Radio.Group>
+                            <Input.Password />
                         </Form.Item>
-                    )}
-
-                    <Form.Item>
                         <Button type="primary" block={true} htmlType="submit" loading={controller.isLoading}>
                             {translate({ key: 'auth.register-button-label' })}
                         </Button>
-                    </Form.Item>
-                </Form>
+                    </Form>
+                )}
             </div>
         </div>
     );

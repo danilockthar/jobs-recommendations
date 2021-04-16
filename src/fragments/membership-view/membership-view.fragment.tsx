@@ -1,42 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import 'fragments/membership-view/membership-view.scss';
 import { MembershipViewFragmentProps } from 'fragments/membership-view/interfaces';
 import { useMembershipViewController } from 'fragments/membership-view/membership-view.controller';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
-import moment from 'moment';
+
+import { SessionContext } from 'auth/helpers/session.context';
 
 export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (props) => {
     const { useController = useMembershipViewController } = props;
     const controller = useController();
 
+    const { company } = useContext(SessionContext);
     // Create our number formatter.
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
     });
-    const getDaysDiff = (start_date: string, end_date: string, date_format = 'MM/DD/YYYY') => {
-        const getDateAsArray = (date: any) => {
-            return moment(date.split(/\D+/), date_format);
-        };
-        return getDateAsArray(end_date).diff(getDateAsArray(start_date), 'days') + 1;
-    };
 
     return (
         <div className={'membership-view'}>
-            {controller.company?.isTrial && controller.company?.subscriptions.length === 0 && (
-                <div className={'alert-trial-ends'}>
-                    <p>
-                        {' '}
-                        Quedan{' '}
-                        {getDaysDiff(
-                            moment().format('MM/DD/YYYY'),
-                            moment.unix(controller.company?.trialEnd).format('MM/DD/YYYY'),
-                        )}{' '}
-                        días de período de prueba.
-                    </p>
-                </div>
-            )}
             <div className="select-time-subscription">
                 <h4>Billing</h4>
                 <div className="select-time">
@@ -82,7 +65,7 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             {/* onClick={() => controller.subscribeTo({ priceId: 'price_1IYy5UIKVu1c1nGOGcbJrtl1' })} */}
                             <button
                                 onClick={() => {
-                                    if (controller.company.subscriptions.length > 0) {
+                                    if (company.subscriptions.length > 0) {
                                         controller.getCostumerPortalURL();
                                     } else {
                                         controller.subscribeTo({
@@ -92,16 +75,16 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                                             productId: controller.basic
                                                 .filter((item: any) => item.nickname === 'basic_month')
                                                 .map((sub: any) => sub.product.id)[0],
-                                            companyId: controller.company.id,
+                                            companyId: company.id,
                                         });
                                     }
                                 }}
                                 className={
-                                    controller.company.subscriptions.length > 0
+                                    company.subscriptions.length > 0
                                         ? controller.basic
                                               .filter((item: any) => item.nickname === 'basic_month')
                                               .map((sub: any) => sub.id)[0] ===
-                                          controller.company.subscriptions.slice().reverse()[0].gatewayPriceId
+                                          company.subscriptions.slice().reverse()[0].gatewayPriceId
                                             ? 'btn-disabled'
                                             : 'btn-ok'
                                         : 'btn-ok'
@@ -109,11 +92,11 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             >
                                 {' '}
                                 <CheckOutlined />{' '}
-                                {controller.company.subscriptions.length > 0
+                                {company.subscriptions.length > 0
                                     ? controller.basic
                                           .filter((item: any) => item.nickname === 'basic_month')
                                           .map((sub: any) => sub.id)[0] ===
-                                      controller.company.subscriptions.slice().reverse()[0].gatewayPriceId
+                                      company.subscriptions.slice().reverse()[0].gatewayPriceId
                                         ? 'Current Plan'
                                         : 'Upgrade to Team'
                                     : 'Upgrade to Team'}
@@ -137,19 +120,19 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             </p>
                             <button
                                 onClick={() => {
-                                    if (controller.company.subscriptions.length > 0) {
+                                    if (company.subscriptions.length > 0) {
                                         controller.getCostumerPortalURL();
                                     } else {
                                         controller.subscribeTo({
                                             priceId: controller.full[1].id,
                                             productId: controller.full[1].product.id,
-                                            companyId: controller.company.id,
+                                            companyId: company.id,
                                         });
                                     }
                                 }}
                                 className={
-                                    controller.company.subscriptions.length > 0
-                                        ? controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                    company.subscriptions.length > 0
+                                        ? company.subscriptions.slice().reverse()[0].gatewayPriceId ===
                                           controller.full[1].id
                                             ? 'btn-disabled'
                                             : 'btn-ok'
@@ -158,8 +141,8 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             >
                                 {' '}
                                 <CheckOutlined />
-                                {controller.company.subscriptions.length > 0
-                                    ? controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                {company.subscriptions.length > 0
+                                    ? company.subscriptions.slice().reverse()[0].gatewayPriceId ===
                                       controller.full[1].id
                                         ? 'Current Plan'
                                         : 'Upgrade to Business'
@@ -188,7 +171,7 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             {/* onClick={() => controller.subscribeTo({ priceId: 'price_1IYy5UIKVu1c1nGOGcbJrtl1' })} */}
                             <button
                                 onClick={() => {
-                                    if (controller.company.subscriptions.length > 0) {
+                                    if (company.subscriptions.length > 0) {
                                         controller.getCostumerPortalURL();
                                     } else {
                                         controller.subscribeTo({
@@ -198,13 +181,13 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                                             productId: controller.basic
                                                 .filter((item: any) => item.nickname === 'basic_year')
                                                 .map((sub: any) => sub.product.id)[0],
-                                            companyId: controller.company.id,
+                                            companyId: company.id,
                                         });
                                     }
                                 }}
                                 className={
-                                    controller.company.subscriptions.length > 0
-                                        ? controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                    company.subscriptions.length > 0
+                                        ? company.subscriptions.slice().reverse()[0].gatewayPriceId ===
                                           controller.basic
                                               .filter((item: any) => item.nickname === 'basic_year')
                                               .map((sub: any) => sub.id)[0]
@@ -215,8 +198,8 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             >
                                 {' '}
                                 <CheckOutlined />
-                                {controller.company.subscriptions.length > 0
-                                    ? controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                {company.subscriptions.length > 0
+                                    ? company.subscriptions.slice().reverse()[0].gatewayPriceId ===
                                       controller.basic
                                           .filter((item: any) => item.nickname === 'basic_year')
                                           .map((sub: any) => sub.id)[0]
@@ -243,19 +226,19 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             </p>
                             <button
                                 onClick={() => {
-                                    if (controller.company.subscriptions.length > 0) {
+                                    if (company.subscriptions.length > 0) {
                                         controller.getCostumerPortalURL();
                                     } else {
                                         controller.subscribeTo({
                                             priceId: controller.full[0].id,
                                             productId: controller.full[0].product.id,
-                                            companyId: controller.company.id,
+                                            companyId: company.id,
                                         });
                                     }
                                 }}
                                 className={
-                                    controller.company.subscriptions.length > 0
-                                        ? controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                    company.subscriptions.length > 0
+                                        ? company.subscriptions.slice().reverse()[0].gatewayPriceId ===
                                           controller.full[0].id
                                             ? 'btn-disabled'
                                             : 'btn-ok'
@@ -264,8 +247,8 @@ export const MembershipViewFragment: React.FC<MembershipViewFragmentProps> = (pr
                             >
                                 {' '}
                                 <CheckOutlined />{' '}
-                                {controller.company.subscriptions.length > 0
-                                    ? controller.company.subscriptions.slice().reverse()[0].gatewayPriceId ===
+                                {company.subscriptions.length > 0
+                                    ? company.subscriptions.slice().reverse()[0].gatewayPriceId ===
                                       controller.full[0].id
                                         ? 'Current Plan'
                                         : 'Upgrade to Business'

@@ -22,9 +22,9 @@ export const useCompanyCardController = (
     const [isImportFormLoading, setIsImportFormLoading] = useState(false);
     const { setJobs } = useContext(LinkedInJobsContext);
 
-    useEffect(() => {
-        fetchCompanyData();
-    }, []);
+    // useEffect(() => {
+    //     fetchCompanyData();
+    // }, []);
 
     const fetchCompanyData = () => {
         setIsLoaderVisible(true);

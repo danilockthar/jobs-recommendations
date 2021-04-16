@@ -7,9 +7,8 @@
     width: 100%;
     background: $WHITE_BONE;
     display: grid;
-    grid-template-columns: 1fr 35%;
     grid-column-gap: 2vw;
-    padding: 2vh 0px 0vh 0px;
+    padding: 2vh 6vw 0vh 6vw;
     @media (max-width: 600px) {
         grid-template-columns: 1fr;
         padding: 2vh;
@@ -18,6 +17,9 @@
     // ANTD CSS IN JOB-OFFERS CLASS */
     .ant-collapse > .ant-collapse-item > .ant-collapse-header {
         padding: 0;
+    }
+    .ant-card-body {
+        padding: 15px !important;
     }
 }
 .subscription-fragment {

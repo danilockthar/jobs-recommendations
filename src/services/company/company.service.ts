@@ -11,6 +11,7 @@ export class CompanyDto {
 export interface CompanyService {
     getCompany(): Promise<CompanyDto>;
     createCompany(input: CompanyDto): Promise<CompanyDto>;
+    setCompanyNameAndLinkedinUrl(input: any): Promise<any>;
     deleteCompanyEditor(id: number): Promise<any>;
     sendInvitationEditor(email: string): Promise<AxiosResponse<any>>;
 }
