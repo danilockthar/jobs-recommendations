@@ -25,7 +25,7 @@ export const ActivateAccountFragment: React.FC<ActivateAccountFragmentProps> = (
                         to your profile and professional expertise.
                     </h3>
                     <p>TRUSTED BY THE WORLD’S SMARTEST COMPANIES</p>
-                    <img src={'funkeyup_logo.png'} />
+                    <img src={'companies.png'} />
                 </div>
             </div>
             <div className="right-login-screen">

@@ -24,8 +24,8 @@
     .select-time-subscription {
         display: grid;
         justify-content: center;
-        grid-template-columns: 1fr 1fr;
-        width: 16vw;
+        grid-template-columns: 4vw 1fr;
+        width: fit-content;
         align-items: center;
         h4 {
             margin: 0;
@@ -37,7 +37,7 @@
             justify-content: center;
             justify-items: center;
             grid-template-columns: 1fr 1fr;
-            width: 12vw;
+            width: fit-content;
             .subscription-option {
                 cursor: pointer;
                 text-align: center;

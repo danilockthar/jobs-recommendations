@@ -41,7 +41,7 @@ export const LoginFragment: React.FC<LoginFragmentProps> = (props) => {
                         to your profile and professional expertise.
                     </h3>
                     <p>TRUSTED BY THE WORLD’S SMARTEST COMPANIES</p>
-                    <img src="https://daniarroyo.now.sh/companies.png" />
+                    <img src="companies.png" />
                 </div>
             </div>
             <div className="right-login-screen">

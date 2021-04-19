@@ -10,7 +10,7 @@
         margin-top: 60px;
     }
     .left-login-screen {
-        background-image: url('https://daniarroyo.now.sh/background.jpg');
+        background-image: url('background.jpg');
         padding: 20px;
         display: grid;
         position: relative;
@@ -88,6 +88,7 @@
                 height: 6vh;
             }
         }
+
         form {
             position: absolute;
             width: 60%;
@@ -121,6 +122,15 @@
             .ant-form-item-label {
                 text-align: left;
                 font-weight: 600;
+            }
+            button {
+                width: fit-content;
+                border-radius: 6px;
+                height: fit-content;
+                justify-self: center;
+                padding: 10px 25px;
+                left: 50%;
+                transform: translate(-50%, 0);
             }
         }
     }

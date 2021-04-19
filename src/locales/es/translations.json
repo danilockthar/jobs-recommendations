@@ -26,7 +26,9 @@
     "company-team": "Equipo",
     "description": "Descripción",
     "trial-period-message": "Tu período de prueba vence el {{dateString}}. Deberas contratar una membresía previamente a esa fecha para continuar usando la plataforma.",
-    "update-jobs": "Actualizar trabajos"
+    "update-jobs": "Actualizar trabajos",
+    "monthly": "Mensual",
+    "anually": "Anual"
   },
   "auth": {
     "login-button-label": "Ingresar",
@@ -50,7 +52,14 @@
     "register-error-existing-user": "El email ya se encuentra registrado",
     "login-error-invalid-credentials": "Las credenciales no son validas",
     "forgot-pass-success": "Enviamos un email a tu casilla, para poder resetear la contraseña",
-    "forgot-pass-error": "Ocurrió un problema al intentar enviar el email de restauración"
+    "forgot-pass-error": "Ocurrió un problema al intentar enviar el email de restauración",
+    "register-success": "Registro realizado con exito",
+    "email-verification-sended": "Hemos envíado un email a tu casilla de correo para verificar la cuenta.",
+    "have-account?": "¿Ya tienes una cuenta?",
+    "register-title": "Registro",
+    "im-organization": "Soy una organización buscando contratar.",
+    "im-colaborator": "Soy colaborador de una organización.",
+    "im-individual": "Soy un individuo buscando recomendar."
   },
   "onBoarding" : {
     "name-organization": "¿Cuál es el nombre de tu organización?",
