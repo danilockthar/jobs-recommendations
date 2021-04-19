@@ -28,7 +28,7 @@ export const useRegisterController = (
 
     useEffect(() => {
         if (query.get('invitationCode') || query.get('type')) {
-            setQueryURL(query.get('invitationCode') ?? '');
+            setQueryInvite(query.get('invitationCode') ?? '');
             setQueryURL(query.get('type') ?? '');
         }
     }, [query.get('invitationCode'), query.get('type')]);
@@ -46,9 +46,6 @@ export const useRegisterController = (
             case 'individual':
                 setTypeQuery(Role.Person);
                 setSubtitle(translate({ key: 'auth.im-individual' }));
-                break;
-            case 'invitationCode':
-                setQueryInvite(query);
                 break;
             default:
                 // nothing to do here
