@@ -17,35 +17,11 @@ export const useCompanyCardController = (
 
     const [companyName, setCompanyName] = useState('');
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
+    const [subtitle, setSubtitle] = useState('');
     const [modalNameCompany, setModalNameCompany] = useState(false);
     const [isImportFormVisible, setIsImportFormVisible] = useState(false);
     const [isImportFormLoading, setIsImportFormLoading] = useState(false);
     const { setJobs } = useContext(LinkedInJobsContext);
-
-    // useEffect(() => {
-    //     fetchCompanyData();
-    // }, []);
-
-    const fetchCompanyData = () => {
-        setIsLoaderVisible(true);
-        companyService
-            .getCompany()
-            .then((output) => {
-                const name = output.name ?? '';
-                setCompanyName(name);
-            })
-            .catch((err) => {
-                if (err.response.status === 404) {
-                    setModalNameCompany(true);
-                    // messenger.showErrorMessage({
-                    //     key: 'Error al obtener datos de la empresa. Por favor ingrese un nombre para la misma.',
-                    // });
-                }
-            })
-            .finally(() => {
-                setIsLoaderVisible(false);
-            });
-    };
 
     const onImportJobsPressed = () => {
         setIsImportFormVisible(true);
@@ -59,7 +35,7 @@ export const useCompanyCardController = (
                 console.log('success');
             })
             .catch((err) => {
-                messenger.showErrorMessage({ key: 'Ocurrió un problema al ingresar el nombre.' });
+                messenger.showErrorMessage({ key: 'company-card.error-creating-company' });
             })
             .finally(() => {
                 setIsImportFormLoading(false);
@@ -97,6 +73,7 @@ export const useCompanyCardController = (
         onImportJobsSubmitted,
         onImportFormCancel,
         modalNameCompany,
+        subtitle,
         onNameCompanyAdded,
     };
 };

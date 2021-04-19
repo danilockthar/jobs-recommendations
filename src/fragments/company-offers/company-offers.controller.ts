@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { CompanyOffersController } from 'fragments/company-offers/interfaces';
+import { Action, CompanyOffersController, Filter } from 'fragments/company-offers/interfaces';
 import { JobOfferViewModel } from 'fragments/company-offers/interfaces';
 import { useMessenger } from 'tools/view-hooks/messenger-hook';
 import { useAPILinkedInService } from 'services/linkedin/linked-in.service';
@@ -7,6 +7,7 @@ import { LinkedInJobDto } from 'services/linkedin/dtos/linked-in-job.dto';
 import { LinkedInJobsContext } from 'services/linkedin/linked-in-jobs.context';
 import { useAPICompanyService } from 'services/company/company.service';
 import { AxiosError } from 'axios';
+import { SessionContext } from 'auth/helpers/session.context';
 
 export const useCompanyOffersController = (
     messenger = useMessenger(),
@@ -15,15 +16,15 @@ export const useCompanyOffersController = (
 ): CompanyOffersController => {
     const [isLoading, setIsLoading] = useState(false);
     const [jobsViewModels, setJobsViewModels] = useState<JobOfferViewModel[]>([]);
-    const [company, setCompany] = useState<any>({ subscriptions: [] });
     const [activeKey, setActiveKey] = useState('');
-    const [filter, setFilter] = useState('ALL');
-    const [action, setAction] = useState('PUBLISH');
+    const [filter, setFilter] = useState<Filter>(Filter.ALL);
+    const [action, setAction] = useState(Action.PUBLISH);
     const [checkedID, setCheckedID] = useState<string[]>([]);
     const [isLoaderVisible, setIsLoaderVisible] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [errorExist, setErrorExist] = useState(true);
 
+    const { company, setCompany } = useContext(SessionContext);
     const { jobs } = useContext(LinkedInJobsContext);
 
     useEffect(() => {
@@ -43,6 +44,10 @@ export const useCompanyOffersController = (
         setActiveKey(key);
     };
 
+    function onItemCollapseChange(keyId: any) {
+        setActiveKey(keyId);
+    }
+
     const changeJobStatus = async (action: string) => {
         setIsLoaderVisible(true);
         if (checkedID.length > 0) {
@@ -54,7 +59,7 @@ export const useCompanyOffersController = (
                         checkedID.map((ite, index) => {
                             if (item.id === ite) {
                                 switch (action) {
-                                    case 'PUBLISH':
+                                    case Action.PUBLISH:
                                         item.status = 'PUBLIC';
                                         break;
                                     default:
@@ -68,25 +73,6 @@ export const useCompanyOffersController = (
                     });
                     setCheckedID([]);
                     setJobsViewModels(newArr);
-                    // setJobsViewModels((prev) => {
-                    //     prev.map((item) => {
-                    //         checkedID.map((ite, index) => {
-                    //             if (item.id === ite) {
-                    //                 switch (item.status) {
-                    //                     case 'PUBLIC':
-                    //                         item.status = 'HIDDEN';
-                    //                         break;
-                    //                     default:
-                    //                         item.status = 'PUBLIC';
-                    //                         break;
-                    //                 }
-                    //             }
-                    //             return ite;
-                    //         });
-                    //         return item;
-                    //     });
-                    //     return prev;
-                    // });
                 })
                 .catch((err) => {
                     console.log(err);
@@ -99,13 +85,13 @@ export const useCompanyOffersController = (
         }
     };
 
-    const handleFilter = (value: string) => {
+    const handleFilter = (value: Filter) => {
         setFilter(value);
         setCheckedID([]);
     };
 
     const handleSelect = (value: any) => {
-        if (value === 'PUBLISHED' || value === 'HIDDEN' || value === 'ALL') {
+        if (value === Filter.PUBLISHED || value === Filter.HIDDEN || value === Filter.ALL) {
             setFilter(value);
             setCheckedID([]);
         } else {
@@ -208,6 +194,6 @@ export const useCompanyOffersController = (
         filter,
         handleFilter,
         handleCheckbox,
-        setNewCollapseKey,
+        onItemCollapseChange,
     };
 };

@@ -3,7 +3,7 @@ import 'auth/fragments/register/register.scss';
 import { Button, Form, Input, Radio } from 'antd';
 import { RegisterFragmentProps } from 'auth/fragments/register/interfaces';
 import { useRegisterController } from 'auth/fragments/register/register.controller';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslator } from 'tools/view-hooks/translator-hook';
 import { SmileTwoTone } from '@ant-design/icons';
 
@@ -11,17 +11,6 @@ export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
     const { useController = useRegisterController } = props;
     const controller = useController();
     const { translate } = useTranslator();
-
-    function useQuery() {
-        return new URLSearchParams(useLocation().search);
-    }
-    const query = useQuery();
-    useEffect(() => {
-        if (query.get('invitationCode') || query.get('type')) {
-            controller.setQueryURL(query.get('invitationCode') ?? '');
-            controller.setQueryURL(query.get('type') ?? '');
-        }
-    }, [query.get('invitationCode'), query.get('type')]);
 
     // Render
     return (
@@ -41,7 +30,7 @@ export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
             </div>
             <div className="right-login-screen">
                 <div className="register-wrapper">
-                    <p> ¿Ya tienes una cuenta?</p>
+                    <p> {translate({ key: 'auth.have-account?' })} </p>
                     <Link to={'/login'}>
                         <Button>{translate({ key: 'auth.go-to-login-button-label' })}</Button>
                     </Link>
@@ -49,18 +38,14 @@ export const RegisterFragment: React.FC<RegisterFragmentProps> = (props) => {
                 {controller.hasToConfirmEmail ? (
                     <div className={'has-to-confirm-wrapper'}>
                         <SmileTwoTone style={{ fontSize: '30px', textAlign: 'center' }} />
-                        <h1>¡Registro exitoso!</h1>
-                        <p> Hemos envíado un email a tu casilla de correo para verificar la cuenta. </p>
+                        <h1>{translate({ key: 'auth.register-success' })}</h1>
+                        <p> {translate({ key: 'auth.email-verification-sended' })} </p>
                     </div>
                 ) : (
                     <Form name="basic" initialValues={{ remember: true }} onFinish={controller.onRegisterSubmit}>
                         <div className={'title-register'}>
-                            <h2> Registro </h2>
-                            <p>
-                                {query.get('type') === 'organization' && 'Soy una organización buscando contratar'}
-                                {query.get('type') === 'individual' && 'Soy un individuo buscando recomendar'}
-                                {query.get('type') === 'colaborator' && 'Soy colaborador de una organización'}
-                            </p>
+                            <h2> {translate({ key: 'auth.register-title' })} </h2>
+                            <p>{controller.subtitle}</p>
                         </div>
                         <div className={'wrapper-input-name'}>
                             <Form.Item

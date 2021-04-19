@@ -11,21 +11,29 @@ export interface JobOfferViewModel {
     description: string;
     descriptionHTML: string;
 }
-
+export enum Action {
+    PUBLISH = 'PUBLISH',
+    HIDE = 'HIDE',
+}
+export enum Filter {
+    PUBLISHED = 'PUBLISHED',
+    HIDDEN = 'HIDDEN',
+    ALL = 'ALL',
+}
 export interface CompanyOffersController {
     /* State */
     jobsViewModels: JobOfferViewModel[];
     changeJobStatus: (action: string) => void;
-    handleFilter: (value: string) => void;
+    handleFilter: (value: Filter) => void;
     checkedID: string[];
     company: any;
     errorExist: boolean;
     action: string;
     errorMessage: string;
-    filter: string;
+    filter: Filter;
     /* Events */
     activeKey: string;
-    setNewCollapseKey: (key: string) => void;
+    onItemCollapseChange: (keyId: any) => void;
     handleSelect: (value: any) => void;
     handleCheckbox: (e: any) => void;
     isLoaderVisible: boolean;

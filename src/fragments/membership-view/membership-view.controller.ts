@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import { MembershipViewController } from 'fragments/membership-view/interfaces';
+import { useState, useEffect, useContext } from 'react';
+import { MembershipViewController, TimeSubscription } from 'fragments/membership-view/interfaces';
 import { loadStripe } from '@stripe/stripe-js';
 import { InputDto, useAPIsubscriptionService } from 'services/subscription/subscription.service';
 import { CompanyDto, useAPICompanyService } from 'services/company/company.service';
 import { useMessenger } from 'tools/view-hooks/messenger-hook';
+import { SessionContext } from 'auth/helpers/session.context';
 
 const stripePromise = loadStripe('pk_test_Lx9A5KLXL1muLAIl54xnrFYI006MqwHBxy');
 
@@ -14,12 +15,8 @@ export const useMembershipViewController = (
 ): /* <--Dependency Injections  like services hooks */
 MembershipViewController => {
     /* State */
-    // Ex. const [count, setCount] = useState(0);
-    const [example, setExample] = useState('example');
-    const [timeSub, setTimeSub] = useState('monthly');
-    const [companyID, setCompanyID] = useState<number>(0);
-    const [company, setCompany] = useState<any>({ subscriptions: [] });
-    const [emailToInvitate, setEmailToInvitate] = useState('');
+    const [timeSub, setTimeSub] = useState(TimeSubscription.MONTHLY);
+    const { company } = useContext(SessionContext);
     const [basic, setBasic] = useState([]);
     const [full, setFull] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
@@ -80,7 +77,7 @@ MembershipViewController => {
         }
     };
 
-    const changeTimeSubscription = (time: string) => {
+    const changeTimeSubscription = (time: TimeSubscription) => {
         setTimeSub(time);
     };
 

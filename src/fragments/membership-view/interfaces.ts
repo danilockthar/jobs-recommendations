@@ -1,14 +1,15 @@
 import { InputDto } from 'services/subscription/subscription.service';
 
-// export interface Company{
-//     id: string
-// }
+export enum TimeSubscription {
+    MONTHLY = 'monthly',
+    ANUALLY = 'anually',
+}
 
 export interface MembershipViewController {
     /* State */
     timeSub: string;
     company: any;
-    changeTimeSubscription: (time: string) => void;
+    changeTimeSubscription: (time: TimeSubscription) => void;
     getCostumerPortalURL: () => void;
     subscribeTo: (input: InputDto) => void;
     subscriptions: any;

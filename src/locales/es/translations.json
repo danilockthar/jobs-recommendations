@@ -24,7 +24,9 @@
     "applyButton": "Aplicár",
     "company-subscriptions": "Membresía",
     "company-team": "Equipo",
-    "description": "Descripción"
+    "description": "Descripción",
+    "trial-period-message": "Tu período de prueba vence el {{dateString}}. Deberas contratar una membresía previamente a esa fecha para continuar usando la plataforma.",
+    "update-jobs": "Actualizar trabajos"
   },
   "auth": {
     "login-button-label": "Ingresar",

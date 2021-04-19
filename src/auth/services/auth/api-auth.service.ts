@@ -41,8 +41,6 @@ export class ApiAuthService implements AuthService {
         try {
             const response = await axios.post(process.env.REACT_APP_API_BASE_URL + '/auth/register', input);
             const output = plainToClass(LoginOutput, response.data as unknown);
-            // const user = await this.getUser(output.accessToken);
-            // this.saveSession(new Session(output.accessToken, user));
             return output;
         } catch (e) {
             throw e.response.data.code;

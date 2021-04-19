@@ -1,26 +1,21 @@
 import React, { useContext } from 'react';
 import 'fragments/company-offers/company-offers.scss';
-import { CompanyOffersFragmentProps, JobOfferViewModel } from 'fragments/company-offers/interfaces';
+import { Action, CompanyOffersFragmentProps, Filter, JobOfferViewModel } from 'fragments/company-offers/interfaces';
 import { useCompanyOffersController } from 'fragments/company-offers/company-offers.controller';
 import { useTranslation } from 'react-i18next/';
 import { Link } from 'react-router-dom';
 import { Collapse, Checkbox, Select, Switch, Tag } from 'antd';
 import moment from 'moment';
 import FlexLoader from 'components/flex-loader/flex-loader.component';
-import { CalendarOutlined, LoadingOutlined, LockOutlined } from '@ant-design/icons';
-import { SessionContext } from 'auth/helpers/session.context';
+import { CalendarOutlined } from '@ant-design/icons';
+import { useTranslator } from 'tools/view-hooks/translator-hook';
 
 export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (props) => {
     const { useController = useCompanyOffersController } = props;
     const controller = useController();
     const { Panel } = Collapse;
-    const { t } = useTranslation();
-    const { company } = useContext(SessionContext);
+    const { translate } = useTranslator();
     const { Option } = Select;
-
-    function onItemCollapseChange(keyId: any) {
-        controller.setNewCollapseKey(keyId);
-    }
 
     // Render
     return (
@@ -33,33 +28,24 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                 <div className="error-message">
                     <h2> {controller.errorMessage}</h2>
                 </div>
-            ) : company.subscriptions.length === 0 && company.mustUpgrade ? (
-                <h2 className="lock-view">
-                    {' '}
-                    <LockOutlined style={{ fontSize: '30px', color: '#08c' }} /> Para poder usar las funciones de equipo
-                    debe solicitar una membresía.
-                    <Link to="/subscriptions">
-                        <button> Ir a membresías</button>
-                    </Link>
-                </h2>
             ) : (
                 <div>
                     <div className={'action-wrapper'}>
                         <div className={'filter-wrapper'}>
                             <Select
-                                defaultValue="Seleccionar acción"
+                                defaultValue={translate({ key: 'general.select-action' })}
                                 style={{ width: 160 }}
                                 onChange={controller.handleSelect}
                             >
-                                <Option value="HIDE">Ocultar</Option>
-                                <Option value="PUBLISH">Publicar</Option>
+                                <Option value={Action.HIDE}>{translate({ key: 'general.hide-action' })}</Option>
+                                <Option value={Action.PUBLISH}>{translate({ key: 'general.publish-action' })}</Option>
                             </Select>
                             <button
                                 className={'apply-button-action'}
                                 onClick={() => controller.changeJobStatus(controller.action)}
                             >
                                 {' '}
-                                Aplicar
+                                {translate({ key: 'general.apply-button' })}
                             </button>
                         </div>
                         <div className={'filter-wrapper-right'}>
@@ -68,40 +54,40 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                                 <div className="select-time">
                                     <p
                                         className={`subscription-option ${
-                                            controller.filter === 'ALL' && 'active left-active'
+                                            controller.filter === Filter.ALL && 'active left-active'
                                         }`}
-                                        onClick={() => controller.handleFilter('ALL')}
+                                        onClick={() => controller.handleFilter(Filter.ALL)}
                                     >
                                         {' '}
-                                        Todos
+                                        {translate({ key: 'general.all' })}
                                     </p>
                                     <p
                                         className={`subscription-option ${
-                                            controller.filter === 'PUBLISHED' && 'active'
+                                            controller.filter === Filter.PUBLISHED && 'active'
                                         }`}
-                                        onClick={() => controller.handleFilter('PUBLISHED')}
+                                        onClick={() => controller.handleFilter(Filter.PUBLISHED)}
                                     >
                                         {' '}
-                                        Publicados
+                                        {translate({ key: 'general.published' })}
                                     </p>
                                     <p
                                         className={`subscription-option ${
-                                            controller.filter === 'HIDDEN' && 'active right-active'
+                                            controller.filter === Filter.HIDDEN && 'active right-active'
                                         }`}
-                                        onClick={() => controller.handleFilter('HIDDEN')}
+                                        onClick={() => controller.handleFilter(Filter.HIDDEN)}
                                     >
                                         {' '}
-                                        Ocultos
+                                        {translate({ key: 'general.hidden' })}
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {controller.filter === 'PUBLISHED' ? (
+                    {controller.filter === Filter.PUBLISHED ? (
                         <Collapse
                             accordion
                             defaultActiveKey={controller.activeKey}
-                            onChange={onItemCollapseChange}
+                            onChange={controller.onItemCollapseChange}
                             style={{ borderRadius: '10px' }}
                         >
                             {controller.jobsViewModels
@@ -132,14 +118,15 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                                                                 <CalendarOutlined /> {`${createdAt} por ${item.author}`}
                                                             </p>
                                                         </div>
-                                                        {item.status === 'HIDDEN' && <Tag> Oculto</Tag>}
+                                                        {item.status === 'HIDDEN' && (
+                                                            <Tag> {translate({ key: 'general.hidden-tag' })}</Tag>
+                                                        )}
                                                     </div>
                                                 }
                                                 key={item.id}
                                             >
                                                 <div className="job-description">
-                                                    <h3>{t(['general.description'])}</h3>
-                                                    {/*<p>{item.description}</p>*/}
+                                                    <h3>{translate({ key: 'general.description' })}</h3>
                                                     <div
                                                         className="inner-job-description"
                                                         dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}
@@ -154,7 +141,7 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                         <Collapse
                             accordion
                             defaultActiveKey={controller.activeKey}
-                            onChange={onItemCollapseChange}
+                            onChange={controller.onItemCollapseChange}
                             style={{ borderRadius: '10px' }}
                         >
                             {controller.jobsViewModels.map((item: JobOfferViewModel) => {
@@ -183,14 +170,15 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                                                             <CalendarOutlined /> {`${createdAt} por ${item.author}`}
                                                         </p>
                                                     </div>
-                                                    {item.status === 'HIDDEN' && <Tag> Oculto</Tag>}{' '}
+                                                    {item.status === 'HIDDEN' && (
+                                                        <Tag> {translate({ key: 'general.hidden-tag' })}</Tag>
+                                                    )}{' '}
                                                 </div>
                                             }
                                             key={item.id}
                                         >
                                             <div className="job-description">
-                                                <h3>{t(['general.description'])}</h3>
-                                                {/*<p>{item.description}</p>*/}
+                                                <h3>{translate({ key: 'general.description' })}</h3>
                                                 <div
                                                     className="inner-job-description"
                                                     dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}
@@ -205,7 +193,7 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                         <Collapse
                             accordion
                             defaultActiveKey={controller.activeKey}
-                            onChange={onItemCollapseChange}
+                            onChange={controller.onItemCollapseChange}
                             style={{ borderRadius: '10px' }}
                         >
                             {controller.jobsViewModels
@@ -236,14 +224,15 @@ export const CompanyOffersFragment: React.FC<CompanyOffersFragmentProps> = (prop
                                                                 <CalendarOutlined /> {`${createdAt} por ${item.author}`}
                                                             </p>
                                                         </div>
-                                                        {item.status === 'HIDDEN' && <Tag> Oculto</Tag>}
+                                                        {item.status === 'HIDDEN' && (
+                                                            <Tag> {translate({ key: 'general.hidden-tag' })}</Tag>
+                                                        )}
                                                     </div>
                                                 }
                                                 key={item.id}
                                             >
                                                 <div className="job-description">
-                                                    <h3>{t(['general.description'])}</h3>
-                                                    {/*<p>{item.description}</p>*/}
+                                                    <h3>{translate({ key: 'general.description' })}</h3>
                                                     <div
                                                         className="inner-job-description"
                                                         dangerouslySetInnerHTML={{ __html: item.descriptionHTML }}

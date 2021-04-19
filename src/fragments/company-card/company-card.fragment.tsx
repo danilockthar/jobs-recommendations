@@ -19,60 +19,16 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
 
     const { company } = useContext(SessionContext);
 
-    // Render
     return (
         <div className={'relevance-company-data'}>
-            {/* <ModalForm
-                title={
-                    controller.modalNameCompany
-                        ? translate({ key: 'Ingresá el nombre de la organización.' })
-                        : translate({ key: 'Ingresá la url de trabajo (LinkedIn)' })
-                }
-                form={controller.importJobsForm}
-                isVisible={controller.modalNameCompany || controller.isImportFormVisible}
-                isLoading={controller.isImportFormLoading}
-                onCancel={controller.onImportFormCancel}
-                onFinish={
-                    controller.modalNameCompany ? controller.onNameCompanyAdded : controller.onImportJobsSubmitted
-                }
-            >
-                {controller.modalNameCompany ? (
-                    <Form.Item
-                        label={translate({ key: 'Nombre de la organización' })}
-                        name="name"
-                        rules={[{ required: true }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                ) : (
-                    <Form.Item label={translate({ key: 'URL' })} name="jobsUrl" rules={[{ required: true }]}>
-                        <Input />
-                    </Form.Item>
-                )}
-            </ModalForm> */}
             <Card style={{ width: '100%', borderRadius: '60px', textAlign: 'center', border: '1px solid #d4d4d4' }}>
                 <div className={'card-company-wrapper'}>
                     <div className={'card-company-data-wrapper'}>
                         <h4> {company.name ?? ''}</h4>
-                        <p>Agustín Campos - Administrador de la organización</p>
+                        <p>{controller.subtitle}</p>
                     </div>
-                    <button className={'btn-company-data'}> Actualizar Trabajos</button>
+                    <button className={'btn-company-data'}> {translate({ key: 'general.update-jobs' })}</button>
                 </div>
-                {/* {controller.isLoaderVisible ? (
-                    <FlexLoader />
-                ) : (
-                    <React.Fragment>
-                        
-                        <h3>{controller.companyName}</h3>
-                        {props.isEditor ? (
-                            ''
-                        ) : (
-                            <button onClick={controller.onImportJobsPressed}>
-                                {translate({ key: 'Importar Trabajos desde LinkedIn' })}
-                            </button>
-                        )}
-                    </React.Fragment>
-                )} */}
             </Card>
         </div>
     );

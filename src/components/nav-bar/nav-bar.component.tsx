@@ -8,6 +8,7 @@ import ButtonLogout from 'auth/components/button-logout/button-logout.component'
 import { SessionContext } from 'auth/helpers/session.context';
 import moment from 'moment';
 import { OnBoardingFragment } from 'fragments/on-boarding/on-boarding.fragment';
+import { useTranslator } from 'tools/view-hooks/translator-hook';
 
 export interface TopBarScreen {
     title: string;
@@ -27,36 +28,16 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
     const params: any = firstPathMatch ? firstPathMatch.params : firstRestPathMatch?.params;
     const firstPath = params?.first;
     const [getSession] = useLocalSession();
-    const [trialMsg, setTrialMsg] = useState('');
-    const session = getSession();
+    const { translate } = useTranslator();
+    const [trialDate, setTrialDate] = useState('');
 
     const { company } = useContext(SessionContext);
 
-    console.log(company, 'inital company');
-
     useEffect(() => {
         if (company?.isTrial && company?.subscriptions.length === 0) {
-            const msg = `Tu período de prueba vence el ${moment
-                .unix(company?.trialEnd)
-                .format(
-                    'DD/MM/YYYY',
-                )}. Deberas contratar una membresía previamente a esa fecha para continuar usando la plataforma.`;
-            // const msg = `Quedan ${getDaysDiff(
-            //     moment().format('MM/DD/YYYY'),
-            //     moment.unix(company?.trialEnd).format('MM/DD/YYYY'),
-            // )} días de período de prueba.`;
-            setTrialMsg(msg);
+            setTrialDate(moment.unix(company?.trialEnd).format('DD/MM/YYYY'));
         }
     }, [company]);
-
-    const queryparams = useParams();
-
-    const getDaysDiff = (start_date: string, end_date: string, date_format = 'MM/DD/YYYY') => {
-        const getDateAsArray = (date: any) => {
-            return moment(date.split(/\D+/), date_format);
-        };
-        return getDateAsArray(end_date).diff(getDateAsArray(start_date), 'days') + 1;
-    };
 
     const AvatarDropdown = (
         <NavBarDropdown className={'avatar-dropdown'} menuItemsChildren={[<ButtonLogout key={'logout'} />]}>
@@ -94,7 +75,12 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
                                 </div>
                                 {company?.isTrial && company?.subscriptions.length === 0 && (
                                     <div className={'alert-trial-ends'}>
-                                        <p>{trialMsg}</p>
+                                        <p>
+                                            {translate({
+                                                key: 'trial-period-message',
+                                                extra: { dateString: trialDate },
+                                            })}
+                                        </p>
                                     </div>
                                 )}
                             </Layout.Header>

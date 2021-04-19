@@ -3,6 +3,7 @@ import { FormInstance } from 'antd';
 export interface CompanyCardController {
     /* State */
     companyName: string;
+    subtitle: string;
     isLoaderVisible: boolean;
     importJobsForm: FormInstance;
     isImportFormVisible: boolean;

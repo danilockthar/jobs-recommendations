@@ -1,9 +1,10 @@
 import { RegisterInput, Role, useAPIAuthService } from 'auth/services/auth/auth.service';
 import { plainToClass } from 'class-transformer';
 import { RegisterController } from 'auth/fragments/register/interfaces';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useMessenger } from 'tools/view-hooks/messenger-hook';
+import { useTranslator } from 'tools/view-hooks/translator-hook';
 
 export const useRegisterController = (
     authService = useAPIAuthService(),
@@ -11,28 +12,40 @@ export const useRegisterController = (
 ): RegisterController => {
     /* State */
     const [isLoading, setIsLoading] = useState(false);
-    const [queryInvite, setQueryInvite] = useState('');
+    const [queryInvite, setQueryInvite] = useState<string | undefined>(undefined);
+    const [subtitle, setSubtitle] = useState('');
     const [typeQuery, setTypeQuery] = useState<Role>(Role.Person);
     const [hasToConfirmEmail, setHasToConfirmEmail] = useState(false);
     const history = useHistory();
     const location = useLocation();
+    const { translate } = useTranslator();
     const { from } = (location.state as { from: any }) || { from: { pathname: '/' } };
 
-    /* Listeners */
-    // Ex. useEffect(() => { onSessionUpdate(); }, [session]);
+    function useQuery() {
+        return new URLSearchParams(useLocation().search);
+    }
+    const query = useQuery();
 
-    /* View Events */
+    useEffect(() => {
+        if (query.get('invitationCode') || query.get('type')) {
+            setQueryURL(query.get('invitationCode') ?? '');
+            setQueryURL(query.get('type') ?? '');
+        }
+    }, [query.get('invitationCode'), query.get('type')]);
 
     const setQueryURL = (query: string) => {
         switch (query) {
             case 'organization':
                 setTypeQuery(Role.Company);
+                setSubtitle(translate({ key: 'auth.im-organization' }));
                 break;
             case 'colaborator':
                 setTypeQuery(Role.Editor);
+                setSubtitle(translate({ key: 'auth.im-colaborator' }));
                 break;
             case 'individual':
                 setTypeQuery(Role.Person);
+                setSubtitle(translate({ key: 'auth.im-individual' }));
                 break;
             case 'invitationCode':
                 setQueryInvite(query);
@@ -45,22 +58,16 @@ export const useRegisterController = (
     const onRegisterSubmit = (formInputs: unknown) => {
         setIsLoading(true);
         const input = plainToClass(RegisterInput, formInputs);
-        // const roleInput = parseRoleInput(formInputs);
-        if (typeQuery.length > 5) {
-            input.roles = [typeQuery];
-        }
-        if (queryInvite.length > 5) {
+        input.roles = [typeQuery];
+        if (queryInvite) {
             input.invitationCode = queryInvite;
         }
         authService
             .register(input)
             .then(() => {
                 setHasToConfirmEmail(true);
-                // history.replace(from);
             })
             .catch((errorCode) => {
-                alert('error');
-                console.log(errorCode, 'codeerro');
                 switch (errorCode) {
                     case 'existing_user':
                         messenger.showErrorMessage({ key: 'auth.register-error-existing-user' });
@@ -109,5 +116,5 @@ export const useRegisterController = (
     };
 
     // Return state and events
-    return { isLoading, onRegisterSubmit, setQueryURL, hasToConfirmEmail };
+    return { isLoading, onRegisterSubmit, setQueryURL, hasToConfirmEmail, subtitle };
 };

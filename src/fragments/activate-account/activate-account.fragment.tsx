@@ -13,18 +13,6 @@ export const ActivateAccountFragment: React.FC<ActivateAccountFragmentProps> = (
     const controller = useController();
     const { translate } = useTranslator();
 
-    function useQuery() {
-        return new URLSearchParams(useLocation().search);
-    }
-    const query = useQuery();
-
-    useEffect(() => {
-        if (query.get('confirmation_token')) {
-            controller.confirmEmail(query.get('confirmation_token') || '');
-        }
-    }, [query.get('confirmation_token')]);
-
-    // Render
     return (
         <div className={'register'}>
             <div className="left-login-screen">
@@ -37,16 +25,10 @@ export const ActivateAccountFragment: React.FC<ActivateAccountFragmentProps> = (
                         to your profile and professional expertise.
                     </h3>
                     <p>TRUSTED BY THE WORLD’S SMARTEST COMPANIES</p>
-                    <img src="https://daniarroyo.now.sh/companies.png" />
+                    <img src={'funkeyup_logo.png'} />
                 </div>
             </div>
             <div className="right-login-screen">
-                {/* <div className="register-wrapper">
-                    <p> ¿Ya tienes una cuenta?</p>
-                    <Link to={'/login'}>
-                        <Button>{translate({ key: 'auth.go-to-login-button-label' })}</Button>
-                    </Link>
-                </div> */}
                 {controller.isLoading ? (
                     <div className={'has-to-confirm-wrapper'}>
                         <FlexLoader />
@@ -54,7 +36,7 @@ export const ActivateAccountFragment: React.FC<ActivateAccountFragmentProps> = (
                 ) : controller.isValidated ? (
                     <div className={'has-to-confirm-wrapper'}>
                         <CheckCircleTwoTone style={{ fontSize: '30px', textAlign: 'center' }} />
-                        <h1>Haz confirmado tu cuenta correctamente.</h1>
+                        <h1>{translate({ key: 'auth.account-confirmation-success' })}</h1>
                         <Link to={'/login'}>
                             <Button>{translate({ key: 'auth.go-to-login-button-label' })}</Button>
                         </Link>
@@ -62,7 +44,7 @@ export const ActivateAccountFragment: React.FC<ActivateAccountFragmentProps> = (
                 ) : (
                     <div className={'has-to-confirm-wrapper'}>
                         <FrownOutlined style={{ fontSize: '30px', textAlign: 'center' }} />
-                        <h1>No se pudo validar la cuenta.</h1>
+                        <h1>{translate({ key: 'auth.account-confirmation-failed' })}</h1>
                         <Link to={'/login'}>
                             <Button>{translate({ key: 'auth.go-to-login-button-label' })}</Button>
                         </Link>
