@@ -32,7 +32,6 @@ export const NavBar: React.FC<NavBarProps> = (props) => {
     const [trialDate, setTrialDate] = useState('');
 
     const { company } = useContext(SessionContext);
-    console.log(company, 'ct');
 
     useEffect(() => {
         if (company?.isTrial && company?.subscriptions.length === 0) {

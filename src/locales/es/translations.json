@@ -59,7 +59,8 @@
     "register-title": "Registro",
     "im-organization": "Soy una organización buscando contratar.",
     "im-colaborator": "Soy colaborador de una organización.",
-    "im-individual": "Soy un individuo buscando recomendar."
+    "im-individual": "Soy un individuo buscando recomendar.",
+    "account-confirmation-success": "Se ha confirmado la cuenta correctamente."
   },
   "onBoarding" : {
     "name-organization": "¿Cuál es el nombre de tu organización?",

@@ -4,7 +4,7 @@ import jwtDecode, { JwtPayload } from 'jwt-decode';
 export class Session {
     private readonly expirationTimestamp?: number;
 
-    constructor(private token?: string, private user?: UserDto) {
+    constructor(private token?: string, public user?: UserDto) {
         if (token) {
             const decoded = jwtDecode<JwtPayload>(token);
             this.expirationTimestamp = decoded.exp;

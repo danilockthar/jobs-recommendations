@@ -11,7 +11,6 @@ export const useOnBoardingController = (
 
     const onOnboardingSubmit = (input: unknown) => {
         setIsLoading(true);
-        console.log(input, 'forms');
         companyService
             .setCompanyNameAndLinkedinUrl(input)
             .then((output) => {

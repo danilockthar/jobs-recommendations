@@ -16,7 +16,6 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
 
     const [getSession] = useLocalSession();
     const session = getSession();
-
     const { company } = useContext(SessionContext);
 
     return (
@@ -25,7 +24,13 @@ export const CompanyCardFragment: React.FC<CompanyCardFragmentProps> = (props) =
                 <div className={'card-company-wrapper'}>
                     <div className={'card-company-data-wrapper'}>
                         <h4> {company.name ?? ''}</h4>
-                        <p>{controller.subtitle}</p>
+                        <p>{`${session?.user?.firstName} ${session?.user?.lastName} - ${
+                            session.user?.roles[0] === 'company'
+                                ? 'Administrador'
+                                : session.user?.roles[0] === 'editor'
+                                ? 'Colaborador'
+                                : ''
+                        }`}</p>
                     </div>
                     <button className={'btn-company-data'}> {translate({ key: 'general.update-jobs' })}</button>
                 </div>

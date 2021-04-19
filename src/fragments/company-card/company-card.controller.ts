@@ -32,7 +32,7 @@ export const useCompanyCardController = (
         companyService
             .createCompany(input)
             .then((output) => {
-                console.log('success');
+                // Nothing to do here by the moment.
             })
             .catch((err) => {
                 messenger.showErrorMessage({ key: 'company-card.error-creating-company' });
